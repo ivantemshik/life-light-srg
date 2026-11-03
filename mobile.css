@@ -344,3 +344,14 @@
   .theme-toggle--header { display: inline-flex; width: 44px; height: 44px; margin: -5px -4px -5px -10px; background: var(--surface); }
   .theme-toggle--header .icon { width: 18px; height: 18px; }
 }
+
+/* Telegram-канал в контактах и подвале на телефоне */
+@media (max-width: 900px) {
+  .contact-channel { margin-top: 4px; }
+  .footer-channel { order: 4; margin-left: 0; min-height: 44px; font-size: 12px; gap: 8px; }
+  .footer-channel .icon { width: 12px; height: 12px; }
+  .footer-channel + .back-to-top { margin-left: auto; }
+}
+@media (max-width: 360px) {
+  .contact-channel { gap: 12px; }
+}

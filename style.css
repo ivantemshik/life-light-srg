@@ -224,3 +224,9 @@ html:not(.js) .theme-toggle{display:none}
 [data-theme="dark"] .architecture-sketch.architecture-sketch--day{display:none}
 [data-theme="dark"] .architecture-sketch.architecture-sketch--night{display:block}
 
+/* Telegram-канал в контактах и подвале */
+.contact-channel{margin-top:1cqw;white-space:nowrap}
+.footer-channel{margin-left:auto;display:flex;gap:12px;align-items:center;font-size:1.2cqw}
+.footer-channel .icon{width:1.3cqw;height:1.3cqw}
+.footer-channel+.back-to-top{margin-left:0}
+.footer-channel:focus-visible,.contact-channel:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
