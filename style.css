@@ -61,30 +61,29 @@ html:not(.js) .seg-panel+.seg-panel{margin-top:3cqw}
 .seg-stage.is-loading>img{opacity:.35}
 .seg-stage figcaption{position:absolute;left:1.6cqw;bottom:1.6cqw;padding:.7cqw 1.4cqw;border-radius:50px;background:var(--scrim-light);color:var(--ink);font-size:1.1cqw}
 
-/* Кейсы */
-.cases{padding-top:6.4cqw;padding-bottom:5.4cqw}
-.case{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:4.6cqw;align-items:center}
-html:not(.js) .case+.case{margin-top:4cqw}
-.case-media{position:relative;aspect-ratio:4/3;border-radius:24px;overflow:hidden;background:var(--dark-2)}
-.case-media>img,.compare-before>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.case-info{display:flex;flex-direction:column;min-width:0}
-.case-count{margin-bottom:1.8cqw;font-size:1.1cqw;color:var(--muted)}
-.case-info h3{font-size:3cqw;font-weight:500;line-height:1.08;letter-spacing:-.05em;margin-bottom:1.4cqw}
-.case-info>p{font-size:1.35cqw;line-height:1.55;margin-bottom:2.6cqw}
-.case-facts{margin:0 0 3cqw;border-top:1px solid var(--line)}
-.case-facts>div{display:grid;grid-template-columns:32% minmax(0,1fr);gap:1.4cqw;padding:1.25cqw 0;border-bottom:1px solid var(--line)}
-.case-facts dt{font-size:1.1cqw;color:var(--muted)}
-.case-facts dd{margin:0;font-size:1.25cqw;font-weight:500;line-height:1.4}
-.case-info .button{align-self:flex-start;min-height:4.4cqw;padding:1.1cqw 2.8cqw;font-size:1.3cqw}
-.case-info .button .icon{width:1.3cqw;height:1.3cqw}
+/* Что меняет подсветка: сравнение до и после на всю ширину */
+.before-after{padding-top:6.6cqw;padding-bottom:3.4cqw}
+.ba-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4cqw;align-items:end;margin-bottom:3cqw}
+.ba-top h2{font-size:3.6cqw}
+.ba-top p{max-width:40cqw;font-size:1.4cqw;line-height:1.55}
+.ba-media{position:relative;margin:0 -1.6cqw;aspect-ratio:2.15;border-radius:24px;overflow:hidden;background:var(--dark-2)}
+.ba-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%}
 .compare-before{position:absolute;inset:0;z-index:1;clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0)}
 .compare-line{position:absolute;top:0;bottom:0;left:var(--pos,50%);z-index:2;width:2px;margin-left:-1px;background:var(--white);pointer-events:none}
-.compare-line::after{content:"";position:absolute;top:50%;left:50%;width:48px;height:48px;border-radius:50%;transform:translate(-50%,-50%);background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141617' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 7-5 5 5 5M15 7l5 5-5 5'/%3E%3C/svg%3E") center/22px no-repeat;box-shadow:0 4px 16px var(--shadow-soft)}
-.compare-tag{position:absolute;top:1.4cqw;z-index:3;padding:.5cqw 1.1cqw;border-radius:50px;background:var(--scrim-light);color:var(--ink);font-size:1.05cqw;pointer-events:none}
-.compare-tag--before{left:1.4cqw}
-.compare-tag--after{right:1.4cqw}
+.compare-line::after{content:"";position:absolute;top:50%;left:50%;width:52px;height:52px;border-radius:50%;transform:translate(-50%,-50%);background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141617' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 7-5 5 5 5M15 7l5 5-5 5'/%3E%3C/svg%3E") center/22px no-repeat;box-shadow:0 4px 16px var(--shadow-soft)}
+.compare-tag{position:absolute;top:1.6cqw;z-index:3;padding:.55cqw 1.2cqw;border-radius:50px;background:var(--scrim-light);color:var(--ink);font-size:1.05cqw;pointer-events:none}
+.compare-tag--before{left:1.6cqw}
+.compare-tag--after{right:1.6cqw}
 .compare-range{position:absolute;inset:0;z-index:4;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
 .compare:has(.compare-range:focus-visible){outline:2px solid var(--gold);outline-offset:3px}
+.ba-bottom{display:flex;align-items:center;justify-content:space-between;gap:4cqw;margin-top:2.6cqw}
+.ba-facts{display:grid;flex:1;grid-template-columns:repeat(3,minmax(0,1fr));margin:0}
+.ba-facts>div{display:grid;gap:.5cqw;padding:0 2.2cqw;border-left:1px solid var(--line)}
+.ba-facts>div:first-child{padding-left:0;border-left:0}
+.ba-facts dt{font-size:1.05cqw;color:var(--muted)}
+.ba-facts dd{margin:0;font-size:1.25cqw;font-weight:500;line-height:1.4}
+.ba-bottom .button{flex-shrink:0;min-height:4.4cqw;padding:1.1cqw 2.8cqw;font-size:1.3cqw}
+.ba-bottom .button .icon{width:1.3cqw;height:1.3cqw}
 
 /* Новогоднее оформление: фото на всю ширину и крупный отсчёт */
 .newyear{position:relative;isolation:isolate;display:flex;align-items:center;min-height:46cqw;margin-top:1cqw;border-radius:24px;overflow:hidden;background:var(--dark-2);color:var(--on-dark)}
