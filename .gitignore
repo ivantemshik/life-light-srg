@@ -1,0 +1,13 @@
+.vercel/
+node_modules/
+qa/
+assets/*-source.png
+assets/font-source.css
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+
+.vercel
