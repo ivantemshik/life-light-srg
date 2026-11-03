@@ -26,5 +26,16 @@
     k = e.createElement(t); a = e.getElementsByTagName(t)[0]; k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
   })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=' + id, 'ym');
 
-  window.ym(id, 'init', { ssr: true, webvisor: true, clickmap: true, accurateTrackBounce: true, trackLinks: true });
+  // Настройки по аудиту: ссылки и карта кликов включены, якоря не считаются просмотрами, Вебвизор по решению владельца и юриста.
+  window.ym(id, 'init', {
+    ssr: true,
+    clickmap: true,
+    trackLinks: true,
+    accurateTrackBounce: true,
+    webvisor: cfg.metrikaWebvisor === true,
+    trackHash: false,
+    ecommerce: false,
+    sendTitle: true,
+    params: { site_version: String(cfg.siteVersion || 'unknown') }
+  });
 })();

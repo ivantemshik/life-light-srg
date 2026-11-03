@@ -8,11 +8,25 @@ const store = {
   get(key, area = localStorage) { try { return area.getItem(key); } catch { return null; } },
   set(key, value, area = localStorage) { try { area.setItem(key, value); } catch { /* приватный режим */ } }
 };
+const SERVICE_NAMES = ['visualization', 'equipment_selection', 'installation', 'warranty'];
+let currentService = -1;
+const projectId = (index) => (index >= 0 ? `p${String(index + 1).padStart(2, '0')}` : 'other');
+// Один раз за визит (вкладку): просмотр блока, листание галереи в одну сторону
+const seenThisVisit = new Set();
+const onceThisVisit = (key) => {
+  let saved = [];
+  try { saved = (window.sessionStorage.getItem('ll-goals-once') || '').split('|'); } catch { /* хранилище недоступно: помним до перезагрузки */ }
+  if (seenThisVisit.has(key) || saved.includes(key)) return false;
+  seenThisVisit.add(key);
+  try { window.sessionStorage.setItem('ll-goals-once', [...saved, key].filter(Boolean).join('|')); } catch { /* приватный режим */ }
+  return true;
+};
+const galleryGoal = (scope, direction) => { if (onceThisVisit(`gallery:${scope}:${direction}`)) goal('project_gallery_navigation', { gallery_scope: scope, gallery_direction: direction }); };
 
 const menuButton = $('.menu-toggle');
 const navigation = $('#navigation');
 function closeMenu() { menuButton.setAttribute('aria-expanded', 'false'); navigation.classList.remove('is-open'); menuButton.setAttribute('aria-label', 'Открыть меню'); }
-menuButton.addEventListener('click', () => { const isOpen = menuButton.getAttribute('aria-expanded') !== 'true'; menuButton.setAttribute('aria-expanded', String(isOpen)); menuButton.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню'); navigation.classList.toggle('is-open', isOpen); });
+menuButton.addEventListener('click', () => { const isOpen = menuButton.getAttribute('aria-expanded') !== 'true'; if (isOpen) goal('mobile_menu_open'); menuButton.setAttribute('aria-expanded', String(isOpen)); menuButton.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню'); navigation.classList.toggle('is-open', isOpen); });
 $$('a', navigation).forEach(link => link.addEventListener('click', closeMenu));
 document.addEventListener('click', event => { if (!event.target.closest('.header')) closeMenu(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') { closeMenu(); menuButton.focus({ preventScroll: true }); } });
@@ -181,19 +195,18 @@ dialog.addEventListener('close', () => { galleryMode = false; });
 function renderProject(index, trigger, gallery = projects) {
   activeGallery = gallery; currentProject = (index + gallery.length) % gallery.length;
   const project = gallery[currentProject]; galleryMode = true;
-  dialogContent.innerHTML = `<img class="dialog-hero dialog-hero--project" id="dialog-hero" src="/assets/${project.images[0]}.webp" alt="${project.title}">${project.images.length > 1 ? `<div class="dialog-thumbs" role="group" aria-label="Фото объекта">${project.images.map((src, i) => `<button type="button" class="dialog-thumb${i ? '' : ' is-active'}" data-photo="${i}" aria-label="Фото ${i + 1} из ${project.images.length}"><img src="/assets/${src}.webp" alt="" loading="lazy"></button>`).join('')}</div>` : ''}<div class="dialog-copy"><h2 id="dialog-title">${project.title}</h2><p>${project.text}</p>${project.facts ? `<dl class="dialog-facts">${project.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : ''}<a class="button button--dark" href="#request" data-close-dialog data-goal="cta_project">Рассчитать мой проект</a><div class="dialog-image-nav"><button type="button" data-gallery-prev>${arrow('chevron-left')} Назад</button><span>${String(currentProject + 1).padStart(2, '0')} / ${String(gallery.length).padStart(2, '0')}</span><button type="button" data-gallery-next>Далее ${arrow('chevron-right')}</button></div></div>`;
-  $('[data-gallery-prev]', dialog).addEventListener('click', () => renderProject(currentProject - 1, trigger, gallery));
-  $('[data-gallery-next]', dialog).addEventListener('click', () => renderProject(currentProject + 1, trigger, gallery));
+  dialogContent.innerHTML = `<img class="dialog-hero dialog-hero--project" id="dialog-hero" src="/assets/${project.images[0]}.webp" alt="${project.title}">${project.images.length > 1 ? `<div class="dialog-thumbs" role="group" aria-label="Фото объекта">${project.images.map((src, i) => `<button type="button" class="dialog-thumb${i ? '' : ' is-active'}" data-photo="${i}" aria-label="Фото ${i + 1} из ${project.images.length}"><img src="/assets/${src}.webp" alt="" loading="lazy"></button>`).join('')}</div>` : ''}<div class="dialog-copy"><h2 id="dialog-title">${project.title}</h2><p>${project.text}</p>${project.facts ? `<dl class="dialog-facts">${project.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : ''}<a class="button button--dark" href="#request" data-close-dialog>Рассчитать мой проект</a><div class="dialog-image-nav"><button type="button" data-gallery-prev>${arrow('chevron-left')} Назад</button><span>${String(currentProject + 1).padStart(2, '0')} / ${String(gallery.length).padStart(2, '0')}</span><button type="button" data-gallery-next>Далее ${arrow('chevron-right')}</button></div></div>`;
+  $('[data-gallery-prev]', dialog).addEventListener('click', () => { galleryGoal('modal', 'prev'); renderProject(currentProject - 1, trigger, gallery); });
+  $('[data-gallery-next]', dialog).addEventListener('click', () => { galleryGoal('modal', 'next'); renderProject(currentProject + 1, trigger, gallery); });
   let heroIndex = 0;
   $('#dialog-hero').addEventListener('click', () => openLightbox(project.images, heroIndex, project.title));
   $$('.dialog-thumb', dialog).forEach(btn => btn.addEventListener('click', () => { heroIndex = Number(btn.dataset.photo); $('#dialog-hero').src = `/assets/${project.images[heroIndex]}.webp`; $$('.dialog-thumb', dialog).forEach(b => b.classList.toggle('is-active', b === btn)); }));
   $('[data-close-dialog]', dialog).addEventListener('click', closeDialog);
-  if (!dialog.open) goal('open_project', { project: project.title });
   openDialog(trigger);
 }
-$$('[data-project]').forEach(button => button.addEventListener('click', () => renderProject(Number(button.dataset.project), button)));
-$$('[data-service]').forEach(button => button.addEventListener('click', () => { const service = services[Number(button.dataset.service)]; galleryMode = false; dialogContent.innerHTML = `<img class="dialog-hero" src="/assets/${service.image}.webp" alt="${service.title}"><div class="dialog-copy"><span class="eyebrow">Что входит в работу</span><h2 id="dialog-title">${service.title}</h2><p>${service.text}</p><a class="button button--dark" href="#request" data-close-dialog data-goal="cta_service">Рассчитать по фото</a></div>`; $('[data-close-dialog]', dialog).addEventListener('click', closeDialog); openDialog(button); }));
-dialog.addEventListener('keydown', event => { if (!galleryMode) return; if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); renderProject(currentProject + (event.key === 'ArrowRight' ? 1 : -1), lastTrigger, activeGallery); } });
+$$('[data-project]').forEach(button => button.addEventListener('click', () => { const index = Number(button.dataset.project); goal('project_open', { project_id: projectId(index) }); renderProject(index, button); }));
+$$('[data-service]').forEach(button => button.addEventListener('click', () => { currentService = Number(button.dataset.service); const service = services[currentService]; goal('service_detail_open', { service_name: SERVICE_NAMES[currentService] || 'other' }); galleryMode = false; dialogContent.innerHTML = `<img class="dialog-hero" src="/assets/${service.image}.webp" alt="${service.title}"><div class="dialog-copy"><span class="eyebrow">Что входит в работу</span><h2 id="dialog-title">${service.title}</h2><p>${service.text}</p><a class="button button--dark" href="#request" data-close-dialog>Рассчитать по фото</a></div>`; $('[data-close-dialog]', dialog).addEventListener('click', closeDialog); openDialog(button); }));
+dialog.addEventListener('keydown', event => { if (!galleryMode) return; if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); galleryGoal('modal', event.key === 'ArrowRight' ? 'next' : 'prev'); renderProject(currentProject + (event.key === 'ArrowRight' ? 1 : -1), lastTrigger, activeGallery); } });
 
 const track = $('#project-track');
 function moveTrack(direction) {
@@ -201,25 +214,86 @@ function moveTrack(direction) {
   if (max > 1) { const gap = parseFloat(getComputedStyle(track).columnGap) || 0; const next = track.scrollLeft + direction * (track.firstElementChild.getBoundingClientRect().width + gap); track.scrollTo({ left: next < -1 ? max : next > max + 1 ? 0 : next, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }
   else { const cards = $$('.project-card', track); if (direction > 0) track.append(cards[0]); else track.prepend(cards[cards.length - 1]); }
 }
-$('#project-prev').addEventListener('click', () => moveTrack(-1));
-$('#project-next').addEventListener('click', () => moveTrack(1));
-track.addEventListener('keydown', event => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); moveTrack(event.key === 'ArrowLeft' ? -1 : 1); } });
+$('#project-prev').addEventListener('click', () => { galleryGoal('carousel', 'prev'); moveTrack(-1); });
+$('#project-next').addEventListener('click', () => { galleryGoal('carousel', 'next'); moveTrack(1); });
+track.addEventListener('keydown', event => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); galleryGoal('carousel', event.key === 'ArrowLeft' ? 'prev' : 'next'); moveTrack(event.key === 'ArrowLeft' ? -1 : 1); } });
 
 const portfolioToggle = $('#portfolio-toggle');
-portfolioToggle.addEventListener('click', () => renderProject(0, portfolioToggle));
+portfolioToggle.addEventListener('click', () => { galleryGoal('all_projects', 'all'); renderProject(0, portfolioToggle); });
 $('#year').textContent = new Date().getFullYear();
 
-/* Цели Метрики по кликам */
+/* Цели Метрики по схеме аудита (docs/metrika.md): одна цель на тип действия, контекст в параметрах из закрытого списка.
+   Значения ссылок, адреса и тексты из полей в Метрику не уходят. Обработчики не мешают переходу по ссылке. */
+const isPhone = () => window.matchMedia('(max-width: 900px)').matches;
+const SECTION_PLACE = { 'before-after': 'before_after', segments: 'segments', projects: 'projects', services: 'work_scope', price: 'price', faq: 'faq', request: 'request_form', contact: 'contacts_block', about: 'about' };
+const NAV_TARGET = { '#segments': 'services', '#projects': 'projects', '#price': 'price', '#faq': 'faq', '#about': 'about', '#': 'top' };
+function ctaLocation(el) {
+  if (el.closest('#detail-dialog')) return $('.dialog-hero--project', dialogContent) ? 'project_modal' : 'service_modal';
+  if (el.closest('.navigation')) return isPhone() ? 'nav_mobile' : 'nav_header';
+  if (el.closest('footer')) return 'footer';
+  if (el.closest('.hero')) return 'hero';
+  if (el.closest('.process')) return 'steps';
+  return SECTION_PLACE[el.closest('section')?.id] || 'other';
+}
+function modalContext(location) {
+  if (location === 'project_modal') return { project_id: projectId(projects.indexOf(activeGallery[currentProject])) };
+  if (location === 'service_modal') return { service_name: SERVICE_NAMES[currentService] || 'other' };
+  return {};
+}
 document.addEventListener('click', (event) => {
-  const el = event.target.closest('a, button');
+  const el = event.target.closest('a[href]');
   if (!el) return;
-  if (el.dataset.goal) goal(el.dataset.goal);
-  const href = el.getAttribute('href') || '';
-  const place = el.closest('footer') ? 'footer' : (el.closest('section, dialog')?.id || '');
-  if (href.startsWith('https://t.me/')) goal('click_telegram', { place });
-  else if (href.startsWith('mailto:')) goal('click_email', { place });
-  else if (href.startsWith('tel:')) goal('click_phone', { place });
+  const href = el.getAttribute('href');
+  const place = ctaLocation(el);
+  if (/^(https?:\/\/(t\.me|telegram\.me)\/|tg:)/i.test(href)) goal('contact_telegram_click', { cta_location: place, contact_channel: 'telegram', telegram_target_type: cfg.telegramTargetType || 'unknown' });
+  else if (/^mailto:/i.test(href)) goal('contact_email_click', { cta_location: place, contact_channel: 'email' });
+  else if (/^tel:/i.test(href)) goal('phone_click', { cta_location: place, contact_channel: 'phone' });
+  else if (/^(https?:\/\/(wa\.me|api\.whatsapp\.com)\/|whatsapp:)/i.test(href)) goal('contact_whatsapp_click', { cta_location: place, contact_channel: 'whatsapp' });
+  else if (/\/privacy\/?$/.test(href)) goal('legal_link_click', { legal_doc: 'privacy' });
+  else if (/\/cookie\/?$/.test(href)) goal('legal_link_click', { legal_doc: 'cookie' });
+  else if (href === '#request' || href === '#contact') goal('contact_cta_click', { cta_location: place, ...modalContext(place) });
+  else if (href in NAV_TARGET && (el.closest('.navigation') || el.classList.contains('wordmark') || el.classList.contains('back-to-top'))) {
+    const source = el.classList.contains('wordmark') ? 'logo' : el.classList.contains('back-to-top') ? 'footer' : isPhone() ? 'mobile_menu' : 'header';
+    goal('nav_click', { nav_target: NAV_TARGET[href], nav_source: source });
+  }
 });
+
+/* Раскрытие вопроса в FAQ (закрытие не считается) */
+$$('details[data-faq]').forEach((item) => item.addEventListener('toggle', () => { if (item.open) goal('faq_open', { faq_topic: item.dataset.faq }); }));
+
+/* Копирование адреса или телефона в контактах: сам адрес не передаётся */
+document.addEventListener('copy', () => {
+  const selection = window.getSelection();
+  const node = selection && selection.anchorNode;
+  const box = node && (node.nodeType === 1 ? node : node.parentElement);
+  if (!box || !box.closest('#contact, footer')) return;
+  const text = String(selection);
+  if (text.includes('@')) goal('contact_copy', { copy_target: 'email' });
+  else if (/\d[\d\s()+-]{6,}/.test(text)) goal('contact_copy', { copy_target: 'phone' });
+});
+
+/* Блок впервые за визит показан на экране: видна половина блока или он занимает половину экрана */
+(() => {
+  if (!('IntersectionObserver' in window)) return;
+  const blocks = [
+    ['#about', 'about'], ['#before-after', 'before_after'], ['#segments', 'segments'], ['#projects', 'projects'],
+    ['#services', 'work_scope'], ['#price', 'price'], ['.process', 'steps'], ['#faq', 'faq'], ['#request', 'request_form'],
+    ['#contact', 'contacts'], ['.footer', 'footer']
+  ].map(([selector, id]) => [$(selector), id]).filter(([el]) => el);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const need = Math.min(entry.boundingClientRect.height, window.innerHeight) * 0.5;
+      if (entry.intersectionRect.height < need) return;
+      const id = entry.target.dataset.blockId;
+      observer.unobserve(entry.target);
+      if (!onceThisVisit(`view:${id}`)) return;
+      if (id === 'contacts') goal('contact_section_view');
+      else goal('section_view', { block_id: id });
+    });
+  }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+  blocks.forEach(([el, id]) => { el.dataset.blockId = id; observer.observe(el); });
+})();
 
 /* Вкладки «Частным домам / Бизнесу и ТЦ» */
 $$('[role="tablist"]').forEach((list) => {
@@ -232,7 +306,7 @@ $$('[role="tablist"]').forEach((list) => {
     list.dispatchEvent(new CustomEvent('tabchange', { detail: { panel: panels[index] } }));
   };
   tabs.forEach((tab, index) => {
-    tab.addEventListener('click', () => { select(index); goal('segment_tab', { tab: tab.textContent.trim() }); });
+    tab.addEventListener('click', () => { select(index); goal('segment_tab', { segment_tab: tab.id === 'seg-tab-biz' ? 'business' : 'home' }); });
     tab.addEventListener('keydown', (event) => {
       const keys = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: tabs.length - 1 };
       if (!(event.key in keys)) return;
