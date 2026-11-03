@@ -45,6 +45,9 @@ function ll_config(): array
         'metrika_lead_goal_id' => '',
     ], is_array($raw) ? $raw : []);
     $config['admin_ids'] = array_map('strval', (array) $config['admin_ids']);
+    // Токен Метрики можно положить отдельным файлом: в нём только токен, править config.php не нужно
+    $tokenFile = ll_data_dir() . '/metrika_token.txt';
+    if ($config['metrika_token'] === '' && is_file($tokenFile)) $config['metrika_token'] = trim((string) file_get_contents($tokenFile));
     return $config;
 }
 
