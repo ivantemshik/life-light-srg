@@ -203,8 +203,8 @@ html:not(.js) .theme-toggle{display:none}
 .hero-sky i.is-bright{box-shadow:0 0 6px 1px var(--star-glow)}
 @keyframes star-twinkle{0%,100%{opacity:var(--o)}50%{opacity:calc(var(--o) * .18)}}
 
-/* Эскиз в блоке «О нас»: ночная версия для тёмной темы */
-.architecture-sketch.architecture-sketch--night{display:none;mix-blend-mode:screen}
+/* Эскиз в блоке «О нас»: ночная версия для тёмной темы, фон прозрачный, поэтому без режима наложения */
+.architecture-sketch.architecture-sketch--night{display:none;mix-blend-mode:normal}
 [data-theme="dark"] .architecture-sketch.architecture-sketch--day{display:none}
 [data-theme="dark"] .architecture-sketch.architecture-sketch--night{display:block}
 
