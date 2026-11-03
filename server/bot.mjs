@@ -139,9 +139,9 @@ export function createBot({ config, repo, tg, metrika, log = console }) {
 
   async function handleMessage(msg) {
     const text = (msg.text || '').trim();
-    if (!chatId && msg.chat && msg.chat.type !== 'private') {
-      // Режим настройки: подсказываем ID группы в логе сервера, даже если команда до бота не дошла
-      log.info?.(`Бот в группе «${msg.chat.title || ''}»: TELEGRAM_CHAT_ID=${msg.chat.id}`);
+    if (!chatId && msg.chat) {
+      // Режим настройки: подсказываем ID чата в логе сервера (группа или личный чат с ботом)
+      log.info?.(`Бот получил сообщение из ${msg.chat.type === 'private' ? `личного чата ${[msg.from?.first_name, msg.from?.username && `@${msg.from.username}`].filter(Boolean).join(' ')}` : `группы «${msg.chat.title || ''}»`}: TELEGRAM_CHAT_ID=${msg.chat.id}`);
       if (msg.new_chat_members?.length || msg.group_chat_created) await tg.sendMessage(msg.chat.id, `Бот добавлен. ID этой группы: <code>${msg.chat.id}</code>. Впишите его в TELEGRAM_CHAT_ID на сервере.`);
     }
     if (!allowed(msg.chat, msg.from)) {
