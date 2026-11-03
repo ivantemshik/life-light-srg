@@ -273,7 +273,7 @@
   .newyear .button { width: 100%; min-height: 50px; padding: 14px 18px; font-size: 14px; }
   .newyear .button .icon { width: 15px; height: 15px; }
 
-  .newyear + .services { padding-top: 44px; }
+  .services + .newyear { margin-top: 32px; }
   .price { padding-top: 48px; padding-bottom: 28px; }
   .price-top { grid-template-columns: minmax(0, 1fr); gap: 14px; margin-bottom: 24px; }
   .price-top h2 { font-size: clamp(27px, 7.4vw, 34px); }

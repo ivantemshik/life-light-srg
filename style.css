@@ -84,7 +84,7 @@ html:not(.js) .seg-panel+.seg-panel{margin-top:3cqw}
 .newyear::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,var(--ny-shade-1) 0%,var(--ny-shade-2) 42%,transparent 78%)}
 .newyear-content{max-width:50cqw;padding:5cqw 4.6cqw}
 .newyear-count{display:flex;align-items:flex-end;gap:1.4cqw;margin-bottom:2.4cqw;color:var(--on-dark)}
-.newyear+.services{padding-top:6.4cqw}
+.services+.newyear{margin-top:3cqw}
 .newyear-count span{font-size:9cqw;font-weight:500;line-height:.82;letter-spacing:-.065em}
 .newyear-count small{max-width:11cqw;padding-bottom:.6cqw;font-size:1.35cqw;line-height:1.25;color:var(--on-dark-muted)}
 .newyear h2{margin-bottom:1.3cqw;font-size:3.6cqw;color:var(--on-dark)}
@@ -182,4 +182,4 @@ textarea.input{min-height:84px;padding:14px 1.3cqw;resize:vertical;line-height:1
 .cookie a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .cookie .button{min-height:44px;padding:10px 20px;font-size:13px}
 
-@media(prefers-reduced-motion:reduce){.chips-row label,.input,.drop,.thumbs button,.pill-switch [role="tab"],.seg-name,.seg-stage>img,.text-link{transition:none}.chips-row label:active{transform:none}}
+@media(prefers-reduced-motion:reduce){.chips-row label,.input,.drop,.thumbs button,.pill-switch [role="tab"],.text-link{transition:none}.chips-row label:active{transform:none}}
