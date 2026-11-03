@@ -59,10 +59,10 @@
     width: calc(100% + 24px); max-width: none; height: auto; aspect-ratio: 1.65;
     margin: 10px -12px -4px; object-fit: contain; object-position: center bottom; mask-image: none;
   }
-  .features { grid-template-rows: none; grid-auto-rows: 1fr; gap: 12px; padding-bottom: 0; }
-  .feature { grid-template-columns: clamp(120px, 34vw, 150px) minmax(0, 1fr); gap: 14px; padding: 7px; border-radius: 14px; min-height: 0; align-items: center; }
-  .feature > img { min-height: 0; max-height: none; height: auto; aspect-ratio: 1 / 1; align-self: center; width: 100%; border-radius: 9px; object-fit: cover; }
-  .feature > div { min-width: 0; padding: 4px 6px 4px 0; }
+  .features { grid-template-rows: none; gap: 12px; padding-bottom: 0; }
+  .feature { grid-template-columns: clamp(120px, 34vw, 150px) minmax(0, 1fr); gap: 14px; padding: 7px; border-radius: 14px; min-height: 0; align-items: stretch; }
+  .feature > img { min-height: clamp(120px, 34vw, 150px); max-height: none; height: 100%; aspect-ratio: auto; align-self: stretch; width: 100%; border-radius: 9px; object-fit: cover; }
+  .feature > div { min-width: 0; padding: 4px 6px 4px 0; align-self: center; }
   .feature h3 { font-size: clamp(16px, 4.3vw, 20px); line-height: 1.25; margin-bottom: 8px; letter-spacing: -.01em; }
   .feature p { font-size: clamp(14px, 3.7vw, 16px); line-height: 1.45; letter-spacing: 0; color: var(--on-dark-soft-2); }
 
