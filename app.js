@@ -85,23 +85,47 @@ document.addEventListener('click', (event) => {
   else if (href.startsWith('tel:')) goal('click_phone', { place });
 });
 
-/* Кейсы: вкладки */
-const caseTabs = $$('.case-tabs [role="tab"]');
-const casePanels = caseTabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
-casePanels.forEach((panel) => { if (panel.hasAttribute('data-start-hidden')) panel.hidden = true; });
-function selectCase(index, moveFocus) {
-  caseTabs.forEach((tab, i) => { const on = i === index; tab.setAttribute('aria-selected', String(on)); tab.tabIndex = on ? 0 : -1; casePanels[i].hidden = !on; });
-  if (moveFocus) caseTabs[index].focus();
-}
-caseTabs.forEach((tab, index) => {
-  tab.addEventListener('click', () => { selectCase(index); goal('open_case', { case: tab.textContent.trim() }); });
-  tab.addEventListener('keydown', (event) => {
-    const keys = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: caseTabs.length - 1 };
-    if (!(event.key in keys)) return;
-    event.preventDefault();
-    selectCase((keys[event.key] + caseTabs.length) % caseTabs.length, true);
+/* Вкладки: «Частным домам / Бизнесу и ТЦ» и кейсы */
+$$('[role="tablist"]').forEach((list) => {
+  const tabs = $$('[role="tab"]', list);
+  const panels = tabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
+  panels.forEach((panel) => { if (panel.hasAttribute('data-start-hidden')) panel.hidden = true; });
+  const select = (index, moveFocus) => {
+    tabs.forEach((tab, i) => { const on = i === index; tab.setAttribute('aria-selected', String(on)); tab.tabIndex = on ? 0 : -1; panels[i].hidden = !on; });
+    if (moveFocus) tabs[index].focus();
+    list.dispatchEvent(new CustomEvent('tabchange', { detail: { panel: panels[index] } }));
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => { select(index); goal(list.classList.contains('case-tabs') ? 'open_case' : 'segment_tab', { tab: tab.textContent.trim() }); });
+    tab.addEventListener('keydown', (event) => {
+      const keys = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: tabs.length - 1 };
+      if (!(event.key in keys)) return;
+      event.preventDefault();
+      select((keys[event.key] + tabs.length) % tabs.length, true);
+    });
   });
 });
+
+/* Что подсвечиваем: пункт списка меняет большой кадр */
+const segStage = $('.seg-stage');
+const segImage = $('#seg-stage-img');
+const segCaption = $('#seg-stage-cap');
+const canHover = window.matchMedia('(hover: hover)');
+function showSegment(item) {
+  $$('.seg-item').forEach((el) => el.classList.toggle('is-active', el === item));
+  segCaption.textContent = $('.seg-name', item).textContent;
+  if (segImage.getAttribute('src') === item.dataset.img) return;
+  segStage.classList.add('is-loading');
+  segImage.alt = item.dataset.alt;
+  segImage.src = item.dataset.img;
+}
+['load', 'error'].forEach((type) => segImage.addEventListener(type, () => segStage.classList.remove('is-loading')));
+$$('.seg-item').forEach((item) => {
+  item.addEventListener('pointerenter', () => { if (canHover.matches) showSegment(item); });
+  item.addEventListener('focus', () => showSegment(item));
+  item.addEventListener('click', () => showSegment(item));
+});
+$('#segments [role="tablist"]').addEventListener('tabchange', (event) => { const first = $('.seg-item', event.detail.panel); if (first) showSegment(first); });
 
 /* Кейс: сравнение без подсветки и с ней */
 $$('[data-compare]').forEach((box) => {
@@ -115,13 +139,15 @@ $$('[data-compare]').forEach((box) => {
 
 /* Сколько дней до Нового года: показываем с сентября по декабрь */
 (() => {
-  const line = $('#newyear-countdown');
+  const box = $('#newyear-count');
   const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Moscow', year: 'numeric', month: 'numeric', day: 'numeric' }).formatToParts(new Date()).map((p) => [p.type, p.value]));
   const month = Number(parts.month);
-  if (!line || month < 9) return;
+  if (!box || month < 9) return;
   const days = Math.round((Date.UTC(Number(parts.year) + 1, 0, 1) - Date.UTC(Number(parts.year), month - 1, Number(parts.day))) / 86_400_000);
   const word = (n) => { const a = n % 10; const b = n % 100; if (a === 1 && b !== 11) return 'день'; if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return 'дня'; return 'дней'; };
-  line.textContent = `До Нового года ${days} ${word(days)}. Монтаж начинаем в день обращения и работаем без выходных.`;
+  $('#newyear-days').textContent = String(days);
+  $('#newyear-days-label').textContent = `${word(days)} до Нового года`;
+  box.hidden = false;
 })();
 
 /* UTM и источник визита: запоминаем первый заход в сессии */

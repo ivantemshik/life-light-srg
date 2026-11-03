@@ -61,36 +61,36 @@
         <article class="feature"><img src="/assets/installation.webp" width="400" height="300" loading="lazy" alt="Мастер аккуратно устанавливает фасадный светильник"><div><h3>Фасад останется целым</h3><p>Крепёж и тросовую систему подбираем под материал стены. Монтируют электрики с&nbsp;допусками.</p></div></article>
       </div>
     </section>
-
     <section class="segments section-inset" id="segments" aria-labelledby="segments-title">
-      <div class="section-heading segments-heading"><h2 id="segments-title">Что подсвечиваем</h2><p>Частные дома и участки, кафе и магазины, торговые и бизнес-центры. Москва и вся Московская область.</p></div>
-      <div class="segment-grid">
-        <article class="segment-card segment-card--dark">
-          <img src="/assets/project-house-garden.webp" width="800" height="600" loading="lazy" alt="Фасад частного дома с подсветкой и ель в тёплых гирляндах">
-          <div class="segment-body">
-            <h3>Частным домам</h3>
-            <ul class="segment-list">
-              <li><b>Фасад и кровля</b><span>Контурная подсветка окон, карнизов и кровли</span></li>
-              <li><b>Деревья и сад</b><span>Уличные гирлянды, неон и динамические эффекты</span></li>
-              <li><b>Терраса и беседка</b><span>Белт-лайт и мягкий свет для вечеров круглый год</span></li>
-              <li><b>Новый год</b><span>Бахрома, занавесы, сетки, «лёд», ёлки и фигуры</span></li>
-            </ul>
-            <a class="button button--light" href="#request" data-preset-segment="home" data-goal="cta_segment_home">Рассчитать для дома <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
+      <div class="segments-top">
+        <h2 id="segments-title">Что подсвечиваем</h2>
+        <div class="pill-switch" role="tablist" aria-label="Для кого">
+          <button type="button" role="tab" id="seg-tab-home" aria-selected="true" aria-controls="seg-home">Частным домам</button>
+          <button type="button" role="tab" id="seg-tab-biz" aria-selected="false" aria-controls="seg-biz" tabindex="-1">Бизнесу и ТЦ</button>
+        </div>
+      </div>
+      <div class="segments-body">
+        <div class="seg-panels">
+          <div class="seg-panel" id="seg-home" role="tabpanel" aria-labelledby="seg-tab-home">
+            <ol class="seg-list">
+              <li><button type="button" class="seg-item is-active" data-img="/assets/project-modern-house.webp" data-alt="Современный дом с контурной подсветкой кровли и карнизов"><span class="seg-name">Фасад и кровля</span><span class="seg-text">Контурная подсветка окон, карнизов и кровли</span></button></li>
+              <li><button type="button" class="seg-item" data-img="/assets/project-house-garden.webp" data-alt="Ель в тёплых гирляндах рядом с подсвеченным фасадом"><span class="seg-name">Деревья и сад</span><span class="seg-text">Уличные гирлянды, неон и динамические эффекты</span></button></li>
+              <li><button type="button" class="seg-item" data-img="/assets/project-terrace.webp" data-alt="Крытая терраса со световой бахромой"><span class="seg-name">Терраса и беседка</span><span class="seg-text">Белт-лайт и мягкий свет для вечеров круглый год</span></button></li>
+              <li><button type="button" class="seg-item" data-img="/assets/project-festive-house.webp" data-alt="Дом с праздничной бахромой по периметру кровли"><span class="seg-name">Новый год</span><span class="seg-text">Бахрома, занавесы, сетки, «лёд», ёлки и фигуры</span></button></li>
+            </ol>
+            <a class="text-link" href="#request" data-preset-segment="home" data-goal="cta_segment_home">Рассчитать для дома <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
           </div>
-        </article>
-        <article class="segment-card">
-          <img src="/assets/facade.webp" width="1100" height="880" loading="lazy" alt="Фасад коммерческого здания с вертикальной архитектурной подсветкой">
-          <div class="segment-body">
-            <h3>Бизнесу и ТЦ</h3>
-            <ul class="segment-list">
-              <li><b>Фасад и вход</b><span>Архитектурная подсветка зданий, витрин и входных групп</span></li>
-              <li><b>Вывески и неон</b><span>Гибкий неон и световые вывески под заказ</span></li>
-              <li><b>Торговые центры</b><span>Праздничное оформление, арт-объекты и фотозоны</span></li>
-              <li><b>Аренда декора</b><span>Доставка, сборка и демонтаж под ключ</span></li>
-            </ul>
-            <a class="button button--dark" href="#request" data-preset-segment="business" data-goal="cta_segment_business">Рассчитать для бизнеса <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
+          <div class="seg-panel" id="seg-biz" role="tabpanel" aria-labelledby="seg-tab-biz" data-start-hidden>
+            <ol class="seg-list">
+              <li><button type="button" class="seg-item" data-img="/assets/facade.webp" data-alt="Фасад коммерческого здания с вертикальной подсветкой"><span class="seg-name">Фасад и вход</span><span class="seg-text">Архитектурная подсветка зданий, витрин и входных групп</span></button></li>
+              <li><button type="button" class="seg-item" data-img="/assets/restaurant.webp" data-alt="Терраса ресторана с тёплым вечерним светом"><span class="seg-name">Вывески и неон</span><span class="seg-text">Гибкий неон и световые вывески под заказ</span></button></li>
+              <li><button type="button" class="seg-item" data-img="/assets/project-light-decor.webp" data-alt="Праздничные гирлянды на здании сложной формы"><span class="seg-name">Торговые центры</span><span class="seg-text">Праздничное оформление, арт-объекты и фотозоны</span></button></li>
+              <li><button type="button" class="seg-item" data-img="/assets/project-house-garden.webp" data-alt="Высокая ель в тёплых гирляндах"><span class="seg-name">Аренда декора</span><span class="seg-text">Доставка, сборка и демонтаж под ключ</span></button></li>
+            </ol>
+            <a class="text-link" href="#request" data-preset-segment="business" data-goal="cta_segment_business">Рассчитать для бизнеса <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
           </div>
-        </article>
+        </div>
+        <figure class="seg-stage"><img id="seg-stage-img" src="/assets/project-modern-house.webp" width="768" height="604" loading="lazy" alt="Современный дом с контурной подсветкой кровли и карнизов"><figcaption id="seg-stage-cap">Фасад и кровля</figcaption></figure>
       </div>
     </section>
 
@@ -108,13 +108,14 @@
       </div>
       <div class="projects-bottom"><button class="button button--dark" type="button" id="portfolio-toggle" aria-haspopup="dialog">Все проекты <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></button><span class="project-note">8 реализованных проектов</span><div class="slider-controls"><button class="round-button" type="button" id="project-prev" aria-label="Предыдущие проекты"><svg class="icon" aria-hidden="true"><use href="#chevron-left"/></svg></button><button class="round-button" type="button" id="project-next" aria-label="Следующие проекты"><svg class="icon" aria-hidden="true"><use href="#chevron-right"/></svg></button></div></div>
     </section>
-
     <section class="cases section-inset" id="cases" aria-labelledby="cases-title">
-      <div class="section-heading"><h2 id="cases-title">Кейсы</h2><p>Что именно сделали на объектах. В первом кейсе сдвиньте ползунок и сравните дом без подсветки и с ней.</p></div>
-      <div class="case-tabs" role="tablist" aria-label="Кейсы">
-        <button type="button" role="tab" id="case-tab-0" aria-selected="true" aria-controls="case-0">Загородный дом</button>
-        <button type="button" role="tab" id="case-tab-1" aria-selected="false" aria-controls="case-1" tabindex="-1">Терраса</button>
-        <button type="button" role="tab" id="case-tab-2" aria-selected="false" aria-controls="case-2" tabindex="-1">Современный дом</button>
+      <div class="segments-top">
+        <div class="cases-heading"><h2 id="cases-title">Кейсы</h2><p>Что именно сделали на объектах.</p></div>
+        <div class="pill-switch case-tabs" role="tablist" aria-label="Кейсы">
+          <button type="button" role="tab" id="case-tab-0" aria-selected="true" aria-controls="case-0">Загородный дом</button>
+          <button type="button" role="tab" id="case-tab-1" aria-selected="false" aria-controls="case-1" tabindex="-1">Дом и сад</button>
+          <button type="button" role="tab" id="case-tab-2" aria-selected="false" aria-controls="case-2" tabindex="-1">Современный дом</button>
+        </div>
       </div>
       <article class="case" id="case-0" role="tabpanel" aria-labelledby="case-tab-0">
         <div class="case-media compare" data-compare style="--pos: 50%">
@@ -126,25 +127,27 @@
           <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Сравнить дом без подсветки и с подсветкой">
         </div>
         <div class="case-info">
+          <span class="case-count">01 / 03</span>
           <h3>Загородный дом</h3>
-          <p>Тёплая бахрома собрала дом, навес и вход в одну вечернюю картину, а настенные светильники продолжают линию ниже, по фасаду.</p>
+          <p>Тёплая бахрома собрала дом, навес и вход в одну вечернюю картину. Сдвиньте ползунок на фото, чтобы сравнить.</p>
           <dl class="case-facts">
-            <div><dt>Зоны</dt><dd>Кровля дома и навеса, входная группа, фасад</dd></div>
-            <div><dt>Что установили</dt><dd>Светодиодная бахрома по всем свесам, настенные светильники</dd></div>
+            <div><dt>Зоны</dt><dd>Кровля дома и навеса, вход, фасад</dd></div>
+            <div><dt>Установили</dt><dd>Бахрома по всем свесам, настенные светильники</dd></div>
             <div><dt>Свет</dt><dd>Тёплый белый</dd></div>
           </dl>
           <a class="button button--dark" href="#request" data-goal="cta_case">Хочу так же <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
         </div>
       </article>
       <article class="case" id="case-1" role="tabpanel" aria-labelledby="case-tab-1" data-start-hidden>
-        <div class="case-media"><img src="/assets/project-terrace.webp" width="1418" height="899" loading="lazy" alt="Крытая терраса и дом со световой бахромой вдоль кровли"></div>
+        <div class="case-media"><img src="/assets/project-house-garden.webp" width="800" height="600" loading="lazy" alt="Подсвеченный фасад дома и высокая ель в тёплых гирляндах"></div>
         <div class="case-info">
-          <h3>Терраса</h3>
-          <p>Световая бахрома идёт по всему периметру кровли и над крытой террасой: зона отдыха остаётся светлой и уютной до поздней ночи.</p>
+          <span class="case-count">02 / 03</span>
+          <h3>Дом и сад</h3>
+          <p>Архитектурная подсветка фасада и гирлянды на высокой ели: дом и сад получают одно вечернее настроение.</p>
           <dl class="case-facts">
-            <div><dt>Зоны</dt><dd>Кровля дома, крытая терраса</dd></div>
-            <div><dt>Что установили</dt><dd>Световая бахрома по периметру кровли и навеса</dd></div>
-            <div><dt>Свет</dt><dd>Тёплый белый</dd></div>
+            <div><dt>Зоны</dt><dd>Фасад, кровля, ель у дома</dd></div>
+            <div><dt>Установили</dt><dd>Контурная подсветка, гирлянды на дереве</dd></div>
+            <div><dt>Свет</dt><dd>Белый на фасаде, тёплый на ели</dd></div>
           </dl>
           <a class="button button--dark" href="#request" data-goal="cta_case">Хочу так же <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
         </div>
@@ -152,31 +155,32 @@
       <article class="case" id="case-2" role="tabpanel" aria-labelledby="case-tab-2" data-start-hidden>
         <div class="case-media"><img src="/assets/project-modern-house.webp" width="768" height="604" loading="lazy" alt="Современный двухэтажный дом с контурной подсветкой карнизов и светильниками в саду"></div>
         <div class="case-info">
+          <span class="case-count">03 / 03</span>
           <h3>Современный дом</h3>
-          <p>Линейный свет обводит карнизы и кровлю, настенные светильники подчёркивают фасад, а невысокие светильники ведут к дому через сад.</p>
+          <p>Линейный свет обводит карнизы и кровлю, настенные светильники подчёркивают фасад, невысокие светильники ведут к дому через сад.</p>
           <dl class="case-facts">
             <div><dt>Зоны</dt><dd>Контур кровли и карнизов, фасад, вход, сад</dd></div>
-            <div><dt>Что установили</dt><dd>Контурная подсветка, настенные и садовые светильники</dd></div>
-            <div><dt>Формат</dt><dd>Постоянная архитектурная подсветка</dd></div>
+            <div><dt>Установили</dt><dd>Контурная подсветка, настенные и садовые светильники</dd></div>
+            <div><dt>Формат</dt><dd>Постоянная подсветка на каждый вечер</dd></div>
           </dl>
           <a class="button button--dark" href="#request" data-goal="cta_case">Хочу так же <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
         </div>
       </article>
     </section>
-
     <section class="newyear" id="newyear" aria-labelledby="newyear-title">
-      <div class="newyear-copy">
-        <h2 id="newyear-title">Новогоднее оформление<br>под ключ</h2>
-        <p class="newyear-lead" id="newyear-countdown">Монтаж начинаем в день обращения и работаем без выходных.</p>
+      <img class="newyear-bg" src="/assets/project-terrace.webp" width="1418" height="899" loading="lazy" alt="Дом и терраса в праздничной световой бахроме на фоне вечернего неба">
+      <div class="newyear-content">
+        <p class="newyear-count" id="newyear-count" hidden><span id="newyear-days">59</span><small id="newyear-days-label">дней до Нового года</small></p>
+        <h2 id="newyear-title">Новогоднее оформление под&nbsp;ключ</h2>
+        <p class="newyear-lead">Монтаж начинаем в день обращения и работаем без выходных.</p>
         <ul class="newyear-list">
-          <li><b>3 варианта дизайна</b><span>по фото вашего дома</span></li>
-          <li><b>Гирлянды и фигуры</b><span>бахрома, занавесы, сетки, «лёд», ёлки, арки, фотозоны</span></li>
-          <li><b>Аренда декора</b><span>доставка, сборка и демонтаж после праздников</span></li>
-          <li><b>24 часа</b><span>приоритетный монтаж</span></li>
+          <li><b>3 варианта дизайна</b> по фото вашего дома</li>
+          <li><b>Гирлянды и фигуры:</b> бахрома, занавесы, «лёд», ёлки, арки</li>
+          <li><b>Аренда декора</b> с доставкой, сборкой и демонтажем</li>
+          <li><b>Приоритетный монтаж</b> за 24 часа</li>
         </ul>
         <a class="button button--light" href="#request" data-preset-timing="newyear" data-goal="cta_newyear">Получить 3 варианта дизайна <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
       </div>
-      <figure class="newyear-image"><img src="/assets/project-festive-house.webp" width="800" height="600" loading="lazy" alt="Двухэтажный дом с праздничной бахромой по периметру кровли"></figure>
     </section>
 
     <section class="services section-inset" id="services" aria-labelledby="services-title">
@@ -188,33 +192,29 @@
         <button class="service-card service-card--dark" type="button" data-service="3"><h3>Гарантия</h3><p>36 месяцев на оборудование и работы, условия в договоре.</p><span class="service-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span><span class="sr-only">Подробнее о гарантии</span></button>
       </div>
     </section>
-
     <section class="price section-inset" id="price" aria-labelledby="price-title">
-      <div class="price-heading">
-        <h2 id="price-title">Сколько стоит<br>подсветка</h2>
+      <div class="price-top">
+        <h2 id="price-title">Сколько стоит подсветка</h2>
         <p>Готового прайса нет: каждый дом разный. Считаем по фото, визуализацию и предварительную смету готовим бесплатно в день обращения.</p>
-        <a class="button button--dark" href="#request" data-goal="cta_price">Рассчитать по фото <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
       </div>
-      <div class="price-cards">
-        <div class="price-card">
+      <dl class="price-terms">
+        <div><dt>визуализация и смета по фото</dt><dd>Бесплатно</dd></div>
+        <div><dt>стоимость фиксируем до начала работ</dt><dd>В договоре</dd></div>
+        <div><dt>оплата после выполнения работ</dt><dd>По факту</dd></div>
+        <div><dt>гарантия на оборудование и работы</dt><dd>36 мес.</dd></div>
+      </dl>
+      <div class="price-factors">
+        <div class="price-factors-head">
           <h3>Что влияет на цену</h3>
-          <ul class="price-list">
-            <li>Размер фасада и длина контуров</li>
-            <li>Оборудование и класс защиты</li>
-            <li>Высота и сложность монтажа</li>
-            <li>Управление: пульт, таймер, приложение</li>
-            <li>Покупка декора или аренда</li>
-          </ul>
+          <a class="button button--dark" href="#request" data-goal="cta_price">Рассчитать по фото <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
         </div>
-        <div class="price-card price-card--dark">
-          <h3>Условия</h3>
-          <dl class="price-terms">
-            <div><dt>Визуализация и смета</dt><dd>Бесплатно</dd></div>
-            <div><dt>Стоимость</dt><dd>Фиксируем в договоре</dd></div>
-            <div><dt>Оплата</dt><dd>По факту выполнения</dd></div>
-            <div><dt>Гарантия</dt><dd>36 месяцев</dd></div>
-          </dl>
-        </div>
+        <ol class="factor-list">
+          <li>Размер фасада и длина контуров</li>
+          <li>Оборудование и класс защиты</li>
+          <li>Высота и сложность монтажа</li>
+          <li>Управление: пульт, таймер, приложение</li>
+          <li>Покупка декора или аренда</li>
+        </ol>
       </div>
     </section>
 

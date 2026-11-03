@@ -225,72 +225,83 @@
 
 /* ===== ТЗ: новые блоки на телефоне и планшете ===== */
 @media (max-width: 900px) {
-  .segments { padding: 36px 20px 8px; }
-  .segment-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; margin: 0 -8px; }
-  .segment-card { padding: 7px; border-radius: 18px; }
-  .segment-card > img { aspect-ratio: 1.6; border-radius: 12px; }
-  .segment-body { padding: 20px 14px 16px; }
-  .segment-card h3 { font-size: 23px; margin-bottom: 14px; }
-  .segment-list { margin-bottom: 20px; }
-  .segment-list li { grid-template-columns: minmax(0, 1fr); gap: 3px; padding: 12px 0; }
-  .segment-list b { font-size: 15px; }
-  .segment-list span { font-size: 14px; }
-  .segment-body .button { width: 100%; min-height: 48px; padding: 13px 18px; font-size: 14px; }
-  .segment-body .button .icon { width: 15px; height: 15px; }
+  .text-link { gap: 10px; font-size: 15px; }
+  .text-link .icon { width: 15px; height: 15px; }
+  .segments-top { flex-direction: column; align-items: stretch; gap: 18px; margin-bottom: 24px; }
+  .segments-top h2 { font-size: clamp(27px, 7.4vw, 34px); }
+  .cases-heading p { margin-top: 10px; font-size: 15px; }
+  .pill-switch { display: flex; overflow-x: auto; scrollbar-width: none; }
+  .pill-switch::-webkit-scrollbar { display: none; }
+  .pill-switch [role="tab"] { flex: 1 0 auto; padding: 0 16px; font-size: 14px; }
 
-  .cases { padding: 36px 20px 8px; }
-  .case-tabs { flex-wrap: nowrap; gap: 8px; margin: 0 -20px 16px; padding: 0 20px 4px; overflow-x: auto; scrollbar-width: none; }
-  .case-tabs::-webkit-scrollbar { display: none; }
-  .case-tabs [role="tab"] { min-height: 44px; padding: 0 18px; font-size: 14px; }
-  .case { grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0 -8px; }
-  .case-media { border-radius: 16px; }
-  .case-info { padding: 22px 16px 18px; border-radius: 16px; }
-  .case-info h3 { font-size: 24px; margin-bottom: 12px; }
-  .case-info > p { font-size: 15px; line-height: 1.55; max-width: none; margin-bottom: 18px; }
-  .case-facts { margin-bottom: 20px; }
-  .case-facts > div { grid-template-columns: 38% minmax(0, 1fr); gap: 10px; padding: 11px 0; }
+  .segments { padding: 48px 20px 32px; }
+  .segments-body { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .seg-stage { order: -1; aspect-ratio: 1.25; border-radius: 18px; }
+  .seg-stage figcaption { left: 12px; bottom: 12px; padding: 6px 12px; font-size: 13px; }
+  .seg-list { margin-bottom: 18px; }
+  .seg-item { gap: 4px; padding: 16px 0; }
+  .seg-name { font-size: 21px; }
+  .seg-text { font-size: 14px; }
+
+  .cases { padding: 44px 20px 36px; }
+  .case { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .case-media { border-radius: 18px; }
+  .case-count { margin-bottom: 12px; font-size: 13px; }
+  .case-info h3 { font-size: 26px; margin-bottom: 12px; }
+  .case-info > p { font-size: 15px; margin-bottom: 20px; }
+  .case-facts { margin-bottom: 22px; }
+  .case-facts > div { grid-template-columns: 34% minmax(0, 1fr); gap: 12px; padding: 12px 0; }
   .case-facts dt { font-size: 13px; }
   .case-facts dd { font-size: 14px; }
-  .case-info .button { width: 100%; min-height: 48px; padding: 13px 18px; font-size: 14px; }
+  .case-info .button { width: 100%; min-height: 50px; padding: 14px 18px; font-size: 14px; }
   .case-info .button .icon { width: 15px; height: 15px; }
   .compare-tag { top: 12px; padding: 5px 10px; font-size: 12px; }
   .compare-tag--before { left: 12px; }
   .compare-tag--after { right: 12px; }
   .compare-line::after { width: 42px; height: 42px; }
 
-  .newyear { grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 28px; padding: 7px; border-radius: 20px; }
-  .newyear-image { order: -1; aspect-ratio: 1.3; min-height: 0; border-radius: 14px; }
-  .newyear-copy { padding: 18px 13px 14px; }
-  .newyear h2 { margin-bottom: 14px; }
-  .newyear-lead { font-size: 15px; max-width: none; margin-bottom: 18px; }
-  .newyear-list { grid-template-columns: minmax(0, 1fr); gap: 8px; margin-bottom: 20px; }
-  .newyear-list li { padding: 14px 15px; }
-  .newyear-list b { font-size: 16px; margin-bottom: 4px; }
-  .newyear-list span { font-size: 14px; }
+  .newyear { display: grid; align-items: end; min-height: 0; margin-top: 8px; border-radius: 20px; }
+  .newyear-bg { position: relative; z-index: 0; grid-area: 1 / 1; height: auto; aspect-ratio: 1.15; object-position: 60% 50%; }
+  .newyear::before { display: none; }
+  .newyear-content { position: relative; z-index: 1; grid-area: 2 / 1; max-width: none; padding: 26px 18px 22px; background: linear-gradient(180deg, var(--dark-1), var(--dark-2)); }
+  .newyear-count { gap: 12px; margin-bottom: 18px; }
+  .newyear-count span { font-size: 64px; }
+  .newyear-count small { max-width: 120px; padding-bottom: 4px; font-size: 14px; }
+  .newyear h2 { font-size: clamp(27px, 7.4vw, 34px); margin-bottom: 12px; }
+  .newyear-lead { font-size: 15px; margin-bottom: 18px; }
+  .newyear-list { grid-template-columns: minmax(0, 1fr); margin-bottom: 22px; }
+  .newyear-list li { padding: 12px 0; font-size: 14px; }
   .newyear .button { width: 100%; min-height: 50px; padding: 14px 18px; font-size: 14px; }
   .newyear .button .icon { width: 15px; height: 15px; }
 
-  .price { grid-template-columns: minmax(0, 1fr); gap: 22px; padding-top: 40px; padding-bottom: 4px; }
-  .price-heading > p { font-size: 15px; max-width: none; margin-bottom: 20px; }
-  .price-heading .button { width: 100%; min-height: 50px; padding: 14px 18px; font-size: 14px; }
-  .price-heading .button .icon { width: 15px; height: 15px; }
-  .price-cards { grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 0 -8px; }
-  .price-card { padding: 20px 16px 12px; }
-  .price-card h3 { font-size: 17px; margin-bottom: 12px; }
-  .price-list li { padding: 12px 0 12px 26px; font-size: 15px; }
-  .price-list li::before { left: 3px; top: 17px; width: 11px; height: 6px; }
-  .price-terms > div { padding: 12px 0; gap: 12px; }
-  .price-terms dt { font-size: 14px; }
-  .price-terms dd { font-size: 15px; }
+  .newyear + .services { padding-top: 44px; }
+  .price { padding-top: 48px; padding-bottom: 28px; }
+  .price-top { grid-template-columns: minmax(0, 1fr); gap: 14px; margin-bottom: 24px; }
+  .price-top h2 { font-size: clamp(27px, 7.4vw, 34px); }
+  .price-top p { max-width: none; font-size: 15px; }
+  .price-terms { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 32px; }
+  .price-terms > div { gap: 6px; padding: 18px 12px 16px; border-left: 1px solid var(--line); }
+  .price-terms > div:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .price-terms > div:nth-child(n + 3) { border-top: 1px solid var(--line); }
+  .price-terms dd { font-size: 24px; }
+  .price-terms dt { max-width: none; font-size: 13px; }
+  .price-factors { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .price-factors-head { display: contents; }
+  .price-factors-head h3 { font-size: 21px; margin-bottom: 0; }
+  .price-factors-head .button { order: 3; width: 100%; min-height: 50px; padding: 14px 18px; font-size: 14px; }
+  .price-factors-head .button .icon { width: 15px; height: 15px; }
+  .factor-list { grid-template-columns: minmax(0, 1fr); }
+  .factor-list li { grid-template-columns: 36px minmax(0, 1fr); padding: 13px 0; font-size: 15px; }
+  .factor-list li::before { font-size: 13px; }
 
   .request { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 7px; margin-top: 24px; }
-  .request-copy { padding: 26px 13px 4px; }
-  .request-copy h2 { font-size: clamp(28px, 8.3vw, 42px); line-height: 1.14; letter-spacing: -.025em; margin-bottom: 18px; }
+  .request-copy { padding: 30px 13px 6px; }
+  .request-copy h2 { font-size: clamp(28px, 8.3vw, 42px); line-height: 1.14; letter-spacing: -.025em; margin-bottom: 16px; }
   .request-copy > p { font-size: 15px; max-width: none; margin-bottom: 18px; }
   .request-facts { gap: 10px; }
   .request-facts li { padding-left: 26px; font-size: 15px; }
   .request-facts li::before { left: 3px; top: 6px; width: 11px; height: 6px; }
-  .lead-form { gap: 18px; padding: 20px 14px 18px; border-radius: 16px; }
+  .lead-form { gap: 20px; padding: 22px 16px 20px; border-radius: 16px; }
   .chips legend, .field-label { font-size: 13px; margin-bottom: 8px; }
   .chips-row { gap: 8px; }
   .chips-row label { padding: 0 16px; font-size: 14px; }
@@ -309,15 +320,20 @@
 
 @media (min-width: 560px) and (max-width: 900px) {
   .segments, .cases { padding-left: 30px; padding-right: 30px; }
-  .segment-card > img { aspect-ratio: 2; }
-  .newyear-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .price-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .request-copy { padding: 30px 22px 6px; }
-  .lead-form { padding: 24px 22px 20px; }
+  .seg-stage { aspect-ratio: 1.6; }
+  .newyear-bg { aspect-ratio: 1.8; }
+  .newyear-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+  .price-terms { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .price-terms > div:nth-child(odd) { padding-left: 12px; border-left: 1px solid var(--line); }
+  .price-terms > div:first-child { padding-left: 0; border-left: 0; }
+  .price-terms > div:nth-child(n + 3) { border-top: 0; }
+  .factor-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+  .request-copy { padding: 32px 22px 6px; }
+  .lead-form { padding: 26px 24px 22px; }
   .field-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 }
 
 @media (max-width: 1100px) and (min-width: 901px) {
-  .chips-row label, .case-tabs [role="tab"] { font-size: 13px; }
+  .chips-row label, .pill-switch [role="tab"] { font-size: 13px; }
   .chips legend, .field-label, .field-check, .form-status { font-size: 12px; }
 }
