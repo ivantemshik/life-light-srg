@@ -177,6 +177,12 @@ textarea.input{min-height:84px;padding:14px 1.3cqw;resize:vertical;line-height:1
 .form-status.is-done{color:var(--success);font-weight:500}
 .form-status a{text-decoration:underline;text-underline-offset:.15em}
 
+/* Кейс в окне проекта */
+.dialog-facts{margin:0 0 22px;border-top:1px solid var(--line)}
+.dialog-facts>div{display:grid;grid-template-columns:34% minmax(0,1fr);gap:16px;padding:11px 0;border-bottom:1px solid var(--line)}
+.dialog-facts dt{font-size:13px;color:var(--muted)}
+.dialog-facts dd{margin:0;font-size:14px;font-weight:500;line-height:1.45}
+
 /* Cookie */
 .cookie{position:fixed;left:16px;bottom:16px;z-index:50;display:flex;align-items:center;gap:14px;max-width:min(560px,calc(100% - 32px));padding:12px 12px 12px 18px;border-radius:16px;background:var(--white);box-shadow:0 12px 34px var(--shadow-soft)}
 .cookie p{font-size:13px;line-height:1.45}
