@@ -13,3 +13,6 @@ Thumbs.db
 .vercel
 data/
 server/.env
+
+# Скриншоты и отчёты проверки дизайна
+.hallmark/
