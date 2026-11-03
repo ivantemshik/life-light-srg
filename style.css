@@ -221,7 +221,7 @@ html:not(.js) .theme-toggle{display:none}
 .dialog-thumb.is-active{border-color:var(--gold)}
 .dialog-thumb:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .detail-dialog .dialog-hero--project{cursor:zoom-in}
-.lightbox{width:100vw;max-width:none;height:100dvh;max-height:none;margin:0;padding:0;border:0;background:var(--viewer-bg);color:var(--viewer-ink);overflow:hidden}
+.lightbox{width:100%;max-width:none;height:100dvh;max-height:none;margin:0;padding:0;border:0;background:var(--viewer-bg);color:var(--viewer-ink);overflow:hidden}
 .lightbox::backdrop{background:var(--viewer-backdrop)}
 .lightbox[open]{display:block}
 .lightbox-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;cursor:zoom-in;user-select:none;-webkit-user-select:none}
@@ -232,5 +232,5 @@ html:not(.js) .theme-toggle{display:none}
 .lightbox-nav--prev{left:14px}.lightbox-nav--next{right:14px}
 .lightbox.is-single .lightbox-nav,.lightbox.is-single .lightbox-count{display:none}
 .lightbox.is-zoomed .lightbox-nav{opacity:0;pointer-events:none}
-.lightbox-count{position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2;padding:4px 12px;border-radius:99px;background:var(--viewer-count);font-size:12px;letter-spacing:.04em}
+.lightbox-count{position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2;padding:4px 12px;border-radius:99px;background:var(--viewer-count);font-size:12px}
 @media (max-width:900px){.lightbox-nav{display:none}}
