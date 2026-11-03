@@ -1,0 +1,11 @@
+# Адреса API заявок на хостинге с PHP (reg.ru): /api/leads, /api/telegram/webhook, /api/health
+Options -Indexes
+RewriteEngine On
+RewriteRule ^leads/?$ leads.php [L]
+RewriteRule ^telegram/webhook/?$ webhook.php [L]
+RewriteRule ^health/?$ health.php [L]
+
+# Служебные скрипты запускаются только из консоли хостинга
+<FilesMatch "^(cron|setup)\.php$">
+  Require all denied
+</FilesMatch>

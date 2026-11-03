@@ -10,7 +10,7 @@ set -eu
 HOST=${REGRU_HOST:-u3709122@server214.hosting.reg.ru}
 KEY=${REGRU_KEY:-$HOME/.ssh/lifelight_reghost}
 SITE=www/xn--b1agbee5a2ak0g.xn--p1ai   # жизньсвет.рф в punycode
-FILES="index.html style.css mobile.css app.js config.js metrika.js favicon.svg assets"
+FILES="index.html style.css mobile.css app.js config.js metrika.js favicon.svg assets api"
 STAMP=$(date +%Y%m%d-%H%M%S)
 
 git archive --format=tar HEAD $FILES | gzip | ssh -i "$KEY" -o IdentitiesOnly=yes "$HOST" "

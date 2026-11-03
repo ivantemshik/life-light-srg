@@ -4,6 +4,7 @@ README.md
 ASSETS.md
 server.mjs
 server
+api
 worker
 deploy
 test
