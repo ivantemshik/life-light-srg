@@ -184,3 +184,4 @@ textarea.input{min-height:84px;padding:14px 1.3cqw;resize:vertical;line-height:1
 
 @media(prefers-reduced-motion:reduce){.chips-row label,.input,.drop,.thumbs button,.pill-switch [role="tab"],.text-link{transition:none}.chips-row label:active{transform:none}}
 .projects .project-note{color:var(--muted)}
+.compare-before img{filter:grayscale(1) contrast(1.06) brightness(.94)}
