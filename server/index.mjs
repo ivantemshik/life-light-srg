@@ -13,7 +13,7 @@ import { createMetrika } from './metrika.mjs';
 import { createBot } from './bot.mjs';
 
 const MAX_BODY = 14 * 1024 * 1024;
-const STATIC_FILES = new Set(['index.html', 'style.css', 'mobile.css', 'tokens.css', 'base.css', 'app.js', 'config.js', 'metrika.js', 'favicon.svg', 'robots.txt', 'sitemap.xml']);
+const STATIC_FILES = new Set(['index.html', 'style.css', 'mobile.css', 'app.js', 'config.js', 'metrika.js', 'favicon.svg', 'robots.txt', 'sitemap.xml']);
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.ttf': 'font/ttf', '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml; charset=utf-8' };
 const SECURITY_HEADERS = { 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'SAMEORIGIN', 'Permissions-Policy': 'camera=(), microphone=(), geolocation=()' };
 
@@ -21,9 +21,14 @@ const safeEqual = (a, b) => { const x = Buffer.from(String(a)); const y = Buffer
 
 function readBody(req) {
   return new Promise((resolve, reject) => {
-    let size = 0; const chunks = [];
-    req.on('data', (chunk) => { size += chunk.length; if (size > MAX_BODY) { reject(Object.assign(new Error('too large'), { status: 413 })); req.destroy(); } else chunks.push(chunk); });
-    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+    let size = 0; let tooBig = false; const chunks = [];
+    req.on('data', (chunk) => {
+      size += chunk.length;
+      if (tooBig) return;
+      if (size > MAX_BODY) { tooBig = true; chunks.length = 0; reject(Object.assign(new Error('too large'), { status: 413 })); return; }
+      chunks.push(chunk);
+    });
+    req.on('end', () => { if (!tooBig) resolve(Buffer.concat(chunks).toString('utf8')); });
     req.on('error', reject);
   });
 }
@@ -46,7 +51,16 @@ export function createApp(config = loadConfig(), { log = console } = {}) {
     }
   }
   const json = (res, status, data) => { res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...SECURITY_HEADERS }); res.end(JSON.stringify(data)); };
-  const clientIp = (req) => (config.trustProxy && String(req.headers['x-forwarded-for'] || '').split(',')[0].trim()) || req.socket.remoteAddress || '';
+  // За nginx берём адрес, который поставил сам nginx: X-Real-IP или последний адрес в X-Forwarded-For.
+  // Первый адрес в X-Forwarded-For присылает посетитель, ему верить нельзя.
+  const clientIp = (req) => {
+    if (config.trustProxy) {
+      const real = String(req.headers['x-real-ip'] || '').trim();
+      const hops = String(req.headers['x-forwarded-for'] || '').split(',').map((v) => v.trim()).filter(Boolean);
+      if (real || hops.length) return real || hops[hops.length - 1];
+    }
+    return req.socket.remoteAddress || '';
+  };
 
   async function createLead(req, res) {
     const ipHash = hashIp(clientIp(req), config.ipSalt);

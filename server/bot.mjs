@@ -1,6 +1,8 @@
 import { STATUSES, OPEN_STATUSES, SEGMENTS, ZONES, TIMINGS } from './db.mjs';
 import { loadPhotos } from './leads.mjs';
 
+// Ячейку, которая начинается с = + - @, Excel считает формулой: экранируем апострофом
+export const csvCell = (v) => { let t = String(v ?? ''); if (/^[=+@\t\r-]/.test(t)) t = `'${t}`; return `"${t.replace(/"/g, '""')}"`; };
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const STATUS_MARK = { new: '🆕', in_progress: '🔧', estimate: '📐', contract: '✅', rejected: '✖️', spam: '🚫' };
 const pct = (a, b) => (b ? `${Math.round((a / b) * 100)}%` : '0%');
@@ -51,7 +53,13 @@ export function createBot({ config, repo, tg, metrika, log = console }) {
     ] };
   }
 
+  const sending = new Set();
   async function notifyLead(lead) {
+    if (sending.has(lead.id)) return null;
+    sending.add(lead.id);
+    try { return await sendLead(lead); } finally { sending.delete(lead.id); }
+  }
+  async function sendLead(lead) {
     if (!chatId) { log.error(`Заявка ${lead.id} сохранена, но TELEGRAM_CHAT_ID не задан: напишите боту /id в группе менеджеров`); return null; }
     const message = await tg.sendMessage(chatId, leadText(lead), { reply_markup: keyboard(lead) });
     repo.markNotified(lead.id, chatId, message.message_id);
@@ -121,7 +129,7 @@ export function createBot({ config, repo, tg, metrika, log = console }) {
 
   function csv() {
     const cols = ['id', 'created_at', 'status', 'name', 'contact', 'segment', 'zones', 'timing', 'comment', 'photos', 'manager', 'source', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'yclid', 'ym_client_id', 'page', 'referrer'];
-    const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const cell = csvCell;
     return '﻿' + [cols.join(';'), ...repo.all().map((l) => cols.map((c) => cell(l[c])).join(';'))].join('\r\n');
   }
 

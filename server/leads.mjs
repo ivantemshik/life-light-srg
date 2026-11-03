@@ -26,11 +26,14 @@ function decodePhoto(dataUrl) {
   return { bytes, ext: isJpeg ? 'jpg' : isPng ? 'png' : 'webp' };
 }
 
-function sourceOf(utm, referrer) {
+function sourceOf(utm, referrer, page) {
   if (utm.utm_source) return [utm.utm_source, utm.utm_medium].filter(Boolean).join(' / ').slice(0, 120);
   if (utm.yclid) return 'yandex / cpc';
   try {
     const host = new URL(referrer).hostname.replace(/^www\./, '');
+    let own = '';
+    try { own = new URL(page).hostname.replace(/^www\./, ''); } catch { /* страница не передана */ }
+    if (host === own || host === 'localhost' || host === '127.0.0.1') return 'direct';
     if (/yandex\./.test(host) || host === 'ya.ru') return 'yandex / organic';
     if (/google\./.test(host)) return 'google / organic';
     return `${host} / referral`;
@@ -67,7 +70,7 @@ export function validateLead(body, meta) {
     timing,
     comment: clean(body.comment, 1500),
     photos: 0,
-    source: sourceOf(utm, referrer),
+    source: sourceOf(utm, referrer, clean(body.page, 500)),
     page: clean(body.page, 500),
     referrer,
     ...utm,

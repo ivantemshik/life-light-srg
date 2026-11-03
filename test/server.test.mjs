@@ -155,3 +155,50 @@ test('ограничение частоты срабатывает', async () =>
   assert.equal(allow('a'), false);
   assert.equal(allow('b'), true);
 });
+
+test('выгрузка в Excel не превращает текст посетителя в формулу', async () => {
+  const { csvCell } = await import('../server/bot.mjs');
+  assert.equal(csvCell('=HYPERLINK("x")'), `"'=HYPERLINK(""x"")"`);
+  assert.equal(csvCell('+7 900'), `"'+7 900"`);
+  assert.equal(csvCell('Иван'), '"Иван"');
+});
+
+test('переход внутри своего сайта не считается источником', async () => {
+  const { validateLead } = await import('../server/leads.mjs');
+  const meta = { ipHash: 'x', userAgent: 'test' };
+  const own = validateLead({ ...valid, utm: {}, page: 'https://life-light.ru/', referrer: 'https://www.life-light.ru/#price' }, meta);
+  assert.equal(own.lead.source, 'direct');
+  const other = validateLead({ ...valid, utm: {}, page: 'https://life-light.ru/', referrer: 'https://yandex.ru/search?text=x' }, meta);
+  assert.equal(other.lead.source, 'yandex / organic');
+});
+
+test('слишком большая заявка получает понятный ответ 413', async () => {
+  const big = 'x'.repeat(15 * 1024 * 1024);
+  const res = await fetch(`${base}/api/leads`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: big });
+  assert.equal(res.status, 413);
+  assert.match((await res.json()).error, /Фото слишком большие/);
+});
+
+test('одна заявка не уходит в Telegram дважды при параллельной отправке', async () => {
+  const before = calls.filter((c) => c.method === 'sendMessage' && c.body.text?.includes('Заявка №99')).length;
+  const lead = app.repo.createLead({ name: 'Двойная', contact: '+7 900 000-00-01', segment: 'home', zones: '', timing: '', comment: '', photos: 0, source: 'direct', page: '', referrer: '', utm_source: '', utm_medium: '', utm_campaign: '', utm_content: '', utm_term: '', yclid: '', ym_client_id: '', ip_hash: '', user_agent: '' });
+  await Promise.all([app.bot.notifyLead(lead), app.bot.notifyLead(lead), app.bot.flushPending()]);
+  const sent = calls.filter((c) => c.method === 'sendMessage' && c.body.text?.includes(`Заявка №${lead.id}<`));
+  assert.equal(sent.length, 1);
+  assert.equal(before, 0);
+});
+
+test('за nginx подмена X-Forwarded-For не обходит лимит заявок', async () => {
+  const { loadConfig } = await import('../server/config.mjs');
+  const { createApp } = await import('../server/index.mjs');
+  const config = loadConfig();
+  Object.assign(config, { port: 0, trustProxy: true, dataDir: mkdtempSync(path.join(tmpdir(), 'll-ip-')), rateLimit: { max: 1, windowMs: 60_000 } });
+  config.telegram = { ...config.telegram, enabled: false };
+  const other = createApp(config, { log: { info() {}, error() {} } });
+  const { port } = await other.listen();
+  const send = (fake) => fetch(`http://127.0.0.1:${port}/api/leads`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': `${fake}, 203.0.113.7`, 'X-Real-IP': '203.0.113.7' }, body: JSON.stringify({ ...valid, photos: [] }) });
+  assert.equal((await send('1.1.1.1')).status, 200);
+  assert.equal((await send('2.2.2.2')).status, 429);
+  await other.close();
+  rmSync(config.dataDir, { recursive: true, force: true });
+});
