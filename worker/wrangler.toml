@@ -1,0 +1,9 @@
+# Cloudflare Worker: прокси Telegram для сервера заявок.
+# Деплой: npx wrangler deploy (из папки worker/), секреты: npx wrangler secret put PROXY_SECRET
+name = "life-light-tg-proxy"
+main = "telegram-proxy.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+[observability]
+enabled = true

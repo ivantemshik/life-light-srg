@@ -1,7 +1,13 @@
 {
   "name": "life-light-landing",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
-  "scripts": { "dev": "node server.mjs", "check": "node --check app.js && node --check server.mjs" }
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node --disable-warning=ExperimentalWarning server/index.mjs",
+    "check": "node --check app.js && node --check metrika.js && node --check config.js && node --check server.mjs && node --check server/index.mjs && node --check server/bot.mjs && node --check server/db.mjs && node --check server/leads.mjs && node --check server/telegram.mjs && node --check server/metrika.mjs && node --check server/config.mjs && node --check worker/telegram-proxy.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.mjs"
+  }
 }

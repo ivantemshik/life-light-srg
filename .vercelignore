@@ -3,9 +3,15 @@ qa
 README.md
 ASSETS.md
 server.mjs
+server
+worker
+deploy
+test
+data
 assets/*-source.png
 assets/font-source.css
 package.json
 .gitignore
 docs
 .github
+.hallmark

@@ -1,0 +1,24 @@
+# systemd: /etc/systemd/system/life-light.service
+# sudo systemctl daemon-reload && sudo systemctl enable --now life-light
+[Unit]
+Description=Life Light: сайт, API заявок и Telegram-бот
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lifelight
+WorkingDirectory=/opt/life-light
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning server/index.mjs
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+# Защита: процесс пишет только в папку data
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/life-light/data
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

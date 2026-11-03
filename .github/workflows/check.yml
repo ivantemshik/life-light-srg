@@ -1,4 +1,4 @@
-name: Check JavaScript
+name: Check
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  syntax:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,3 +17,4 @@ jobs:
         with:
           node-version: '24'
       - run: npm run check
+      - run: npm test

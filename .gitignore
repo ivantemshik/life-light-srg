@@ -11,3 +11,5 @@ assets/font-source.css
 Thumbs.db
 
 .vercel
+data/
+server/.env
