@@ -40,7 +40,8 @@ export function loadConfig(overrides = {}) {
     },
     ...overrides
   };
-  config.telegram.enabled = Boolean(config.telegram.token && config.telegram.chatId) && config.telegram.mode !== 'off';
+  // Бот запускается и без ID чата: так он может подсказать ID группы командой /id
+  config.telegram.enabled = Boolean(config.telegram.token) && config.telegram.mode !== 'off';
   config.metrika.enabled = Boolean(config.metrika.counterId && config.metrika.token);
   return config;
 }

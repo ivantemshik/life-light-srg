@@ -20,7 +20,7 @@ export function createBot({ config, repo, tg, metrika, log = console }) {
   const fmtTime = (iso) => new Intl.DateTimeFormat('ru-RU', { timeZone: tz, day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(iso));
   const chatId = config.telegram.chatId;
   const admins = new Set(config.telegram.adminIds);
-  const allowed = (chat, user) => String(chat?.id) === String(chatId) || (user && admins.has(String(user.id)));
+  const allowed = (chat, user) => (Boolean(chatId) && String(chat?.id) === String(chatId)) || Boolean(user && admins.has(String(user.id)));
   const actorName = (user) => [user?.first_name, user?.last_name].filter(Boolean).join(' ') || (user?.username ? `@${user.username}` : `id${user?.id}`);
 
   function leadText(lead) {
@@ -52,6 +52,7 @@ export function createBot({ config, repo, tg, metrika, log = console }) {
   }
 
   async function notifyLead(lead) {
+    if (!chatId) { log.error(`Заявка ${lead.id} сохранена, но TELEGRAM_CHAT_ID не задан: напишите боту /id в группе менеджеров`); return null; }
     const message = await tg.sendMessage(chatId, leadText(lead), { reply_markup: keyboard(lead) });
     repo.markNotified(lead.id, chatId, message.message_id);
     if (lead.photos) {
@@ -63,6 +64,7 @@ export function createBot({ config, repo, tg, metrika, log = console }) {
 
   // Повторно отправляет заявки, которые не ушли в Telegram (например, если прокси был недоступен).
   async function flushPending() {
+    if (!chatId) return;
     for (const lead of repo.unnotified(10)) {
       try { await notifyLead(lead); }
       catch (error) { log.error(`Заявка ${lead.id} пока не отправлена в Telegram: ${error.message}`); break; }
