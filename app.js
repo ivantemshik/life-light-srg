@@ -18,6 +18,48 @@ document.addEventListener('click', event => { if (!event.target.closest('.header
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') { closeMenu(); menuButton.focus({ preventScroll: true }); } });
 window.matchMedia('(min-width: 901px)').addEventListener('change', () => { if (window.innerWidth >= 901) closeMenu(); });
 
+// Светлая и тёмная тема. Выбор посетителя запоминается; пока он не выбрал, тема следует настройке системы.
+// Начальную тему ставит скрипт в <head>, чтобы страница не мигала при загрузке.
+const themeButtons = $$('.theme-toggle');
+const themeColor = $('meta[name="theme-color"]');
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+function applyTheme(theme) {
+  const dark = theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  if (themeColor) themeColor.content = dark ? '#0d0d0d' : '#f3f3f3';
+  themeButtons.forEach((button) => {
+    button.setAttribute('aria-pressed', String(dark));
+    button.title = dark ? 'Включить светлую тему' : 'Включить тёмную тему';
+  });
+}
+applyTheme(document.documentElement.dataset.theme);
+themeButtons.forEach((button) => button.addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  store.set('ll-theme', next);
+}));
+systemDark.addEventListener('change', (event) => {
+  const saved = store.get('ll-theme');
+  if (saved !== 'dark' && saved !== 'light') applyTheme(event.matches ? 'dark' : 'light');
+});
+
+// Звёзды на первом экране тёмной темы: одинаковая раскладка при каждой загрузке, мерцают в разном ритме
+const sky = $('.hero-sky');
+if (sky) {
+  let seed = 20261103;
+  const random = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const stars = document.createDocumentFragment();
+  for (let i = 0; i < 44; i++) {
+    const star = document.createElement('i');
+    const bright = i % 11 === 0;
+    const size = bright ? 2.4 : 1 + random() * 1.1;
+    star.style.cssText = `--x:${(random() * 100).toFixed(2)}%;--y:${(random() * 62).toFixed(2)}%;--s:${size.toFixed(2)}px;--o:${(bright ? 0.95 : 0.3 + random() * 0.5).toFixed(2)};--d:${(2.6 + random() * 4).toFixed(2)}s;--delay:-${(random() * 6).toFixed(2)}s`;
+    if (bright) star.className = 'is-bright';
+    stars.append(star);
+  }
+  sky.append(stars);
+}
+
 const projects = [
   { title: 'Частный дом', image: 'project-modern-house', text: 'Современный двухэтажный дом: линейная подсветка обводит кровлю и карнизы, настенные светильники подчёркивают фасад, у входа и в саду мягкий свет. Постоянная архитектурная подсветка на каждый вечер.', facts: [['Зоны', 'Контур кровли и карнизов, фасад, вход, сад'], ['Установили', 'Контурная подсветка, настенные и садовые светильники'], ['Формат', 'Постоянная подсветка на каждый вечер']] },
   { title: 'Загородный дом', image: 'project-country-house', text: 'Тёплая бахрома по всем свесам скатной кровли объединяет дом, навес и входную группу в одну вечернюю композицию. Настенные светильники продолжают линию ниже, по фасаду.', facts: [['Зоны', 'Кровля дома и навеса, входная группа, фасад'], ['Установили', 'Светодиодная бахрома по всем свесам, настенные светильники'], ['Свет', 'Тёплый белый']] },
