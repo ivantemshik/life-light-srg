@@ -15,15 +15,15 @@
   .menu-toggle {
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     width: 44px; height: 44px; flex-shrink: 0; gap: 5px;
-    margin: -5px -4px -5px 0; border-radius: 50%; background: #fff; z-index: 11;
+    margin: -5px -4px -5px 0; border-radius: 50%; background: #ffffff; z-index: 11;
   }
-  .menu-toggle > span { width: 18px; height: 1px; background: #202628; transition: transform .2s; }
+  .menu-toggle > span { width: 18px; height: 1px; background: #252525; transition: transform .2s; }
   .menu-toggle[aria-expanded=true] > span:first-child { transform: translateY(3px) rotate(45deg); }
   .menu-toggle[aria-expanded=true] > span:last-child { transform: translateY(-3px) rotate(-45deg); }
   .navigation {
     display: none; position: absolute; z-index: 10; left: -8px; right: -8px; top: 48px;
-    padding: 12px 20px; background: #fff; border: 1px solid #e5e7e8;
-    border-radius: 16px; box-shadow: 0 12px 30px #20252a13; font-size: 16px; gap: 0;
+    padding: 12px 20px; background: #ffffff; border: 1px solid #e7e7e7;
+    border-radius: 16px; box-shadow: 0 12px 30px #24242413; font-size: 16px; gap: 0;
   }
   .navigation.is-open { display: flex; flex-direction: column; }
   .navigation a { display: flex; align-items: center; min-height: 48px; padding: 10px 0; }
@@ -64,7 +64,7 @@
   .feature > img { min-height: 0; max-height: none; height: 100%; width: 100%; border-radius: 9px; }
   .feature > div { min-width: 0; padding: 13px 8px 13px 0; }
   .feature h3 { font-size: 16px; line-height: 1.3; margin-bottom: 10px; letter-spacing: -.01em; }
-  .feature p { font-size: 14px; line-height: 1.5; letter-spacing: 0; color: #d4d5d7; }
+  .feature p { font-size: 14px; line-height: 1.5; letter-spacing: 0; color: #d5d5d5; }
 
   .projects { padding: 26px 12px 20px; }
   .section-heading { display: block; margin: 0 8px 22px; }
@@ -81,7 +81,7 @@
   .slider-controls { gap: 8px; margin-left: auto; }
   .slider-controls .round-button { width: 44px; height: 44px; }
   .slider-controls .icon { width: 19px; height: 19px; }
-  .project-note { order: 3; width: 100%; font-size: 11px; line-height: 1.5; margin: 0 0 0 2px; color: #71757d; }
+  .project-note { order: 3; width: 100%; font-size: 11px; line-height: 1.5; margin: 0 0 0 2px; color: #757575; }
 
   /* Original phone cards, restored to match the supplied screenshot. */
   .services { padding-top: 31px; padding-left: 19px; padding-right: 19px; }
@@ -90,7 +90,7 @@
   .service-card { padding: 20px 16px 56px; min-height: 222px; border-radius: 12px; }
   .service-card h3 { font-size: 14px; line-height: 1.3; margin-bottom: 14px; letter-spacing: -.03em; }
   .service-card p { font-size: 12px; line-height: 1.5; max-width: 220px; letter-spacing: -.01em; }
-  .service-card--dark p { color: #cacbd0; }
+  .service-card--dark p { color: #cbcbcb; }
   .service-arrow { width: 31px; height: 31px; right: 14px; bottom: 15px; }
   .service-arrow > .icon { width: 17px; height: 17px; }
   .process { padding-top: 40px; padding-bottom: 38px; }
@@ -100,7 +100,7 @@
   .step-number { width: 44px; height: 44px; line-height: 44px; font-size: 17px; }
   .step-grid h3 { font-size: 16px; line-height: 1.35; margin-bottom: 9px; }
   .step-grid p { font-size: 14px; line-height: 1.55; max-width: 570px; letter-spacing: 0; }
-  .step-grid li:not(:last-child)::after { width: 1px; height: auto; top: 56px; bottom: -16px; left: 22px; right: auto; background: #e1e3e6; }
+  .step-grid li:not(:last-child)::after { width: 1px; height: auto; top: 56px; bottom: -16px; left: 22px; right: auto; background: #e3e3e3; }
 
   .faq { grid-template-columns: minmax(0, 1fr); gap: 26px; margin-top: 0; padding-top: 36px; padding-bottom: 40px; }
   .eyebrow { font-size: 10px; line-height: 1.5; letter-spacing: .1em; margin-bottom: 18px; }
