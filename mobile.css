@@ -43,7 +43,7 @@
   .stat-value span { font-size: clamp(14px, 4.1vw, 18px); letter-spacing: -.035em; }
   .stat p { font-size: 12px; margin-top: 6px; line-height: 1.35; letter-spacing: -.01em; }
   .hero-visual { aspect-ratio: 1.04; max-height: 510px; border-radius: 19px; }
-  .hero-visual > img { object-position: center 45%; }
+  .hero-visual img { object-position: center; }
 
   /* No negative tracking on running text or forced narrow heading widths. */
   h2 { font-size: clamp(27px, 7.4vw, 34px); line-height: 1.17; letter-spacing: -.025em; text-wrap: balance; }
@@ -59,12 +59,12 @@
     width: calc(100% + 24px); max-width: none; height: auto; aspect-ratio: 1.65;
     margin: 10px -12px -4px; object-fit: contain; object-position: center bottom; mask-image: none;
   }
-  .features { grid-template-rows: none; gap: 12px; padding-bottom: 0; }
-  .feature { grid-template-columns: 96px minmax(0, 1fr); gap: 16px; padding: 7px; border-radius: 14px; min-height: 142px; }
-  .feature > img { min-height: 0; max-height: none; height: 100%; width: 100%; border-radius: 9px; }
-  .feature > div { min-width: 0; padding: 13px 8px 13px 0; }
-  .feature h3 { font-size: 16px; line-height: 1.3; margin-bottom: 10px; letter-spacing: -.01em; }
-  .feature p { font-size: 14px; line-height: 1.5; letter-spacing: 0; color: #d5d5d5; }
+  .features { grid-template-rows: none; grid-auto-rows: 1fr; gap: 12px; padding-bottom: 0; }
+  .feature { grid-template-columns: clamp(120px, 34vw, 150px) minmax(0, 1fr); gap: 14px; padding: 7px; border-radius: 14px; min-height: 0; align-items: center; }
+  .feature > img { min-height: 0; max-height: none; height: auto; aspect-ratio: 1 / 1; align-self: center; width: 100%; border-radius: 9px; object-fit: cover; }
+  .feature > div { min-width: 0; padding: 4px 6px 4px 0; }
+  .feature h3 { font-size: clamp(16px, 4.3vw, 20px); line-height: 1.25; margin-bottom: 8px; letter-spacing: -.01em; }
+  .feature p { font-size: clamp(14px, 3.7vw, 16px); line-height: 1.45; letter-spacing: 0; color: #d5d5d5; }
 
   .projects { padding: 26px 12px 20px; }
   .section-heading { display: block; margin: 0 8px 22px; }
@@ -81,7 +81,6 @@
   .slider-controls { gap: 8px; margin-left: auto; }
   .slider-controls .round-button { width: 44px; height: 44px; }
   .slider-controls .icon { width: 19px; height: 19px; }
-  .project-note { order: 3; width: 100%; font-size: 11px; line-height: 1.5; margin: 0 0 0 2px; color: #757575; }
 
   /* Original phone cards, restored to match the supplied screenshot. */
   .services { padding-top: 31px; padding-left: 19px; padding-right: 19px; }
@@ -259,21 +258,7 @@
   .ba-bottom .button { width: 100%; min-height: 50px; padding: 14px 18px; font-size: 14px; }
   .ba-bottom .button .icon { width: 15px; height: 15px; }
 
-  .newyear { display: grid; align-items: end; min-height: 0; margin-top: 8px; border-radius: 20px; }
-  .newyear-bg { position: relative; z-index: 0; grid-area: 1 / 1; height: auto; aspect-ratio: 1.15; object-position: 60% 50%; }
-  .newyear::before { display: none; }
-  .newyear-content { position: relative; z-index: 1; grid-area: 2 / 1; max-width: none; padding: 26px 18px 22px; background: linear-gradient(180deg, var(--dark-1), var(--dark-2)); }
-  .newyear-count { gap: 12px; margin-bottom: 18px; }
-  .newyear-count span { font-size: 64px; }
-  .newyear-count small { max-width: 120px; padding-bottom: 4px; font-size: 14px; }
-  .newyear h2 { font-size: clamp(27px, 7.4vw, 34px); margin-bottom: 12px; }
-  .newyear-lead { font-size: 15px; margin-bottom: 18px; }
-  .newyear-list { grid-template-columns: minmax(0, 1fr); margin-bottom: 22px; }
-  .newyear-list li { padding: 12px 0; font-size: 14px; }
-  .newyear .button { width: 100%; min-height: 50px; padding: 14px 18px; font-size: 14px; }
-  .newyear .button .icon { width: 15px; height: 15px; }
 
-  .services + .newyear { margin-top: 32px; }
   .price { padding-top: 48px; padding-bottom: 28px; }
   .price-top { grid-template-columns: minmax(0, 1fr); gap: 14px; margin-bottom: 24px; }
   .price-top h2 { font-size: clamp(27px, 7.4vw, 34px); }
@@ -320,8 +305,6 @@
 @media (min-width: 560px) and (max-width: 900px) {
   .segments, .before-after { padding-left: 30px; padding-right: 30px; }
   .ba-media { aspect-ratio: 1.7; }
-  .newyear-bg { aspect-ratio: 1.8; }
-  .newyear-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
   .price-terms { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .price-terms > div:nth-child(odd) { padding-left: 12px; border-left: 1px solid var(--line); }
   .price-terms > div:first-child { padding-left: 0; border-left: 0; }
@@ -335,4 +318,24 @@
 @media (max-width: 1100px) and (min-width: 901px) {
   .chips-row label, .pill-switch [role="tab"] { font-size: 13px; }
   .chips legend, .field-label, .field-check, .form-status { font-size: 12px; }
+}
+
+/* Мобильная версия: каждый блок отдельной карточкой со скруглением и небольшим зазором */
+@media (max-width: 900px) {
+  .site-shell { padding: 0; background: transparent; box-shadow: none; border-radius: 0; display: grid; gap: 8px; }
+  .site-shell > section, .site-shell > footer { margin: 0; border-radius: 19px; min-width: 0; }
+  .site-shell > section:not(.hero):not(.soft-panel), .site-shell > footer { background: #fff; }
+  .site-shell > .hero { border-radius: 0; }
+  .site-shell > .footer { padding-top: 26px; }
+  .site-shell > .services { padding: 31px 8px 8px; }
+  .site-shell > .services h2 { padding: 0 11px; }
+  .site-shell > .services .service-grid { margin: 0; }
+}
+
+/* Форма: пустые подсказки под полями не занимают место, чтобы поля не разъезжались */
+@media (max-width: 900px) {
+  .lead-form { gap: 16px; }
+  .lead-form .help:empty, .lead-form .form-status:empty { display: none; }
+  .lead-form .field-row { gap: 16px; }
+  .lead-form .help { min-height: 0; margin-top: 6px; }
 }
