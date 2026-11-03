@@ -86,11 +86,22 @@ function ll_notify_lead(int $id): bool
         throw $e;
     }
     ll_mark_notified($id, $chatId, (int) $message['message_id']);
-    if ($lead['photos']) {
-        try { tg_send_photos($chatId, ll_photo_files($id), (int) $message['message_id']); }
-        catch (Throwable $e) { ll_log("Фото к заявке $id не отправлены: " . $e->getMessage()); }
-    }
+    if ($lead['photos']) ll_send_lead_photos($id, $chatId, (int) $message['message_id'], 0);
     return true;
+}
+
+// Фото идут отдельным сообщением ответом на карточку. Если не ушли, плановое задание повторит (до 12 раз, около часа).
+function ll_send_lead_photos(int $id, string $chatId, int $messageId, int $tries): void
+{
+    try {
+        tg_send_photos($chatId, ll_photo_files($id), $messageId);
+        ll_query('DELETE FROM kv WHERE key = ?', ["photos_pending:$id"]);
+    } catch (Throwable $e) {
+        $tries++;
+        ll_log("Фото к заявке $id не отправлены (попытка $tries): " . $e->getMessage());
+        if ($tries < 12) ll_kv_set("photos_pending:$id", "$chatId|$messageId|$tries");
+        else ll_query('DELETE FROM kv WHERE key = ?', ["photos_pending:$id"]);
+    }
 }
 
 // Повторно отправляет заявки, которые не ушли в Telegram (минута форы, чтобы не пересечься с самой формой)
@@ -103,6 +114,10 @@ function ll_flush_pending(): void
     foreach ($rows as $row) {
         try { ll_notify_lead((int) $row['id']); }
         catch (Throwable $e) { ll_log("Заявка {$row['id']} пока не отправлена в Telegram: " . $e->getMessage()); break; }
+    }
+    foreach (ll_query("SELECT key, value FROM kv WHERE key LIKE 'photos_pending:%' LIMIT 5")->fetchAll() as $row) {
+        [$chatId, $messageId, $tries] = array_pad(explode('|', $row['value']), 3, '0');
+        ll_send_lead_photos((int) substr($row['key'], strlen('photos_pending:')), $chatId, (int) $messageId, (int) $tries);
     }
 }
 

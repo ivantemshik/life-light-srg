@@ -1,29 +1,38 @@
 <?php
 declare(strict_types=1);
 
-// Клиент Telegram Bot API. С хостинга reg.ru api.telegram.org доступен напрямую.
-// Если доступ пропадёт, в config.php можно указать прокси (Cloudflare Worker из папки worker/) в telegram_api.
+// Клиент Telegram Bot API. С хостинга reg.ru api.telegram.org доступен только по IPv6 и не всегда:
+// часть подключений обрывается, поэтому неудавшееся подключение повторяется (запрос при этом ещё не ушёл, дублей нет).
+// Для полной надёжности в config.php можно указать прокси (Cloudflare Worker из папки worker/) в telegram_api.
 
 function tg_call(string $method, array $params = [], bool $multipart = false, int $timeout = 15)
 {
     $config = ll_config();
     if ($config['bot_token'] === '') throw new RuntimeException('Telegram: не задан bot_token');
-    $ch = curl_init(rtrim((string) $config['telegram_api'], '/') . '/bot' . $config['bot_token'] . '/' . $method);
     $headers = [];
     if (!empty($config['telegram_proxy_secret'])) $headers[] = 'X-Proxy-Secret: ' . $config['telegram_proxy_secret'];
     if (!$multipart) $headers[] = 'Content-Type: application/json';
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $multipart ? $params : json_encode($params, JSON_UNESCAPED_UNICODE),
-        CURLOPT_HTTPHEADER => $headers,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CONNECTTIMEOUT => 8,
-        CURLOPT_TIMEOUT => $timeout,
-    ]);
-    $body = curl_exec($ch);
-    $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-    $error = curl_error($ch);
-    curl_close($ch);
+    $direct = str_contains((string) $config['telegram_api'], 'api.telegram.org');
+    for ($attempt = 1; ; $attempt++) {
+        $ch = curl_init(rtrim((string) $config['telegram_api'], '/') . '/bot' . $config['bot_token'] . '/' . $method);
+        curl_setopt_array($ch, [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $multipart ? $params : json_encode($params, JSON_UNESCAPED_UNICODE),
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT => $timeout,
+            // IPv4-адреса Telegram с хостинга недоступны, сразу идём по IPv6
+            CURLOPT_IPRESOLVE => $direct ? CURL_IPRESOLVE_V6 : CURL_IPRESOLVE_WHATEVER,
+        ]);
+        $body = curl_exec($ch);
+        $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        $connected = (float) curl_getinfo($ch, CURLINFO_CONNECT_TIME) > 0;
+        $error = curl_error($ch);
+        curl_close($ch);
+        if ($body !== false || $connected || $attempt >= 5) break;
+        usleep(300000);
+    }
     if ($body === false) throw new RuntimeException("Telegram $method: $error");
     $data = json_decode((string) $body, true);
     if (!is_array($data) || empty($data['ok'])) throw new RuntimeException("Telegram $method: " . ($data['description'] ?? "HTTP $status"));
