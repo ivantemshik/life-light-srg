@@ -61,14 +61,19 @@ if (sky) {
 }
 
 const projects = [
-  { title: 'Частный дом', image: 'project-modern-house', text: 'Современный двухэтажный дом: линейная подсветка обводит кровлю и карнизы, настенные светильники подчёркивают фасад, у входа и в саду мягкий свет. Постоянная архитектурная подсветка на каждый вечер.', facts: [['Зоны', 'Контур кровли и карнизов, фасад, вход, сад'], ['Установили', 'Контурная подсветка, настенные и садовые светильники'], ['Формат', 'Постоянная подсветка на каждый вечер']] },
-  { title: 'Загородный дом', image: 'project-country-house', text: 'Тёплая бахрома по всем свесам скатной кровли объединяет дом, навес и входную группу в одну вечернюю композицию. Настенные светильники продолжают линию ниже, по фасаду.', facts: [['Зоны', 'Кровля дома и навеса, входная группа, фасад'], ['Установили', 'Светодиодная бахрома по всем свесам, настенные светильники'], ['Свет', 'Тёплый белый']] },
-  { title: 'Терраса', image: 'project-terrace', text: 'Световая бахрома по периметру кровли и над крытой террасой. Зона отдыха остаётся светлой и уютной до поздней ночи.', facts: [['Зоны', 'Кровля дома, крытая терраса'], ['Установили', 'Световая бахрома по периметру кровли и навеса'], ['Свет', 'Тёплый белый']] },
-  { title: 'Фасад', image: 'project-contour', text: 'Лаконичная контурная подсветка одноэтажного дома: одна тонкая световая линия выделяет силуэт кровли на фоне ночного неба.', facts: [['Зоны', 'Силуэт кровли по всему периметру'], ['Установили', 'Тонкая контурная световая линия'], ['Формат', 'Постоянная подсветка']] },
-  { title: 'Дом и сад', image: 'project-house-garden', text: 'Архитектурная подсветка фасада и тёплые гирлянды на высокой ели. Дом и сад получают единое вечернее настроение.', facts: [['Зоны', 'Фасад, кровля, ель у дома'], ['Установили', 'Подсветка фасада, гирлянды на дереве'], ['Свет', 'Белый на фасаде, тёплый на ели']] },
-  { title: 'Праздничный свет', image: 'project-festive-house', text: 'Новогоднее оформление двухэтажного дома: световая бахрома по всему периметру кровли и гирлянды вдоль фасада.', facts: [['Зоны', 'Периметр кровли, фасад'], ['Установили', 'Световая бахрома и гирлянды'], ['Формат', 'Новогоднее оформление']] },
-  { title: 'Входная группа', image: 'project-entrance', text: 'Световые акценты вдоль кровли и над входом в кирпичный загородный дом. Оформление продолжает линии существующей архитектуры.', facts: [['Зоны', 'Кровля и входная группа'], ['Установили', 'Гирлянды вдоль кровли и над входом'], ['Формат', 'Новогоднее оформление']] },
-  { title: 'Световой декор', image: 'project-light-decor', text: 'Гирлянды повторяют сложную геометрию кровли, башни и балкона. Тёплый свет держится на синем вечернем небе.', facts: [['Зоны', 'Кровля, башня, балкон'], ['Установили', 'Гирлянды по контуру сложной кровли'], ['Свет', 'Тёплый белый']] }
+  { title: 'Дом с панорамными окнами', images: ['case-panorama-house-1', 'case-panorama-house-2', 'case-panorama-house-3', 'case-panorama-house-4', 'case-panorama-house-5', 'case-panorama-house-6', 'case-panorama-house-7', 'case-panorama-house-8'], alt: 'двухэтажный дом с террасой и тёплой бахромой по кровле', text: 'Большой двухэтажный дом с террасой и деревянными опорами: световая бахрома идёт по свесам кровли, балконам и навесу, а на участке горит наряжённая ель. Дом читается целиком и с дороги, и вблизи.', facts: [['Зоны', 'Свесы кровли, балконы, терраса, ель на участке'], ['Установили', 'Светодиодная бахрома, гирлянды на дереве'], ['Свет', 'Тёплый белый']] },
+  { title: 'Дом и сад', images: ['case-house-garden-1', 'case-house-garden-2', 'case-house-garden-3'], alt: 'освещённый фасад и ель с тёплыми гирляндами', text: 'Архитектурная подсветка фасада и тёплые гирлянды на высокой ели. Дом и сад получают единое вечернее настроение, а настенные светильники подчёркивают лепнину и входную группу.', facts: [['Зоны', 'Фасад, кровля, ель у дома'], ['Установили', 'Контурная и настенная подсветка, гирлянды на дереве'], ['Свет', 'Белый на фасаде, тёплый на ели']] },
+  { title: 'Загородный дом', images: ['case-country-house-1'], alt: 'кирпичный дом с бахромой по скатной кровле', text: 'Тёплая бахрома по всем свесам скатной кровли объединяет дом, навес и входную группу в одну вечернюю композицию.', facts: [['Зоны', 'Кровля дома и навеса, входная группа'], ['Установили', 'Светодиодная бахрома по всем свесам'], ['Свет', 'Тёплый белый']] },
+  { title: 'Праздничный свет', images: ['case-festive-house-1'], alt: 'праздничное оформление двухэтажного дома', text: 'Новогоднее оформление двухэтажного дома: световая бахрома по всему периметру кровли и гирлянды вдоль фасада.', facts: [['Зоны', 'Периметр кровли, фасад'], ['Установили', 'Световая бахрома и гирлянды'], ['Формат', 'Новогоднее оформление']] },
+  { title: 'Световой декор', images: ['case-light-decor-1', 'case-light-decor-2'], alt: 'гирлянды на доме с башней и балконом', text: 'Гирлянды повторяют сложную геометрию кровли, башни и балкона. Тёплый свет держится на синем вечернем небе и в темноте.', facts: [['Зоны', 'Кровля, башня, балкон, входная группа'], ['Установили', 'Гирлянды по контуру сложной кровли'], ['Свет', 'Тёплый белый']] },
+  { title: 'Частный дом', images: ['case-modern-house-1'], alt: 'современный двухэтажный дом с контурной подсветкой', text: 'Современный двухэтажный дом: линейная подсветка обводит кровлю и карнизы, настенные светильники подчёркивают фасад, у входа и в саду мягкий свет. Постоянная архитектурная подсветка на каждый вечер.', facts: [['Зоны', 'Контур кровли и карнизов, фасад, вход, сад'], ['Установили', 'Контурная подсветка, настенные и садовые светильники'], ['Формат', 'Постоянная подсветка на каждый вечер']] },
+  { title: 'Контур кровли', images: ['case-contour-houses-1', 'case-contour-houses-2'], alt: 'кремовый дом с тонкой контурной подсветкой', text: 'Тонкая контурная линия повторяет силуэт кровли и эркера, а подсветка под карнизом и на террасе добавляет глубины фасаду из светлого кирпича.', facts: [['Зоны', 'Контур кровли, эркер, терраса, входная группа'], ['Установили', 'Линейная светодиодная подсветка'], ['Формат', 'Постоянная подсветка']] },
+  { title: 'Торговый центр', images: ['case-sport-store-1', 'case-sport-store-2', 'case-sport-store-3', 'case-sport-store-4'], alt: 'контурная подсветка фасада торгового здания', text: 'Коммерческий объект: линейная подсветка по контуру фасада и под карнизом выделяет изогнутое здание и вход, а вывески остаются главным акцентом вечером.', facts: [['Зоны', 'Фасад, карниз, входная группа'], ['Установили', 'Линейная светодиодная подсветка по контуру'], ['Формат', 'Постоянная подсветка']] },
+  { title: 'Деревянный дом', images: ['case-timber-house-1'], alt: 'деревянный дом с контурной подсветкой фронтона', text: 'Яркая контурная линия обводит фронтон и остекление деревянного дома, и он заметен издалека даже в тёмное время.', facts: [['Зоны', 'Фронтон, остекление'], ['Установили', 'Контурная светодиодная подсветка'], ['Формат', 'Постоянная подсветка']] },
+  { title: 'Дом с садом', images: ['case-brick-house-1'], alt: 'дом из кирпича с остеклённой террасой и садом', text: 'Кирпичный дом с остеклённой террасой и ухоженным садом. Дневной кадр объекта.', facts: [['Зоны', 'Фасад, терраса, сад'], ['Формат', 'Архитектурная подсветка']] },
+  { title: 'Фасад', images: ['project-contour'], alt: 'тонкая контурная подсветка одноэтажного дома', text: 'Лаконичная контурная подсветка одноэтажного дома: одна тонкая световая линия выделяет силуэт кровли на фоне ночного неба.', facts: [['Зоны', 'Силуэт кровли по всему периметру'], ['Установили', 'Тонкая контурная световая линия'], ['Формат', 'Постоянная подсветка']] },
+  { title: 'Терраса', images: ['project-terrace'], alt: 'световая бахрома по периметру кровли и террасы', text: 'Световая бахрома по периметру кровли и над крытой террасой. Зона отдыха остаётся светлой и уютной до поздней ночи.', facts: [['Зоны', 'Кровля дома, крытая терраса'], ['Установили', 'Световая бахрома по периметру кровли и навеса'], ['Свет', 'Тёплый белый']] },
+  { title: 'Входная группа', images: ['project-entrance'], alt: 'декоративное освещение входной группы кирпичного дома', text: 'Световые акценты вдоль кровли и над входом в кирпичный загородный дом. Оформление продолжает линии существующей архитектуры.', facts: [['Зоны', 'Кровля и входная группа'], ['Установили', 'Гирлянды вдоль кровли и над входом'], ['Формат', 'Новогоднее оформление']] }
 ];
 const services = [
   { title: 'Визуализация', image: 'sketch', text: 'Начинаем с фотографии вашего дома и обсуждения задачи. В день обращения бесплатно готовим несколько вариантов светового оформления и предварительную смету, чтобы вы заранее увидели результат и понимали бюджет. Для новогоднего оформления предлагаем три варианта дизайна.' },
@@ -79,6 +84,92 @@ const services = [
 const dialog = $('#detail-dialog');
 const dialogContent = $('#dialog-content');
 let currentProject = 0;
+/* Просмотр фото на весь экран: щипок и колесо для масштаба, перетаскивание, двойной тап, свайп для смены фото */
+const lightbox = document.createElement('dialog');
+lightbox.className = 'lightbox';
+lightbox.setAttribute('aria-label', 'Просмотр фото');
+lightbox.innerHTML = `<div class="lightbox-stage"><img class="lightbox-img" alt="" draggable="false"></div><button class="lightbox-close round-button" type="button" aria-label="Закрыть фото">${arrow('close')}</button><button class="lightbox-nav lightbox-nav--prev round-button" type="button" aria-label="Предыдущее фото">${arrow('chevron-left')}</button><button class="lightbox-nav lightbox-nav--next round-button" type="button" aria-label="Следующее фото">${arrow('chevron-right')}</button><span class="lightbox-count"></span>`;
+document.body.append(lightbox);
+{
+  const stage = $('.lightbox-stage', lightbox);
+  const img = $('.lightbox-img', lightbox);
+  const count = $('.lightbox-count', lightbox);
+  const MAX_SCALE = 5;
+  let list = [], index = 0, scale = 1, tx = 0, ty = 0;
+  const pointers = new Map();
+  let pinch = null, drag = null, lastTap = 0;
+  const clampPan = () => {
+    const limitX = Math.max(0, (img.offsetWidth * scale - stage.clientWidth) / 2);
+    const limitY = Math.max(0, (img.offsetHeight * scale - stage.clientHeight) / 2);
+    tx = Math.min(limitX, Math.max(-limitX, tx)); ty = Math.min(limitY, Math.max(-limitY, ty));
+  };
+  const apply = () => { clampPan(); img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`; lightbox.classList.toggle('is-zoomed', scale > 1.01); };
+  const zoomAt = (next, px, py) => {
+    next = Math.min(MAX_SCALE, Math.max(1, next));
+    const rect = stage.getBoundingClientRect();
+    const cx = px - rect.left - rect.width / 2, cy = py - rect.top - rect.height / 2;
+    tx = cx - (cx - tx) * (next / scale); ty = cy - (cy - ty) * (next / scale); scale = next;
+    if (scale <= 1) { tx = 0; ty = 0; }
+    apply();
+  };
+  const show = (i) => {
+    index = (i + list.length) % list.length; scale = 1; tx = 0; ty = 0;
+    img.src = `/assets/${list[index]}.webp`; img.style.transform = '';
+    lightbox.classList.toggle('is-single', list.length < 2);
+    count.textContent = list.length > 1 ? `${index + 1} / ${list.length}` : '';
+    lightbox.classList.remove('is-zoomed');
+  };
+  window.openLightbox = (images, start, title) => { list = images; img.alt = title || ''; show(start || 0); if (!lightbox.open) lightbox.showModal(); };
+  $('.lightbox-close', lightbox).addEventListener('click', () => lightbox.close());
+  $('.lightbox-nav--prev', lightbox).addEventListener('click', () => show(index - 1));
+  $('.lightbox-nav--next', lightbox).addEventListener('click', () => show(index + 1));
+  lightbox.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' && list.length > 1) { event.preventDefault(); show(index + 1); }
+    if (event.key === 'ArrowLeft' && list.length > 1) { event.preventDefault(); show(index - 1); }
+    if (event.key === '+' || event.key === '=') zoomAt(scale * 1.4, innerWidth / 2, innerHeight / 2);
+    if (event.key === '-') zoomAt(scale / 1.4, innerWidth / 2, innerHeight / 2);
+  });
+  stage.addEventListener('wheel', (event) => { event.preventDefault(); zoomAt(scale * Math.exp(-event.deltaY * 0.0022), event.clientX, event.clientY); }, { passive: false });
+  stage.addEventListener('pointerdown', (event) => {
+    try { stage.setPointerCapture(event.pointerId); } catch { /* синтетические события без активного указателя */ }
+    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()];
+      pinch = { dist: Math.hypot(a.x - b.x, a.y - b.y), scale }; drag = null;
+    } else if (pointers.size === 1) {
+      drag = { x: event.clientX, y: event.clientY, tx, ty, moved: false };
+    }
+  });
+  stage.addEventListener('pointermove', (event) => {
+    if (!pointers.has(event.pointerId)) return;
+    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (pinch && pointers.size >= 2) {
+      const [a, b] = [...pointers.values()];
+      zoomAt(pinch.scale * Math.hypot(a.x - b.x, a.y - b.y) / pinch.dist, (a.x + b.x) / 2, (a.y + b.y) / 2);
+    } else if (drag) {
+      const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+      if (Math.abs(dx) + Math.abs(dy) > 6) drag.moved = true;
+      if (scale > 1) { tx = drag.tx + dx; ty = drag.ty + dy; apply(); }
+    }
+  });
+  const release = (event) => {
+    if (!pointers.has(event.pointerId)) return;
+    pointers.delete(event.pointerId);
+    if (pinch) { if (pointers.size < 2) pinch = null; if (pointers.size === 1) { const [p] = [...pointers.values()]; drag = { x: p.x, y: p.y, tx, ty, moved: true }; } return; }
+    if (!drag) return;
+    const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+    const moved = drag.moved; drag = null;
+    if (event.type !== 'pointerup') return;
+    if (moved && scale <= 1.01 && list.length > 1 && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) { show(index + (dx < 0 ? 1 : -1)); return; }
+    if (moved) return;
+    const now = Date.now();
+    if (now - lastTap < 300) { lastTap = 0; zoomAt(scale > 1.01 ? 1 : 2.5, event.clientX, event.clientY); }
+    else { lastTap = now; if (event.target === stage && scale <= 1.01) setTimeout(() => { if (lastTap && Date.now() - lastTap >= 280) lightbox.close(); }, 300); }
+  };
+  stage.addEventListener('pointerup', release);
+  stage.addEventListener('pointercancel', release);
+  lightbox.addEventListener('close', () => { pointers.clear(); pinch = null; drag = null; });
+}
 let lastTrigger;
 let galleryMode = false;
 let activeGallery = projects;
@@ -90,9 +181,12 @@ dialog.addEventListener('close', () => { galleryMode = false; });
 function renderProject(index, trigger, gallery = projects) {
   activeGallery = gallery; currentProject = (index + gallery.length) % gallery.length;
   const project = gallery[currentProject]; galleryMode = true;
-  dialogContent.innerHTML = `<img class="dialog-hero dialog-hero--project" src="/assets/${project.image}.webp" alt="${project.title}"><div class="dialog-copy"><span class="eyebrow">Кейс</span><h2 id="dialog-title">${project.title}</h2><p>${project.text}</p>${project.facts ? `<dl class="dialog-facts">${project.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : ''}<a class="button button--dark" href="#request" data-close-dialog data-goal="cta_project">Рассчитать похожий проект ${arrow()}</a><div class="dialog-image-nav"><button type="button" data-gallery-prev>${arrow('chevron-left')} Назад</button><span>${String(currentProject + 1).padStart(2, '0')} / ${String(gallery.length).padStart(2, '0')}</span><button type="button" data-gallery-next>Далее ${arrow('chevron-right')}</button></div></div>`;
+  dialogContent.innerHTML = `<img class="dialog-hero dialog-hero--project" id="dialog-hero" src="/assets/${project.images[0]}.webp" alt="${project.title}">${project.images.length > 1 ? `<div class="dialog-thumbs" role="group" aria-label="Фото объекта">${project.images.map((src, i) => `<button type="button" class="dialog-thumb${i ? '' : ' is-active'}" data-photo="${i}" aria-label="Фото ${i + 1} из ${project.images.length}"><img src="/assets/${src}.webp" alt="" loading="lazy"></button>`).join('')}</div>` : ''}<div class="dialog-copy"><h2 id="dialog-title">${project.title}</h2><p>${project.text}</p>${project.facts ? `<dl class="dialog-facts">${project.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : ''}<a class="button button--dark" href="#request" data-close-dialog data-goal="cta_project">Рассчитать мой проект</a><div class="dialog-image-nav"><button type="button" data-gallery-prev>${arrow('chevron-left')} Назад</button><span>${String(currentProject + 1).padStart(2, '0')} / ${String(gallery.length).padStart(2, '0')}</span><button type="button" data-gallery-next>Далее ${arrow('chevron-right')}</button></div></div>`;
   $('[data-gallery-prev]', dialog).addEventListener('click', () => renderProject(currentProject - 1, trigger, gallery));
   $('[data-gallery-next]', dialog).addEventListener('click', () => renderProject(currentProject + 1, trigger, gallery));
+  let heroIndex = 0;
+  $('#dialog-hero').addEventListener('click', () => openLightbox(project.images, heroIndex, project.title));
+  $$('.dialog-thumb', dialog).forEach(btn => btn.addEventListener('click', () => { heroIndex = Number(btn.dataset.photo); $('#dialog-hero').src = `/assets/${project.images[heroIndex]}.webp`; $$('.dialog-thumb', dialog).forEach(b => b.classList.toggle('is-active', b === btn)); }));
   $('[data-close-dialog]', dialog).addEventListener('click', closeDialog);
   if (!dialog.open) goal('open_project', { project: project.title });
   openDialog(trigger);
@@ -158,18 +252,6 @@ $$('[data-compare]').forEach((box) => {
   });
 });
 
-/* Сколько дней до Нового года: показываем с сентября по декабрь */
-(() => {
-  const box = $('#newyear-count');
-  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Moscow', year: 'numeric', month: 'numeric', day: 'numeric' }).formatToParts(new Date()).map((p) => [p.type, p.value]));
-  const month = Number(parts.month);
-  if (!box || month < 9) return;
-  const days = Math.round((Date.UTC(Number(parts.year) + 1, 0, 1) - Date.UTC(Number(parts.year), month - 1, Number(parts.day))) / 86_400_000);
-  const word = (n) => { const a = n % 10; const b = n % 100; if (a === 1 && b !== 11) return 'день'; if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return 'дня'; return 'дней'; };
-  $('#newyear-days').textContent = String(days);
-  $('#newyear-days-label').textContent = `${word(days)} до Нового года`;
-  box.hidden = false;
-})();
 
 /* UTM и источник визита: запоминаем первый заход в сессии */
 (() => {
@@ -201,14 +283,9 @@ let formStarted = false;
 let sending = false;
 
 // Кнопки «Рассчитать для дома» и «Получить 3 варианта дизайна» заранее отмечают ответы в форме
-$$('[data-preset-segment], [data-preset-timing]').forEach((link) => link.addEventListener('click', () => {
+$$('[data-preset-segment]').forEach((link) => link.addEventListener('click', () => {
   const seg = link.dataset.presetSegment;
-  const timing = link.dataset.presetTiming;
   if (seg) { const input = form.querySelector(`input[name="segment"][value="${seg}"]`); if (input) input.checked = true; }
-  if (timing) {
-    const input = form.querySelector(`input[name="timing"][value="${timing}"]`); if (input) input.checked = true;
-    if (timing === 'newyear') { const zone = form.querySelector('input[name="zones"][value="newyear"]'); if (zone) zone.checked = true; }
-  }
 }));
 
 const rules = [
@@ -308,8 +385,6 @@ form.addEventListener('submit', async (event) => {
     name: nameInput.value.trim(),
     contact: contactInput.value.trim(),
     segment: form.elements.segment.value || 'other',
-    zones: $$('input[name="zones"]:checked', form).map((el) => el.value),
-    timing: form.elements.timing.value || '',
     comment: $('#f-comment').value.trim(),
     consent: consentInput.checked,
     website: $('#f-website').value,
@@ -324,7 +399,7 @@ form.addEventListener('submit', async (event) => {
   submit.style.minWidth = `${submit.offsetWidth}px`;
   submit.disabled = true; submit.setAttribute('aria-busy', 'true'); submit.textContent = 'Отправляем…';
   setStatus('');
-  goal('form_submit', { segment: payload.segment, timing: payload.timing, photos: payload.photos.length });
+  goal('form_submit', { segment: payload.segment, photos: payload.photos.length });
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 45000);
@@ -334,7 +409,7 @@ form.addEventListener('submit', async (event) => {
     try { data = await response.json(); } catch { data = {}; }
     if (!response.ok || !data.ok) throw new Error(data.error || 'request failed');
     setStatus(`Заявка №${esc(data.id)} принята. Ответим в течение часа по контакту ${esc(payload.contact)}.`, 'done');
-    goal('lead_sent', { segment: payload.segment, timing: payload.timing, photos: payload.photos.length });
+    goal('lead_sent', { segment: payload.segment, photos: payload.photos.length });
     form.reset(); photos = []; renderThumbs(); setPhotosHelp();
     rules.forEach((rule) => { rule.touched = false; setFieldError(rule, false); });
   } catch (error) {

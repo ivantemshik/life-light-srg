@@ -10,10 +10,11 @@
   <meta property="og:description" content="Пришлите фото фасада: в тот же день покажем визуализацию и смету. Москва и Московская область.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
-  <meta property="og:image" content="/assets/hero.webp">
+  <meta property="og:image" content="/assets/hero-house.webp">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/manrope-regular.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="/assets/hero.webp" as="image">
+  <link rel="preload" href="/assets/hero-house-mobile.webp" as="image" media="(max-width: 900px)">
+  <link rel="preload" href="/assets/hero-house.webp" as="image" media="(min-width: 901px)">
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/mobile.css" media="(max-width: 1100px)">
   <script>(function (d) { var t; try { t = localStorage.getItem('ll-theme'); } catch (e) {} if (t !== 'dark' && t !== 'light') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; d.dataset.theme = t; d.classList.add('js'); var m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t === 'dark' ? '#0d0d0d' : '#f3f3f3'; })(document.documentElement);</script>
@@ -41,7 +42,7 @@
         <div class="hero-copy">
           <h1 id="hero-title">Подсветка дома<br> и участка под ключ</h1>
           <p>Пришлите фото фасада: в тот же день покажем<br class="desktop-break"> визуализацию и смету. Москва и область.</p>
-          <a class="button button--dark" href="#request" data-goal="cta_hero">Рассчитать по фото <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
+          <a class="button button--dark" href="#request" data-goal="cta_hero">Рассчитать по фото</a>
         </div>
         <div class="stats" aria-label="О компании в цифрах">
           <div class="stat"><img src="/assets/hero-small.webp" width="48" height="48" alt="" aria-hidden="true"><div class="stat-value">1 <span>ч</span></div><p>ответ на заявку</p></div>
@@ -49,7 +50,7 @@
           <div class="stat"><img src="/assets/garden-small.webp" width="48" height="48" alt="" aria-hidden="true"><div class="stat-value">24 <span>ч</span></div><p>приори&shy;тетный<br>монтаж</p></div>
         </div>
       </div>
-      <figure class="hero-visual"><img src="/assets/hero.webp" width="1122" height="1402" fetchpriority="high" alt="Современный дом в сумерках: тёплая контурная подсветка фасада, деревьев и каменных ступеней"></figure>
+      <figure class="hero-visual"><picture><source media="(max-width: 900px)" srcset="/assets/hero-house-mobile.webp" width="1278" height="1230"><img src="/assets/hero-house.webp" width="1134" height="1387" fetchpriority="high" alt="Современный двухэтажный дом вечером: тёплая контурная подсветка фасада и мягкий свет в саду"></picture></figure>
       <button class="theme-toggle theme-toggle--hero" type="button" aria-pressed="false" aria-label="Тёмная тема" title="Включить тёмную тему"><svg class="icon icon--moon" aria-hidden="true"><use href="#moon"/></svg><svg class="icon icon--sun" aria-hidden="true"><use href="#sun"/></svg></button>
     </section>
 
@@ -120,14 +121,21 @@
     <section class="projects soft-panel" id="projects" aria-labelledby="projects-title">
       <div class="section-heading"><h2 id="projects-title">Наши проекты</h2><p>Частные дома, терраса и новогоднее оформление в Москве и области. Нажмите на фото: внутри что подсветили и какое оборудование поставили.</p></div>
       <div class="project-track" id="project-track" role="group" aria-roledescription="карусель" tabindex="0" aria-label="Реализованные проекты освещения">
-        <button class="project-card" type="button" data-project="0" aria-label="Посмотреть проект: Частный дом"><img src="/assets/project-modern-house.webp" width="768" height="604" loading="lazy" alt="Реальный проект: современный двухэтажный дом с контурной подсветкой"><span class="project-caption">Частный дом <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
-        <button class="project-card" type="button" data-project="3" aria-label="Посмотреть проект: Фасад"><img src="/assets/project-contour.webp" width="800" height="600" loading="lazy" alt="Реальный проект: тонкая контурная подсветка одноэтажного дома"><span class="project-caption">Фасад <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
-        <button class="project-card" type="button" data-project="4" aria-label="Посмотреть проект: Дом и сад"><img src="/assets/project-house-garden.webp" width="800" height="600" loading="lazy" alt="Реальный проект: освещённый фасад и дерево с тёплыми гирляндами"><span class="project-caption">Дом и сад <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
-        <button class="project-card" type="button" data-project="5" aria-label="Посмотреть проект: Праздничный свет"><img src="/assets/project-festive-house.webp" width="800" height="600" loading="lazy" alt="Реальный проект: праздничное оформление двухэтажного дома"><span class="project-caption">Праздничный свет <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
-        <button class="project-card" type="button" data-project="6" aria-label="Посмотреть проект: Входная группа"><img src="/assets/project-entrance.webp" width="800" height="600" loading="lazy" alt="Реальный проект: декоративное освещение входной группы кирпичного дома"><span class="project-caption">Входная группа <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
-        <button class="project-card" type="button" data-project="7" aria-label="Посмотреть проект: Световой декор"><img src="/assets/project-light-decor.webp" width="768" height="508" loading="lazy" alt="Реальный проект: световые гирлянды на доме с башней и балконом"><span class="project-caption">Световой декор <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="0" aria-label="Посмотреть проект: Дом с панорамными окнами"><img src="/assets/case-panorama-house-1.webp" width="1600" height="900" loading="lazy" alt="Реальный проект: двухэтажный дом с террасой и тёплой бахромой по кровле"><span class="project-caption">Дом с панорамными окнами <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="1" aria-label="Посмотреть проект: Дом и сад"><img src="/assets/case-house-garden-1.webp" width="1448" height="1086" loading="lazy" alt="Реальный проект: освещённый фасад и ель с тёплыми гирляндами"><span class="project-caption">Дом и сад <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="2" aria-label="Посмотреть проект: Загородный дом"><img src="/assets/case-country-house-1.webp" width="1448" height="1086" loading="lazy" alt="Реальный проект: кирпичный дом с бахромой по скатной кровле"><span class="project-caption">Загородный дом <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="3" aria-label="Посмотреть проект: Праздничный свет"><img src="/assets/case-festive-house-1.webp" width="1448" height="1086" loading="lazy" alt="Реальный проект: праздничное оформление двухэтажного дома"><span class="project-caption">Праздничный свет <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="4" aria-label="Посмотреть проект: Световой декор"><img src="/assets/case-light-decor-1.webp" width="1543" height="1019" loading="lazy" alt="Реальный проект: гирлянды на доме с башней и балконом"><span class="project-caption">Световой декор <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="5" aria-label="Посмотреть проект: Частный дом"><img src="/assets/case-modern-house-1.webp" width="1415" height="1112" loading="lazy" alt="Реальный проект: современный двухэтажный дом с контурной подсветкой"><span class="project-caption">Частный дом <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="6" aria-label="Посмотреть проект: Контур кровли"><img src="/assets/case-contour-houses-1.webp" width="1448" height="1086" loading="lazy" alt="Реальный проект: кремовый дом с тонкой контурной подсветкой"><span class="project-caption">Контур кровли <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="7" aria-label="Посмотреть проект: Торговый центр"><img src="/assets/case-sport-store-1.webp" width="1600" height="900" loading="lazy" alt="Реальный проект: контурная подсветка фасада торгового здания"><span class="project-caption">Торговый центр <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="8" aria-label="Посмотреть проект: Деревянный дом"><img src="/assets/case-timber-house-1.webp" width="1600" height="837" loading="lazy" alt="Реальный проект: деревянный дом с контурной подсветкой фронтона"><span class="project-caption">Деревянный дом <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="9" aria-label="Посмотреть проект: Дом с садом"><img src="/assets/case-brick-house-1.webp" width="1600" height="897" loading="lazy" alt="Реальный проект: дом из кирпича с остеклённой террасой и садом"><span class="project-caption">Дом с садом <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="10" aria-label="Посмотреть проект: Фасад"><img src="/assets/project-contour.webp" width="800" height="600" loading="lazy" alt="Реальный проект: тонкая контурная подсветка одноэтажного дома"><span class="project-caption">Фасад <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="11" aria-label="Посмотреть проект: Терраса"><img src="/assets/project-terrace.webp" width="1418" height="899" loading="lazy" alt="Реальный проект: световая бахрома по периметру кровли и террасы"><span class="project-caption">Терраса <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
+        <button class="project-card" type="button" data-project="12" aria-label="Посмотреть проект: Входная группа"><img src="/assets/project-entrance.webp" width="800" height="600" loading="lazy" alt="Реальный проект: декоративное освещение входной группы кирпичного дома"><span class="project-caption">Входная группа <span class="circle-arrow"><svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></span></span></button>
       </div>
-      <div class="projects-bottom"><button class="button button--dark" type="button" id="portfolio-toggle" aria-haspopup="dialog">Все проекты <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></button><span class="project-note">Все 8 объектов в разделе «Все проекты»</span><div class="slider-controls"><button class="round-button" type="button" id="project-prev" aria-label="Предыдущие проекты"><svg class="icon" aria-hidden="true"><use href="#chevron-left"/></svg></button><button class="round-button" type="button" id="project-next" aria-label="Следующие проекты"><svg class="icon" aria-hidden="true"><use href="#chevron-right"/></svg></button></div></div>
+      <div class="projects-bottom"><button class="button button--dark" type="button" id="portfolio-toggle" aria-haspopup="dialog">Все проекты</button><div class="slider-controls"><button class="round-button" type="button" id="project-prev" aria-label="Предыдущие проекты"><svg class="icon" aria-hidden="true"><use href="#chevron-left"/></svg></button><button class="round-button" type="button" id="project-next" aria-label="Следующие проекты"><svg class="icon" aria-hidden="true"><use href="#chevron-right"/></svg></button></div></div>
     </section>
     <section class="services section-inset" id="services" aria-labelledby="services-title">
       <h2 id="services-title">Что входит в работу</h2>
@@ -139,21 +147,6 @@
       </div>
     </section>
 
-    <section class="newyear" id="newyear" aria-labelledby="newyear-title">
-      <img class="newyear-bg" src="/assets/project-terrace.webp" width="1418" height="899" loading="lazy" alt="Дом и терраса в праздничной световой бахроме на фоне вечернего неба">
-      <div class="newyear-content">
-        <p class="newyear-count" id="newyear-count" hidden><span id="newyear-days">59</span><small id="newyear-days-label">дней до Нового года</small></p>
-        <h2 id="newyear-title">Новогоднее оформление под&nbsp;ключ</h2>
-        <p class="newyear-lead">Монтаж начинаем в день обращения и работаем без выходных.</p>
-        <ul class="newyear-list">
-          <li><b>3 варианта дизайна</b> по фото вашего дома</li>
-          <li><b>Гирлянды и фигуры:</b> бахрома, занавесы, «лёд», ёлки, арки</li>
-          <li><b>Аренда декора</b> с доставкой, сборкой и демонтажем</li>
-          <li><b>Приоритетный монтаж</b> за 24 часа</li>
-        </ul>
-        <a class="button button--light" href="#request" data-preset-timing="newyear" data-goal="cta_newyear">Получить 3 варианта дизайна <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
-      </div>
-    </section>
 
     <section class="price section-inset" id="price" aria-labelledby="price-title">
       <div class="price-top">
@@ -169,7 +162,7 @@
       <div class="price-factors">
         <div class="price-factors-head">
           <h3>Что влияет на цену</h3>
-          <a class="button button--dark" href="#request" data-goal="cta_price">Рассчитать по фото <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a>
+          <a class="button button--dark" href="#request" data-goal="cta_price">Рассчитать по фото</a>
         </div>
         <ol class="factor-list">
           <li>Размер фасада и длина контуров</li>
@@ -187,7 +180,7 @@
       <li><span class="step-number">03</span><div><h3>Договор и монтаж</h3><p>Фиксируем цену в договоре. 8 из 10 объектов монтируем за день, оплата по факту.</p></div></li>
     </ol></section>
 
-    <section class="faq section-inset" id="faq" aria-labelledby="faq-title"><div class="faq-heading"><span class="eyebrow">Понятно с самого начала</span><h2 id="faq-title">О свете —<br> по существу</h2><p>Ответы на вопросы, с которых обычно начинается проект.</p></div><div class="faq-list">
+    <section class="faq section-inset" id="faq" aria-labelledby="faq-title"><div class="faq-heading"><h2 id="faq-title">О свете —<br> по существу</h2><p>Ответы на вопросы, с которых обычно начинается проект.</p></div><div class="faq-list">
       <details><summary>Можно рассчитать стоимость по фотографии?<span class="plus" aria-hidden="true"></span></summary><p>Да. Пришлите фото фасада или участка через форму на сайте или в Telegram и расскажите, что хотите подсветить. Подготовим несколько вариантов визуализации и предварительную смету.</p></details>
       <details><summary>Сколько стоит подсветка дома?<span class="plus" aria-hidden="true"></span></summary><p>Цену считаем индивидуально: она зависит от размера фасада и длины контуров, оборудования, высоты и сложности монтажа. Визуализацию и предварительную смету готовим бесплатно, итоговую сумму фиксируем в договоре. Оплата по факту выполнения.</p></details>
       <details><summary>Выдержит ли подсветка мороз и снег?<span class="plus" aria-hidden="true"></span></summary><p>Для улицы ставим гирлянды профессионального класса с защитой IP65 и выше, каучуковый провод вместо ПВХ и анодированный алюминиевый профиль.</p></details>
@@ -218,24 +211,6 @@
             <input type="radio" name="segment" id="seg-biz" value="business"><label for="seg-biz">Кафе, магазин, офис</label>
             <input type="radio" name="segment" id="seg-mall" value="mall"><label for="seg-mall">ТЦ или БЦ</label>
             <input type="radio" name="segment" id="seg-other" value="other"><label for="seg-other">Другое</label>
-          </div>
-        </fieldset>
-        <fieldset class="chips">
-          <legend>Какие зоны</legend>
-          <div class="chips-row">
-            <input type="checkbox" name="zones" id="z-facade" value="facade"><label for="z-facade">Фасад и кровля</label>
-            <input type="checkbox" name="zones" id="z-garden" value="garden"><label for="z-garden">Деревья и сад</label>
-            <input type="checkbox" name="zones" id="z-terrace" value="terrace"><label for="z-terrace">Терраса</label>
-            <input type="checkbox" name="zones" id="z-newyear" value="newyear"><label for="z-newyear">Новогодний декор</label>
-            <input type="checkbox" name="zones" id="z-sign" value="sign"><label for="z-sign">Вывеска</label>
-          </div>
-        </fieldset>
-        <fieldset class="chips">
-          <legend>Когда нужен свет</legend>
-          <div class="chips-row">
-            <input type="radio" name="timing" id="t-newyear" value="newyear"><label for="t-newyear">К Новому году</label>
-            <input type="radio" name="timing" id="t-urgent" value="urgent"><label for="t-urgent">Срочно, за 24 часа</label>
-            <input type="radio" name="timing" id="t-later" value="later"><label for="t-later">Без спешки</label>
           </div>
         </fieldset>
         <div class="field">
@@ -276,9 +251,9 @@
       </form>
     </section>
 
-    <section class="contact soft-panel" id="contact" aria-labelledby="contact-title"><div class="contact-copy"><span class="eyebrow">Начнём с вашей идеи</span><h2 id="contact-title">У каждого дома<br>свой свет.</h2><p>Удобнее в мессенджере? Пришлите фото дома в Telegram, ответим в течение часа.</p><a class="button button--dark" href="https://t.me/LifeLight_ru" target="_blank" rel="noopener noreferrer">Обсудить в Telegram <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a><a class="contact-email" href="mailto:info@life-light.ru">info@life-light.ru <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a><a class="contact-email contact-channel" href="https://t.me/LifeLight_ru" target="_blank" rel="noopener noreferrer">Telegram-канал @LifeLight_ru <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a><div class="contact-location"><span class="location-dot"></span>Москва и Московская область</div></div><div class="contact-image"><img src="/assets/garden.webp" width="1000" height="800" loading="lazy" alt="Сад с мягкой тёплой подсветкой ступеней и деревьев"></div></section>
+    <section class="contact soft-panel" id="contact" aria-labelledby="contact-title"><div class="contact-copy"><h2 id="contact-title">У каждого дома<br>свой свет.</h2><p>Удобнее в мессенджере? Пришлите фото дома в Telegram, ответим в течение часа.</p><a class="button button--dark" href="https://t.me/LifeLight_ru" target="_blank" rel="noopener noreferrer">Обсудить в Telegram</a><a class="contact-email" href="mailto:info@life-light.ru">info@life-light.ru <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a><a class="contact-email contact-channel" href="https://t.me/LifeLight_ru" target="_blank" rel="noopener noreferrer">Telegram-канал @LifeLight_ru <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a><div class="contact-location"><span class="location-dot"></span>Москва и Московская область</div></div><div class="contact-image"><img src="/assets/garden.webp" width="1000" height="800" loading="lazy" alt="Сад с мягкой тёплой подсветкой ступеней и деревьев"></div></section>
 
-    <footer class="footer"><div class="footer-top"><a class="wordmark" href="#" aria-label="Жизнь — Свет, на главную"><b>жизнь</b><i aria-hidden="true"></i><span>свет</span></a><p>Подсветка домов и бизнеса<br>в Москве и области.</p><a class="footer-channel" href="https://t.me/LifeLight_ru" target="_blank" rel="noopener noreferrer">Telegram-канал <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a><a href="#" class="back-to-top">Наверх <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a></div><div class="footer-bottom"><span>© <span id="year">2026</span> Жизнь — Свет</span><span>ООО «ГК ВЕСЬ МИР» · ИНН 9703174864 · ОГРН 1247700186722</span><a href="https://life-light.ru/privacy/" target="_blank" rel="noopener noreferrer">Политика конфиденциальности <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a></div></footer>
+    <footer class="footer"><div class="footer-top"><a class="wordmark" href="#" aria-label="Жизнь — Свет, на главную"><b>жизнь</b><i aria-hidden="true"></i><span>свет</span></a><p>Подсветка домов и бизнеса<br>в Москве и области.</p><a class="footer-channel" href="https://t.me/LifeLight_ru" target="_blank" rel="noopener noreferrer">Telegram-канал <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a><a href="#" class="back-to-top">Наверх <svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a></div><div class="footer-bottom"><span>© <span id="year">2026</span> Жизнь — Свет</span><span>ООО «ГК ВЕСЬ МИР» · ИНН 9703174864 · ОГРН 1247700186722</span><a href="https://life-light.ru/privacy/" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a></div></footer>
   </main>
 
   <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="dialog-title"><button class="dialog-close round-button" type="button" aria-label="Закрыть окно"><svg class="icon" aria-hidden="true"><use href="#close"/></svg></button><div id="dialog-content"></div></dialog>
