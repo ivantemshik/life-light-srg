@@ -184,3 +184,11 @@ textarea.input{min-height:84px;padding:14px 1.3cqw;resize:vertical;line-height:1
 
 @media(prefers-reduced-motion:reduce){.chips-row label,.input,.drop,.thumbs button,.pill-switch [role="tab"],.text-link{transition:none}.chips-row label:active{transform:none}}
 .projects .project-note{color:var(--muted)}
+
+/* Фоновые слова «свет» и «жизнь» целиком в боковых полях. «Свет» начинается вровень с верхом страницы-карточки, «жизнь» заканчивается на таком же расстоянии от низа страницы.
+   Буквы занимают не всю строку: .51em — середина букв от края строки, .064em и .047em — выступ букв за строку из-за отрицательного межбуквенного интервала. */
+body{position:relative}
+.background-word{--bw-gutter:max(calc((100vw - 1440px) / 2), 4.2vw);--bw-offset:18px;width:auto;height:auto;max-height:none;overflow:visible;font-size:min(330px,calc(var(--bw-gutter) * 1.2));white-space:nowrap}
+.background-word--left{top:.064em;left:calc(var(--bw-gutter) / 2 - .51em)}
+.background-word--right{top:auto;bottom:calc(var(--bw-offset) + .047em);right:calc(var(--bw-gutter) / 2 - .51em)}
+@media(min-width:1600px){.background-word{--bw-offset:24px}.background-word--left{left:calc(var(--bw-gutter) / 2 - .51em)}}
