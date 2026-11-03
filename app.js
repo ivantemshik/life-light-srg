@@ -85,7 +85,7 @@ document.addEventListener('click', (event) => {
   else if (href.startsWith('tel:')) goal('click_phone', { place });
 });
 
-/* Вкладки: «Частным домам / Бизнесу и ТЦ» и кейсы */
+/* Вкладки «Частным домам / Бизнесу и ТЦ» */
 $$('[role="tablist"]').forEach((list) => {
   const tabs = $$('[role="tab"]', list);
   const panels = tabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
@@ -96,7 +96,7 @@ $$('[role="tablist"]').forEach((list) => {
     list.dispatchEvent(new CustomEvent('tabchange', { detail: { panel: panels[index] } }));
   };
   tabs.forEach((tab, index) => {
-    tab.addEventListener('click', () => { select(index); goal(list.classList.contains('case-tabs') ? 'open_case' : 'segment_tab', { tab: tab.textContent.trim() }); });
+    tab.addEventListener('click', () => { select(index); goal('segment_tab', { tab: tab.textContent.trim() }); });
     tab.addEventListener('keydown', (event) => {
       const keys = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: tabs.length - 1 };
       if (!(event.key in keys)) return;
@@ -106,28 +106,7 @@ $$('[role="tablist"]').forEach((list) => {
   });
 });
 
-/* Что подсвечиваем: пункт списка меняет большой кадр */
-const segStage = $('.seg-stage');
-const segImage = $('#seg-stage-img');
-const segCaption = $('#seg-stage-cap');
-const canHover = window.matchMedia('(hover: hover)');
-function showSegment(item) {
-  $$('.seg-item').forEach((el) => el.classList.toggle('is-active', el === item));
-  segCaption.textContent = $('.seg-name', item).textContent;
-  if (segImage.getAttribute('src') === item.dataset.img) return;
-  segStage.classList.add('is-loading');
-  segImage.alt = item.dataset.alt;
-  segImage.src = item.dataset.img;
-}
-['load', 'error'].forEach((type) => segImage.addEventListener(type, () => segStage.classList.remove('is-loading')));
-$$('.seg-item').forEach((item) => {
-  item.addEventListener('pointerenter', () => { if (canHover.matches) showSegment(item); });
-  item.addEventListener('focus', () => showSegment(item));
-  item.addEventListener('click', () => showSegment(item));
-});
-$('#segments [role="tablist"]').addEventListener('tabchange', (event) => { const first = $('.seg-item', event.detail.panel); if (first) showSegment(first); });
-
-/* Кейс: сравнение без подсветки и с ней */
+/* Сравнение без подсветки и с ней */
 $$('[data-compare]').forEach((box) => {
   const range = $('.compare-range', box);
   let used = false;

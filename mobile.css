@@ -234,14 +234,12 @@
   .pill-switch::-webkit-scrollbar { display: none; }
   .pill-switch [role="tab"] { flex: 1 0 auto; padding: 0 16px; font-size: 14px; }
 
-  .segments { padding: 48px 20px 32px; }
-  .segments-body { grid-template-columns: minmax(0, 1fr); gap: 24px; }
-  .seg-stage { order: -1; aspect-ratio: 1.25; border-radius: 18px; }
-  .seg-stage figcaption { left: 12px; bottom: 12px; padding: 6px 12px; font-size: 13px; }
-  .seg-list { margin-bottom: 18px; }
-  .seg-item { gap: 4px; padding: 16px 0; }
+  .segments { padding: 44px 20px 28px; }
+  .seg-list { grid-template-columns: minmax(0, 1fr); margin-bottom: 18px; }
+  .seg-list li { grid-template-columns: 34px minmax(0, 1fr); row-gap: 5px; padding: 16px 0 18px; }
+  .seg-list li::before { padding-top: 6px; font-size: 13px; }
   .seg-name { font-size: 21px; }
-  .seg-text { font-size: 14px; }
+  .seg-text { max-width: none; font-size: 14px; }
 
   .before-after { padding: 44px 20px 24px; }
   .ba-top { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-bottom: 20px; }
@@ -322,7 +320,6 @@
 @media (min-width: 560px) and (max-width: 900px) {
   .segments, .before-after { padding-left: 30px; padding-right: 30px; }
   .ba-media { aspect-ratio: 1.7; }
-  .seg-stage { aspect-ratio: 1.6; }
   .newyear-bg { aspect-ratio: 1.8; }
   .newyear-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
   .price-terms { grid-template-columns: repeat(4, minmax(0, 1fr)); }

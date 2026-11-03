@@ -45,21 +45,14 @@ html,body{overflow-x:clip}
 .pill-switch [role="tab"]:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 html:not(.js) .pill-switch{display:none}
 
-/* Что подсвечиваем: список и большой кадр */
-.segments{padding-top:7.4cqw;padding-bottom:5cqw}
-.segments-body{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr);gap:5.4cqw;align-items:center}
-.seg-list{list-style:none;margin:0 0 2.6cqw;padding:0;border-top:1px solid var(--line)}
-.seg-list li{border-bottom:1px solid var(--line)}
-.seg-item{display:grid;gap:.55cqw;width:100%;padding:1.8cqw 0;background:none;text-align:left}
-.seg-name{font-size:2.3cqw;font-weight:500;line-height:1.1;letter-spacing:-.045em;color:var(--muted-2);transition:color .2s}
-.seg-text{font-size:1.2cqw;line-height:1.4;color:var(--muted)}
-.seg-item:hover .seg-name,.seg-item.is-active .seg-name{color:var(--ink)}
-.seg-item:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+/* Что подсвечиваем: список без фото, крупным шрифтом */
+.segments{padding-top:6cqw;padding-bottom:5cqw}
+.seg-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:5cqw;counter-reset:seg;list-style:none;margin:0 0 2.8cqw;padding:0}
+.seg-list li{counter-increment:seg;display:grid;grid-template-columns:4cqw minmax(0,1fr);row-gap:.7cqw;padding:2.3cqw 0 2.5cqw;border-top:1px solid var(--line)}
+.seg-list li::before{content:counter(seg,decimal-leading-zero);grid-row:1 / span 2;padding-top:.75cqw;font-size:1.1cqw;color:var(--gold)}
+.seg-name{grid-column:2;font-size:2.4cqw;font-weight:500;line-height:1.1;letter-spacing:-.045em}
+.seg-text{grid-column:2;max-width:34cqw;font-size:1.28cqw;line-height:1.45;color:var(--muted)}
 html:not(.js) .seg-panel+.seg-panel{margin-top:3cqw}
-.seg-stage{position:relative;margin:0;aspect-ratio:1.18;border-radius:24px;overflow:hidden;background:var(--dark-2)}
-.seg-stage>img{width:100%;height:100%;transition:opacity .35s}
-.seg-stage.is-loading>img{opacity:.35}
-.seg-stage figcaption{position:absolute;left:1.6cqw;bottom:1.6cqw;padding:.7cqw 1.4cqw;border-radius:50px;background:var(--scrim-light);color:var(--ink);font-size:1.1cqw}
 
 /* Что меняет подсветка: сравнение до и после на всю ширину */
 .before-after{padding-top:6.6cqw;padding-bottom:3.4cqw}
