@@ -189,7 +189,7 @@ function setFieldError(rule, show) {
 }
 rules.forEach((rule) => {
   const evt = rule.input.type === 'checkbox' ? 'change' : 'input';
-  rule.input.addEventListener('blur', () => { if (rule.input.value || rule.touched) { rule.touched = true; setFieldError(rule, true); } });
+  if (rule.input.type !== 'checkbox') rule.input.addEventListener('blur', () => { if (rule.input.value || rule.touched) { rule.touched = true; setFieldError(rule, true); } });
   rule.input.addEventListener(evt, () => { if (rule.touched) setFieldError(rule, true); });
 });
 form.addEventListener('focusin', () => { if (!formStarted) { formStarted = true; goal('form_start'); } });
@@ -201,7 +201,9 @@ async function compress(file) {
   let source;
   try { source = await createImageBitmap(file, { imageOrientation: 'from-image' }); }
   catch {
-    source = await new Promise((resolve, reject) => { const img = new Image(); img.onload = () => resolve(img); img.onerror = reject; img.src = URL.createObjectURL(file); });
+    const url = URL.createObjectURL(file);
+    try { source = await new Promise((resolve, reject) => { const img = new Image(); img.onload = () => resolve(img); img.onerror = reject; img.src = url; }); }
+    finally { URL.revokeObjectURL(url); }
   }
   const w = source.width || source.naturalWidth;
   const h = source.height || source.naturalHeight;
