@@ -8,6 +8,6 @@ $config = ll_config();
 try { ll_db(); $db = true; } catch (Throwable $e) { $db = false; }
 ll_json(200, [
     'ok' => $db,
-    'telegram' => $config['bot_token'] !== '' && (string) $config['chat_id'] !== '',
+    'telegram' => $config['bot_token'] !== '' && ll_recipients() !== [],
     'metrika' => $config['metrika_counter_id'] !== '' && $config['metrika_token'] !== '',
 ]);

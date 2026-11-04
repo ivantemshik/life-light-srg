@@ -115,7 +115,16 @@ CREATE INDEX IF NOT EXISTS lead_events_lead ON lead_events (lead_id);
 CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS hits (key TEXT NOT NULL, at INTEGER NOT NULL);
 CREATE INDEX IF NOT EXISTS hits_key ON hits (key, at);
+CREATE TABLE IF NOT EXISTS lead_messages (
+  lead_id INTEGER NOT NULL REFERENCES leads (id),
+  chat_id TEXT NOT NULL,
+  message_id INTEGER NOT NULL,
+  PRIMARY KEY (lead_id, chat_id)
+);
+CREATE INDEX IF NOT EXISTS lead_messages_message ON lead_messages (chat_id, message_id);
 SQL);
+    // Карточки, отправленные до появления нескольких получателей
+    $db->exec("INSERT OR IGNORE INTO lead_messages (lead_id, chat_id, message_id) SELECT id, tg_chat_id, tg_message_id FROM leads WHERE tg_message_id IS NOT NULL AND tg_chat_id != ''");
     return $db;
 }
 
@@ -186,14 +195,31 @@ function ll_release_claim(int $id): void
     ll_query('UPDATE leads SET tg_notified = 0 WHERE id = ? AND tg_notified = 2', [$id]);
 }
 
-function ll_mark_notified(int $id, string $chatId, int $messageId): void
+// Кому присылать заявки: каждому админу бота в личку и в общий чат chat_id, если он задан
+function ll_recipients(): array
 {
-    ll_query('UPDATE leads SET tg_notified = 1, tg_chat_id = ?, tg_message_id = ? WHERE id = ?', [$chatId, $messageId, $id]);
+    $config = ll_config();
+    $list = array_map('strval', array_merge([(string) $config['chat_id']], $config['admin_ids']));
+    return array_values(array_unique(array_filter($list, fn($v) => $v !== '')));
 }
 
+// Копия карточки заявки у одного получателя. Первая копия пишется и в саму заявку.
+function ll_add_lead_message(int $id, string $chatId, int $messageId): void
+{
+    ll_query('INSERT OR REPLACE INTO lead_messages (lead_id, chat_id, message_id) VALUES (?, ?, ?)', [$id, $chatId, $messageId]);
+    ll_query('UPDATE leads SET tg_chat_id = ?, tg_message_id = ? WHERE id = ? AND tg_message_id IS NULL', [$chatId, $messageId, $id]);
+}
+
+function ll_lead_messages(int $id): array
+{
+    return ll_query('SELECT chat_id, message_id FROM lead_messages WHERE lead_id = ?', [$id])->fetchAll();
+}
+
+// Заявка по сообщению, на которое ответили: подходит любая копия карточки
 function ll_find_by_message(string $chatId, int $messageId): ?array
 {
-    $row = ll_query('SELECT * FROM leads WHERE tg_chat_id = ? AND tg_message_id = ?', [$chatId, $messageId])->fetch();
+    $row = ll_query('SELECT l.* FROM lead_messages m JOIN leads l ON l.id = m.lead_id WHERE m.chat_id = ? AND m.message_id = ?', [$chatId, $messageId])->fetch();
+    if (!$row) $row = ll_query('SELECT * FROM leads WHERE tg_chat_id = ? AND tg_message_id = ?', [$chatId, $messageId])->fetch();
     return $row ?: null;
 }
 

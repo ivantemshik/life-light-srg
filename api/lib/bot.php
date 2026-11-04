@@ -72,52 +72,75 @@ function ll_keyboard(array $lead): array
     ]];
 }
 
-// Отправляет заявку в чат менеджеров. Повторную отправку той же заявки не допускает.
+// Отправляет заявку всем получателям: каждому админу бота в личку и в чат chat_id, если он задан.
+// Кому уже ушло, повторно не шлёт. Кому не ушло, дошлёт плановое задание (в течение суток).
 function ll_notify_lead(int $id): bool
 {
-    $chatId = (string) ll_config()['chat_id'];
-    if ($chatId === '') { ll_log("Заявка $id сохранена, но chat_id не задан"); return false; }
+    $recipients = ll_recipients();
+    if (!$recipients) { ll_log("Заявка $id сохранена, но получателей нет: задайте admin_ids или chat_id в config.php"); return false; }
     if (!ll_claim_for_sending($id)) return false;
-    try {
-        $lead = ll_get_lead($id);
-        $message = tg_send_message($chatId, ll_lead_text($lead), ['reply_markup' => ll_keyboard($lead)]);
-    } catch (Throwable $e) {
-        ll_release_claim($id);
-        throw $e;
+    $lead = ll_get_lead($id);
+    $sent = [];
+    foreach (ll_lead_messages($id) as $m) $sent[(string) $m['chat_id']] = true;
+    $missing = 0;
+    foreach ($recipients as $chatId) {
+        if (isset($sent[$chatId])) continue;
+        if (!empty($GLOBALS['ll_telegram_down'])) { $missing++; continue; }
+        try {
+            $message = tg_send_message($chatId, ll_lead_text($lead), ['reply_markup' => ll_keyboard($lead)]);
+        } catch (Throwable $e) {
+            $code = (int) $e->getCode();
+            ll_log("Заявка $id не отправлена в чат $chatId: " . $e->getMessage());
+            if ($code === 0) $GLOBALS['ll_telegram_down'] = true; // Telegram не отвечает: остальным попробуем позже
+            // Сеть, лимит и сбои Telegram повторяем. 403 (админ не нажал «Запустить» в боте) и прочие отказы не повторяем.
+            if ($code === 0 || $code === 429 || $code >= 500) $missing++;
+            continue;
+        }
+        ll_add_lead_message($id, $chatId, (int) $message['message_id']);
+        if ($lead['photos']) ll_send_lead_photos($id, $chatId, (int) $message['message_id'], 0);
     }
-    ll_mark_notified($id, $chatId, (int) $message['message_id']);
-    if ($lead['photos']) ll_send_lead_photos($id, $chatId, (int) $message['message_id'], 0);
-    return true;
+    $dayOld = strtotime($lead['created_at']) < time() - 86400;
+    if ($missing === 0 || $dayOld) {
+        ll_query('UPDATE leads SET tg_notified = 1 WHERE id = ?', [$id]);
+        if ($missing) ll_log("Заявка $id: $missing получателей так и не получили её за сутки");
+    } else {
+        ll_release_claim($id);
+    }
+    return $missing === 0;
 }
 
 // Фото идут отдельным сообщением ответом на карточку. Если не ушли, плановое задание повторит (до 12 раз, около часа).
 function ll_send_lead_photos(int $id, string $chatId, int $messageId, int $tries): void
 {
+    $key = "photos_pending:$id:$chatId";
     try {
         tg_send_photos($chatId, ll_photo_files($id), $messageId);
-        ll_query('DELETE FROM kv WHERE key = ?', ["photos_pending:$id"]);
+        ll_query('DELETE FROM kv WHERE key = ?', [$key]);
     } catch (Throwable $e) {
         $tries++;
-        ll_log("Фото к заявке $id не отправлены (попытка $tries): " . $e->getMessage());
-        if ($tries < 12) ll_kv_set("photos_pending:$id", "$chatId|$messageId|$tries");
-        else ll_query('DELETE FROM kv WHERE key = ?', ["photos_pending:$id"]);
+        ll_log("Фото к заявке $id для чата $chatId не отправлены (попытка $tries): " . $e->getMessage());
+        if ($tries < 12) ll_kv_set($key, "$chatId|$messageId|$tries");
+        else ll_query('DELETE FROM kv WHERE key = ?', [$key]);
     }
 }
 
-// Повторно отправляет заявки, которые не ушли в Telegram (минута форы, чтобы не пересечься с самой формой)
+// Досылает то, что не ушло в Telegram (минута форы, чтобы не пересечься с самой формой)
 function ll_flush_pending(): void
 {
-    if ((string) ll_config()['chat_id'] === '') return;
+    if (!ll_recipients()) return;
     $cutoff = (new DateTimeImmutable('-1 minute', new DateTimeZone('UTC')))->format('Y-m-d\TH:i:s.v\Z');
     ll_query("UPDATE leads SET tg_notified = 0 WHERE tg_notified = 2 AND updated_at < ?", [(new DateTimeImmutable('-15 minutes', new DateTimeZone('UTC')))->format('Y-m-d\TH:i:s.v\Z')]);
     $rows = ll_query("SELECT id FROM leads WHERE tg_notified = 0 AND status != 'spam' AND created_at < ? ORDER BY id LIMIT 10", [$cutoff])->fetchAll();
     foreach ($rows as $row) {
-        try { ll_notify_lead((int) $row['id']); }
-        catch (Throwable $e) { ll_log("Заявка {$row['id']} пока не отправлена в Telegram: " . $e->getMessage()); break; }
+        if (!empty($GLOBALS['ll_telegram_down'])) break;
+        ll_notify_lead((int) $row['id']);
     }
     foreach (ll_query("SELECT key, value FROM kv WHERE key LIKE 'photos_pending:%' LIMIT 5")->fetchAll() as $row) {
+        if (!empty($GLOBALS['ll_telegram_down'])) break;
         [$chatId, $messageId, $tries] = array_pad(explode('|', $row['value']), 3, '0');
-        ll_send_lead_photos((int) substr($row['key'], strlen('photos_pending:')), $chatId, (int) $messageId, (int) $tries);
+        $id = (int) explode(':', substr($row['key'], strlen('photos_pending:')))[0];
+        ll_query('DELETE FROM kv WHERE key = ?', [$row['key']]); // старый формат ключа без чата заменяется новым
+        ll_send_lead_photos($id, $chatId, (int) $messageId, (int) $tries);
     }
 }
 
@@ -260,8 +283,8 @@ function ll_handle_message(array $msg): void
     $chat = $msg['chat'] ?? [];
     $from = $msg['from'] ?? null;
     if ((string) ll_config()['chat_id'] === '' && $chat) {
-        ll_log('Бот получил сообщение, ID чата для config.php: ' . ($chat['id'] ?? ''));
-        if (!empty($msg['new_chat_members']) || !empty($msg['group_chat_created'])) tg_send_message($chat['id'], 'Бот добавлен. ID этой группы: <code>' . $chat['id'] . '</code>. Впишите его в chat_id в config.php на хостинге.');
+        if (!ll_recipients()) ll_log('Бот получил сообщение, ID чата для config.php: ' . ($chat['id'] ?? ''));
+        if (!empty($msg['new_chat_members']) || !empty($msg['group_chat_created'])) tg_send_message($chat['id'], 'Бот добавлен. ID этой группы: <code>' . $chat['id'] . '</code>. Чтобы заявки приходили и сюда, впишите его в chat_id в config.php на хостинге.');
     }
     if (!ll_allowed($chat, $from)) {
         if (str_starts_with($text, '/start') || str_starts_with($text, '/id')) tg_send_message($chat['id'], 'Этот бот работает только в чате заявок. ID этого чата: <code>' . $chat['id'] . '</code>, ваш ID: <code>' . ($from['id'] ?? '') . '</code>.');
@@ -304,8 +327,16 @@ function ll_handle_callback(array $q): void
     $lead = ll_set_status((int) $m[1], $m[2], ll_actor_name($q['from'] ?? null));
     if (!$lead) { tg_answer_callback($q['id'], 'Заявка не найдена'); return; }
     tg_answer_callback($q['id'], 'Статус: ' . LL_STATUSES[$lead['status']]);
-    try { tg_edit_message_text($q['message']['chat']['id'], (int) $q['message']['message_id'], ll_lead_text($lead), ['reply_markup' => ll_keyboard($lead)]); }
+    $chatId = (string) $q['message']['chat']['id'];
+    $messageId = (int) $q['message']['message_id'];
+    try { tg_edit_message_text($chatId, $messageId, ll_lead_text($lead), ['reply_markup' => ll_keyboard($lead)]); }
     catch (Throwable $e) { if (!str_contains($e->getMessage(), 'not modified')) throw $e; }
+    // У остальных админов карточка этой заявки тоже обновляется, чтобы все видели, кто её взял
+    foreach (ll_lead_messages((int) $lead['id']) as $m) {
+        if ((string) $m['chat_id'] === $chatId && (int) $m['message_id'] === $messageId) continue;
+        try { tg_edit_message_text($m['chat_id'], (int) $m['message_id'], ll_lead_text($lead), ['reply_markup' => ll_keyboard($lead)]); }
+        catch (Throwable $e) { if (!str_contains($e->getMessage(), 'not modified')) ll_log("Карточка заявки {$lead['id']} в чате {$m['chat_id']} не обновлена: " . $e->getMessage()); }
+    }
 }
 
 function ll_handle_update(array $update): void
@@ -318,15 +349,19 @@ function ll_handle_update(array $update): void
     }
 }
 
-// Ежедневный отчёт в чат заявок, один раз в день в заданный час
+// Ежедневный отчёт всем получателям заявок, один раз в день в заданный час
 function ll_daily_report(): void
 {
     $config = ll_config();
-    if ($config['daily_report_hour'] === null || $config['daily_report_hour'] === '' || (string) $config['chat_id'] === '') return;
+    $recipients = ll_recipients();
+    if ($config['daily_report_hour'] === null || $config['daily_report_hour'] === '' || !$recipients) return;
     $now = new DateTimeImmutable('now', new DateTimeZone((string) $config['timezone']));
     $day = $now->format('Y-m-d');
     if ((int) $now->format('G') !== (int) $config['daily_report_hour'] || ll_kv_get('daily_report_day') === $day) return;
     ll_kv_set('daily_report_day', $day);
-    try { tg_send_message($config['chat_id'], "<b>Ежедневный отчёт</b>\n\n" . ll_stats_text()); }
-    catch (Throwable $e) { ll_log('Отчёт не отправлен: ' . $e->getMessage()); }
+    $text = "<b>Ежедневный отчёт</b>\n\n" . ll_stats_text();
+    foreach ($recipients as $chatId) {
+        try { tg_send_message($chatId, $text); }
+        catch (Throwable $e) { ll_log("Отчёт в чат $chatId не отправлен: " . $e->getMessage()); }
+    }
 }

@@ -35,7 +35,8 @@ function tg_call(string $method, array $params = [], bool $multipart = false, in
     }
     if ($body === false) throw new RuntimeException("Telegram $method: $error");
     $data = json_decode((string) $body, true);
-    if (!is_array($data) || empty($data['ok'])) throw new RuntimeException("Telegram $method: " . ($data['description'] ?? "HTTP $status"));
+    // Код исключения: 0 — Telegram недоступен по сети, иначе код ошибки Telegram (400, 403…)
+    if (!is_array($data) || empty($data['ok'])) throw new RuntimeException("Telegram $method: " . ($data['description'] ?? "HTTP $status"), max(1, (int) ($data['error_code'] ?? $status)));
     return $data['result'];
 }
 

@@ -17,6 +17,8 @@ function check(string $name, bool $ok): void
 }
 
 if (!getenv('LL_DATA_DIR')) { fwrite(STDERR, "Задайте LL_DATA_DIR на временную папку\n"); exit(1); }
+// Два админа без общего чата, один повторён: заявки должны уходить каждому по одному разу
+file_put_contents(getenv('LL_DATA_DIR') . '/config.php', "<?php return ['chat_id' => '', 'admin_ids' => [111, '222', '111']];");
 
 $jpeg = 'data:image/jpeg;base64,' . base64_encode("\xFF\xD8\xFF\xE0" . str_repeat('x', 100));
 $good = ['name' => 'Анна', 'contact' => '+7 900 123-45-67', 'consent' => true, 'segment' => 'home', 'comment' => '=SUM(1)', 'photos' => [$jpeg],
@@ -60,6 +62,15 @@ check('статистика считает заявку', str_contains(ll_stats_
 check('список новых пуст после взятия в работу', ll_list_text(ll_list_by_status(['new']), 'Новые заявки') === 'Новые заявки: пусто.');
 
 check('ограничение частоты', ll_rate_allow('k') && ll_rate_allow('k') && ll_rate_allow('k') && ll_rate_allow('k') && ll_rate_allow('k') && !ll_rate_allow('k'));
+
+check('заявки получают все админы, без повторов', ll_recipients() === ['111', '222']);
+check('админ пользуется ботом в личке', ll_allowed(['id' => 222], ['id' => 222]) && !ll_allowed(['id' => 333], ['id' => 333]));
+ll_add_lead_message($id, '111', 50);
+ll_add_lead_message($id, '222', 70);
+check('у каждого админа своя карточка заявки', count(ll_lead_messages($id)) === 2);
+check('заметка ответом находит заявку в чате любого админа', (int) (ll_find_by_message('222', 70)['id'] ?? 0) === $id && ll_find_by_message('111', 70) === null);
+$second = (int) ll_create_lead($r['lead'])['id'];
+check('если Telegram недоступен, заявка ждёт повторной отправки', !ll_notify_lead($second) && (int) ll_get_lead($second)['tg_notified'] === 0);
 
 echo $failed ? "\nОшибок: $failed\n" : "\nВсе проверки пройдены\n";
 exit($failed ? 1 : 0);
