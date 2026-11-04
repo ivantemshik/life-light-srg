@@ -30,7 +30,6 @@ Manrope: Google Fonts, локальные TTF 400 / 500 / 600. Лицензия 
 | `project-contour.webp` | `9300fdbf65d6dca6.jpg` |
 | `project-house-garden.webp` | `3faed0447a31c481.jpg` |
 | `project-festive-house.webp` | `374700138510023e.jpg` |
-| `project-entrance.webp` | `7d75540c21a9b073.jpg` |
 | `project-light-decor.webp` | `5d2357c7083cb1b7.jpg` |
 
 URL первоисточников и размеры: `docs/real-project-sources.json`. Ранее улучшенные генеративные копии не используются в проектах.

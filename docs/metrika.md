@@ -116,7 +116,7 @@ telegramTargetType: 'channel'  // куда ведёт ссылка Telegram: cha
 | `cta_location` | `hero`, `nav_header`, `nav_mobile`, `project_modal`, `service_modal`, `contacts_block`, `footer`, `before_after`, `segments`, `projects`, `work_scope`, `price`, `steps`, `faq`, `request_form`, `about`, `other` |
 | `contact_channel` | `telegram`, `email`, `phone`, `whatsapp` |
 | `telegram_target_type` | из `config.js`: `channel`, `personal`, `bot`, `business_link`, `unknown` |
-| `project_id` | `p01`–`p13`, по порядку массива `projects` в `app.js` (таблица ниже) |
+| `project_id` | `p01`–`p12`, по порядку массива `projects` в `app.js` (таблица ниже) |
 | `service_name` | `visualization`, `equipment_selection`, `installation`, `warranty` |
 | `faq_topic` | `photo_estimate`, `price`, `frost_snow`, `facade_safety`, `install_time`, `decor_removal`, `festive_only`, `smartphone_control`, `warranty`, `geography` (атрибут `data-faq` у вопроса в `index.html`) |
 | `nav_target` | `services`, `projects`, `price`, `faq`, `about`, `top` |
@@ -139,7 +139,7 @@ telegramTargetType: 'channel'  // куда ведёт ссылка Telegram: cha
 | `p03` | Загородный дом | `p10` | Дом с садом |
 | `p04` | Праздничный свет | `p11` | Фасад |
 | `p05` | Световой декор | `p12` | Терраса |
-| `p06` | Частный дом | `p13` | Входная группа |
+| `p06` | Частный дом | | |
 | `p07` | Контур кровли | | |
 
 ## 4. Проверка
