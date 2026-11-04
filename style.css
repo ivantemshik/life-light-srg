@@ -254,3 +254,10 @@ html:not(.js) .theme-toggle{display:none}
 .contact-email+.contact-email{margin-top:1cqw}
 .contact-phone{white-space:nowrap}
 .footer-channel+.footer-channel{margin-left:0}
+/* Десктоп: как на телефоне, каждый блок отдельной карточкой со скруглением и небольшим зазором */
+@media (min-width:901px){
+.site-shell{padding:0;background:transparent;box-shadow:none;border-radius:0;display:grid;gap:10px}
+.site-shell>section,.site-shell>footer{margin:0;min-width:0;border-radius:24px}
+.site-shell>section:not(.hero):not(.soft-panel),.site-shell>footer{background:var(--section-bg)}
+.site-shell>.hero{border-radius:0}
+}
