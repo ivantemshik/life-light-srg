@@ -250,6 +250,7 @@ document.addEventListener('click', (event) => {
   else if (/^(https?:\/\/(wa\.me|api\.whatsapp\.com)\/|whatsapp:)/i.test(href)) goal('contact_whatsapp_click', { cta_location: place, contact_channel: 'whatsapp' });
   else if (/\/privacy\/?$/.test(href)) goal('legal_link_click', { legal_doc: 'privacy' });
   else if (/\/cookie\/?$/.test(href)) goal('legal_link_click', { legal_doc: 'cookie' });
+  else if (/\/consent\/?$/.test(href)) goal('legal_link_click', { legal_doc: 'consent' });
   else if (href === '#request' || href === '#contact') goal('contact_cta_click', { cta_location: place, ...modalContext(place) });
   else if (href in NAV_TARGET && (el.closest('.navigation') || el.classList.contains('wordmark') || el.classList.contains('back-to-top'))) {
     const source = el.classList.contains('wordmark') ? 'logo' : el.classList.contains('back-to-top') ? 'footer' : isPhone() ? 'mobile_menu' : 'header';

@@ -98,7 +98,7 @@ telegramTargetType: 'channel'  // куда ведёт ссылка Telegram: cha
 | `mobile_menu_open` | Открыли меню на телефоне | Открытие мобильного меню | — |
 | `segment_tab` | Переключили «Частным домам / Бизнесу» | Клик по вкладке | `segment_tab` |
 | `compare_slider` | Сравнили до и после | Первый сдвиг ползунка | — |
-| `legal_link_click` | Открыли документ | Ссылка на политику или cookie | `legal_doc` |
+| `legal_link_click` | Открыли документ | Ссылка на политику, согласие или cookie | `legal_doc` |
 | `contact_copy` | Скопировали контакт | Копирование почты или телефона в контактах и подвале | `copy_target` |
 
 «Показан на экране»: видна половина блока, а для высокого блока — он занимает половину экрана.
@@ -125,7 +125,7 @@ telegramTargetType: 'channel'  // куда ведёт ссылка Telegram: cha
 | `block_id` | `about`, `before_after`, `segments`, `projects`, `work_scope`, `price`, `steps`, `faq`, `request_form`, `footer` |
 | `segment` | `home`, `business`, `mall`, `other` (тип объекта из формы) |
 | `segment_tab` | `home`, `business` |
-| `legal_doc` | `privacy`, `cookie` |
+| `legal_doc` | `privacy`, `consent`, `cookie` |
 | `copy_target` | `email`, `phone` |
 | `count`, `photos` | число фото |
 | `site_version` | параметр визита, формат `ГГГГ-ММ_vN` |
