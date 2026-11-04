@@ -3,6 +3,8 @@
 // статические файлы хостинг отдаёт без них. На Vercel заголовки задаёт vercel.json, этот файл туда не публикуется.
 header('Content-Type: text/html; charset=utf-8');
 header('Cache-Control: no-cache');
+// Браузер запоминает, что сайт открывается только по HTTPS (год); поддомены не затрагиваются
+header('Strict-Transport-Security: max-age=31536000');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
 header('Referrer-Policy: strict-origin-when-cross-origin');
