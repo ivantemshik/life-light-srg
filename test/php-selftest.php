@@ -72,5 +72,9 @@ check('заметка ответом находит заявку в чате л�
 $second = (int) ll_create_lead($r['lead'])['id'];
 check('если Telegram недоступен, заявка ждёт повторной отправки', !ll_notify_lead($second) && (int) ll_get_lead($second)['tg_notified'] === 0);
 
+check('повторное обновление Telegram не обрабатывается дважды', !ll_update_seen(901) && ll_update_seen(901));
+check('offset сдвигается за последнее обновление и сохраняется', ll_process_updates([['update_id' => 950], ['update_id' => 950], ['update_id' => 951]], 0) === 952 && ll_kv_get('tg_offset') === '952');
+check('бот считается на связи только после ответа Telegram', !ll_bot_alive() && (ll_kv_set('tg_last_poll', ll_now()) || true) && ll_bot_alive());
+
 echo $failed ? "\nОшибок: $failed\n" : "\nВсе проверки пройдены\n";
 exit($failed ? 1 : 0);

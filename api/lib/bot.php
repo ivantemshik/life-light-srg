@@ -322,15 +322,19 @@ function ll_handle_message(array $msg): void
 
 function ll_handle_callback(array $q): void
 {
-    if (!preg_match('/^st:(\d+):(\w+)$/', (string) ($q['data'] ?? ''), $m)) { tg_answer_callback($q['id'], ''); return; }
-    if (!ll_allowed($q['message']['chat'] ?? null, $q['from'] ?? null)) { tg_answer_callback($q['id'], 'Нет доступа'); return; }
+    // Ответ на нажатие кнопки не обязателен: если нажатие пролежало в очереди дольше 15 минут, Telegram его уже не примет
+    $answer = function (string $text) use ($q): void {
+        try { tg_answer_callback((string) $q['id'], $text); } catch (Throwable $e) { /* статус всё равно меняем */ }
+    };
+    if (!preg_match('/^st:(\d+):(\w+)$/', (string) ($q['data'] ?? ''), $m)) { $answer(''); return; }
+    if (!ll_allowed($q['message']['chat'] ?? null, $q['from'] ?? null)) { $answer('Нет доступа'); return; }
     $lead = ll_set_status((int) $m[1], $m[2], ll_actor_name($q['from'] ?? null));
-    if (!$lead) { tg_answer_callback($q['id'], 'Заявка не найдена'); return; }
-    tg_answer_callback($q['id'], 'Статус: ' . LL_STATUSES[$lead['status']]);
+    if (!$lead) { $answer('Заявка не найдена'); return; }
+    $answer('Статус: ' . LL_STATUSES[$lead['status']]);
     $chatId = (string) $q['message']['chat']['id'];
     $messageId = (int) $q['message']['message_id'];
     try { tg_edit_message_text($chatId, $messageId, ll_lead_text($lead), ['reply_markup' => ll_keyboard($lead)]); }
-    catch (Throwable $e) { if (!str_contains($e->getMessage(), 'not modified')) throw $e; }
+    catch (Throwable $e) { if (!str_contains($e->getMessage(), 'not modified')) ll_log("Карточка заявки {$lead['id']} в чате $chatId не обновлена: " . $e->getMessage()); }
     // У остальных админов карточка этой заявки тоже обновляется, чтобы все видели, кто её взял
     foreach (ll_lead_messages((int) $lead['id']) as $m) {
         if ((string) $m['chat_id'] === $chatId && (int) $m['message_id'] === $messageId) continue;
@@ -347,6 +351,80 @@ function ll_handle_update(array $update): void
     } catch (Throwable $e) {
         ll_log('Ошибка обработки обновления Telegram: ' . $e->getMessage());
     }
+}
+
+// Одно и то же обновление Telegram может прийти повторно: true, если оно уже обработано
+function ll_update_seen(int $updateId): bool
+{
+    if (!$updateId) return false;
+    $seen = ll_query('INSERT OR IGNORE INTO kv (key, value) VALUES (?, ?)', ['update:' . $updateId, ll_now()])->rowCount() === 0;
+    ll_query("DELETE FROM kv WHERE key LIKE 'update:%' AND value < ?", [(new DateTimeImmutable('-2 days', new DateTimeZone('UTC')))->format('Y-m-d\TH:i:s.v\Z')]);
+    return $seen;
+}
+
+// Обрабатывает пачку обновлений из getUpdates и возвращает offset для следующего запроса.
+// Offset сохраняется до обработки: если обработка упадёт, Telegram не будет присылать то же обновление по кругу.
+function ll_process_updates(array $updates, int $offset): int
+{
+    foreach ($updates as $update) {
+        $id = (int) ($update['update_id'] ?? 0);
+        if ($id >= $offset) {
+            $offset = $id + 1;
+            ll_kv_set('tg_offset', (string) $offset);
+        }
+        try {
+            if (ll_update_seen($id)) continue;
+        } catch (Throwable $e) {
+            ll_log('Бот: ' . $e->getMessage());
+        }
+        ll_handle_update($update);
+    }
+    return $offset;
+}
+
+// Бот сам забирает сообщения из Telegram (long polling). С хостинга reg.ru до Telegram доходят только исходящие
+// запросы, входящие (webhook) Telegram доставить не может. Запускается из cron каждую минуту и слушает почти всю минуту,
+// поэтому бот отвечает за секунду-две. Второй запуск, пока первый слушает, сразу выходит.
+function ll_poll(int $seconds): void
+{
+    $lock = fopen(ll_data_dir() . '/poll.lock', 'c');
+    if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) return;
+    $deadline = time() + $seconds;
+    $offset = (int) (ll_kv_get('tg_offset') ?? 0);
+    while (($wait = min(25, $deadline - time() - 2)) >= 1) {
+        try {
+            $updates = tg_call('getUpdates', ['offset' => $offset, 'timeout' => $wait, 'allowed_updates' => ['message', 'callback_query']], false, $wait + 10);
+            ll_kv_set('tg_last_poll', ll_now());
+            $offset = ll_process_updates($updates, $offset);
+        } catch (Throwable $e) {
+            if ($e->getCode() === 409) {
+                // Кто-то включил webhook: снимаем его, сообщения в очереди Telegram сохраняются
+                try {
+                    tg_call('deleteWebhook', ['drop_pending_updates' => false]);
+                    ll_log('Бот: webhook снят, бот снова сам забирает сообщения');
+                } catch (Throwable $e2) {
+                    ll_log('Бот: не удалось снять webhook: ' . $e2->getMessage());
+                }
+                sleep(1);
+                continue;
+            }
+            $logged = ll_kv_get('tg_poll_error_logged');
+            if (!$logged || strtotime($logged) < time() - 600) {
+                ll_log('Бот не достучался до Telegram (повторяю каждые несколько секунд): ' . $e->getMessage());
+                ll_kv_set('tg_poll_error_logged', ll_now());
+            }
+            sleep(3);
+        }
+    }
+    flock($lock, LOCK_UN);
+    fclose($lock);
+}
+
+// Бот на связи, если в последние 3 минуты успешно получил ответ от Telegram
+function ll_bot_alive(): bool
+{
+    $last = ll_kv_get('tg_last_poll');
+    return $last !== null && strtotime($last) > time() - 180;
 }
 
 // Ежедневный отчёт всем получателям заявок, один раз в день в заданный час

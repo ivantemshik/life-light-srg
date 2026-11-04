@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-// POST /api/telegram/webhook: обновления от Telegram (кнопки статусов, команды, заметки).
+// POST /api/telegram/webhook: обновления от Telegram (кнопки статусов, команды, заметки), если telegram_mode = webhook.
+// На reg.ru Telegram не может достучаться до сайта, поэтому там бот работает в режиме polling (см. cron.php).
 // Telegram подписывает запрос заголовком X-Telegram-Bot-Api-Secret-Token, чужие запросы отклоняются.
 require __DIR__ . '/lib/app.php';
 require __DIR__ . '/lib/telegram.php';
@@ -16,11 +17,8 @@ $update = json_decode((string) file_get_contents('php://input'), true);
 if (!is_array($update)) { ll_json(400, ['ok' => false]); exit; }
 
 // Одно и то же обновление Telegram может прислать повторно, если ответ задержался: обрабатываем его один раз
-$updateId = (int) ($update['update_id'] ?? 0);
 try {
-    $done = ll_query('INSERT OR IGNORE INTO kv (key, value) VALUES (?, ?)', ['update:' . $updateId, ll_now()])->rowCount() === 0;
-    if ($updateId && $done) { ll_json(200, ['ok' => true]); exit; }
-    ll_query("DELETE FROM kv WHERE key LIKE 'update:%' AND value < ?", [(new DateTimeImmutable('-2 days', new DateTimeZone('UTC')))->format('Y-m-d\TH:i:s.v\Z')]);
+    if (ll_update_seen((int) ($update['update_id'] ?? 0))) { ll_json(200, ['ok' => true]); exit; }
 } catch (Throwable $e) { ll_log('Webhook: ' . $e->getMessage()); }
 
 ll_handle_update($update);

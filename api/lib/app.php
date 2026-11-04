@@ -36,6 +36,8 @@ function ll_config(): array
         'ip_salt' => 'change-me',
         'timezone' => 'Europe/Moscow',
         'daily_report_hour' => 10,
+        // polling: бот сам забирает сообщения из Telegram (cron каждую минуту). webhook: Telegram присылает их на /api/telegram/webhook
+        'telegram_mode' => 'polling',
         'allowed_origins' => [],
         'rate_limit_max' => 5,
         'rate_limit_window_min' => 10,
