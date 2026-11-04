@@ -8,9 +8,12 @@ window.LL_CONFIG = {
   // Вебвизор (запись визитов). Включать только после решения владельца и юриста.
   metrikaWebvisor: false,
   // Версия сайта для Метрики (параметр визита site_version), формат ГГГГ-ММ_vN. Меняйте при каждой заметной правке сайта.
-  siteVersion: '2026-11_v1',
-  // Ссылка на Telegram компании: запасной канал, если форма недоступна.
-  telegram: 'https://t.me/LifeLight_ru',
-  // Куда ведёт ссылка Telegram: channel (канал, писать нельзя), personal, bot, business_link. Уходит в цель contact_telegram_click.
-  telegramTargetType: 'channel'
+  siteVersion: '2026-11_v2',
+  // Telegram для переписки: чат с аккаунтом на номере +7 985 928-37-99 (кнопка «Обсудить в Telegram» и запасной путь, если форма недоступна).
+  // Работает, если в этом аккаунте Telegram разрешено находить его по номеру телефона.
+  telegram: 'https://t.me/+79859283799',
+  // Куда ведёт ссылка выше: personal, bot, business_link. Уходит в цель contact_telegram_click.
+  telegramTargetType: 'personal',
+  // Telegram-канал с работами (портфолио). Клик по нему уходит в ту же цель с telegram_target_type: channel.
+  telegramChannel: 'https://t.me/LifeLight_ru'
 };

@@ -239,7 +239,7 @@ document.addEventListener('click', (event) => {
   if (!el) return;
   const href = el.getAttribute('href');
   const place = ctaLocation(el);
-  if (/^(https?:\/\/(t\.me|telegram\.me)\/|tg:)/i.test(href)) goal('contact_telegram_click', { cta_location: place, contact_channel: 'telegram', telegram_target_type: cfg.telegramTargetType || 'unknown' });
+  if (/^(https?:\/\/(t\.me|telegram\.me)\/|tg:)/i.test(href)) goal('contact_telegram_click', { cta_location: place, contact_channel: 'telegram', telegram_target_type: href === cfg.telegramChannel ? 'channel' : href === cfg.telegram ? (cfg.telegramTargetType || 'unknown') : 'unknown' });
   else if (/^mailto:/i.test(href)) goal('contact_email_click', { cta_location: place, contact_channel: 'email' });
   else if (/^tel:/i.test(href)) goal('phone_click', { cta_location: place, contact_channel: 'phone' });
   else if (/^(https?:\/\/(wa\.me|api\.whatsapp\.com)\/|whatsapp:)/i.test(href)) goal('contact_whatsapp_click', { cta_location: place, contact_channel: 'whatsapp' });
@@ -346,7 +346,7 @@ const submit = $('#f-submit');
 const submitLabel = submit.textContent;
 const MAX_PHOTOS = 5;
 const MAX_SIDE = 1600;
-const telegramLink = `<a href="${esc(cfg.telegram || 'https://t.me/LifeLight_ru')}" target="_blank" rel="noopener noreferrer">напишите нам в Telegram</a>`;
+const telegramLink = `<a href="${esc(cfg.telegram || 'https://t.me/+79859283799')}" target="_blank" rel="noopener noreferrer">напишите нам в Telegram</a>`;
 let photos = [];
 let formStarted = false;
 let sending = false;
