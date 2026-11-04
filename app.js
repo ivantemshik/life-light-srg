@@ -40,7 +40,7 @@ const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 function applyTheme(theme) {
   const dark = theme === 'dark';
   document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-  if (themeColor) themeColor.content = dark ? '#0d0d0d' : '#f3f3f3';
+  if (themeColor) themeColor.content = dark ? '#0a0e14' : '#efe5d6';
   themeButtons.forEach((button) => {
     button.setAttribute('aria-pressed', String(dark));
     button.title = dark ? 'Включить светлую тему' : 'Включить тёмную тему';
