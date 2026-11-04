@@ -13,7 +13,7 @@ import { createMetrika } from './metrika.mjs';
 import { createBot } from './bot.mjs';
 
 const MAX_BODY = 14 * 1024 * 1024;
-const STATIC_FILES = new Set(['index.html', 'style.css', 'mobile.css', 'app.js', 'config.js', 'metrika.js', 'favicon.svg', 'robots.txt', 'sitemap.xml']);
+const STATIC_FILES = new Set(['index.html', 'style.css', 'mobile.css', 'app.js', 'config.js', 'metrika.js', 'favicon.svg', 'robots.txt', 'sitemap.xml', 'privacy/index.html', 'consent/index.html', 'cookie/index.html']);
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.ttf': 'font/ttf', '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml; charset=utf-8' };
 const SECURITY_HEADERS = { 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'SAMEORIGIN', 'Permissions-Policy': 'camera=(), microphone=(), geolocation=()' };
 
@@ -91,7 +91,7 @@ export function createApp(config = loadConfig(), { log = console } = {}) {
   }
 
   async function serveStatic(req, res, pathname) {
-    const rel = pathname === '/' ? 'index.html' : decodeURIComponent(pathname.slice(1));
+    const rel = pathname === '/' ? 'index.html' : decodeURIComponent(pathname.slice(1)).replace(/\/$/, '/index.html');
     const allowed = STATIC_FILES.has(rel) || /^assets\/[\w.-]+\.(webp|png|jpg|svg|ttf|woff2|txt)$/.test(rel);
     const target = path.resolve(siteRoot, rel);
     if (!allowed || !target.startsWith(siteRoot + path.sep)) return false;

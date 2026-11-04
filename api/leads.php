@@ -16,6 +16,7 @@ try {
     $ipHash = ll_hash_ip(ll_client_ip());
     if (!ll_rate_allow($ipHash)) { ll_json(429, ['ok' => false, 'error' => 'Слишком много заявок подряд. Попробуйте через несколько минут.']); exit; }
 
+    if ((int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 14 * 1024 * 1024) { ll_json(413, ['ok' => false, 'error' => 'Фото слишком большие. Приложите меньше фото.']); exit; }
     $raw = file_get_contents('php://input');
     if (strlen((string) $raw) > 14 * 1024 * 1024) { ll_json(413, ['ok' => false, 'error' => 'Фото слишком большие. Приложите меньше фото.']); exit; }
     $body = json_decode((string) $raw, true);

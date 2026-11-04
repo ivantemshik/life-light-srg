@@ -5,6 +5,7 @@ ASSETS.md
 server.mjs
 server
 api
+index.php
 worker
 deploy
 test
