@@ -33,14 +33,13 @@ document.addEventListener('keydown', event => { if (event.key === 'Escape' && me
 window.matchMedia('(min-width: 901px)').addEventListener('change', () => { if (window.innerWidth >= 901) closeMenu(); });
 
 // Светлая и тёмная тема. Выбор посетителя запоминается; пока он не выбрал, тема следует настройке системы.
-// Начальную тему ставит скрипт в <head>, чтобы страница не мигала при загрузке.
+// Начальную тему ставит скрипт в <head>, чтобы страница не мигала при загрузке. По умолчанию тёмная: ночное небо и золото.
 const themeButtons = $$('.theme-toggle');
 const themeColor = $('meta[name="theme-color"]');
-const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 function applyTheme(theme) {
   const dark = theme === 'dark';
   document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-  if (themeColor) themeColor.content = dark ? '#0a0e14' : '#efe5d6';
+  if (themeColor) themeColor.content = dark ? '#05080f' : '#f1e9dc';
   themeButtons.forEach((button) => {
     button.setAttribute('aria-pressed', String(dark));
     button.title = dark ? 'Включить светлую тему' : 'Включить тёмную тему';
@@ -52,10 +51,6 @@ themeButtons.forEach((button) => button.addEventListener('click', () => {
   applyTheme(next);
   store.set('ll-theme', next);
 }));
-systemDark.addEventListener('change', (event) => {
-  const saved = store.get('ll-theme');
-  if (saved !== 'dark' && saved !== 'light') applyTheme(event.matches ? 'dark' : 'light');
-});
 
 // Звёзды на первом экране тёмной темы: одинаковая раскладка при каждой загрузке, мерцают в разном ритме
 const sky = $('.hero-sky');
