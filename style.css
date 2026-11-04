@@ -249,3 +249,8 @@ html:not(.js) .theme-toggle{display:none}
 .legal code{font-size:14px}
 .legal-meta{font-size:14px;color:var(--muted)}
 .legal-back{font-size:15px}
+
+/* Телефон в контактах и подвале: ссылки контактов идут столбиком с одинаковым шагом */
+.contact-email+.contact-email{margin-top:1cqw}
+.contact-phone{white-space:nowrap}
+.footer-channel+.footer-channel{margin-left:0}

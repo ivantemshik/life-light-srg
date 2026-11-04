@@ -358,3 +358,9 @@
   .lead-form .field-row { gap: 16px; }
   .lead-form .help { min-height: 0; margin-top: 6px; }
 }
+
+/* Телефон в контактах и подвале на телефоне */
+@media (max-width: 900px) {
+  .contact-email + .contact-email { margin-top: 4px; }
+  .footer-channel + .footer-channel { margin-left: 0; }
+}

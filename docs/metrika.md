@@ -64,7 +64,7 @@ telegramTargetType: 'channel'  // куда ведёт ссылка Telegram: cha
 | `lead_sent` | Заявка отправлена (главная) | Сервер принял заявку из формы и выдал номер | `segment`, `photos` |
 | `contact_telegram_click` | Клик на Telegram | Любая ссылка на `t.me` | `cta_location`, `contact_channel`, `telegram_target_type` |
 | `contact_email_click` | Клик на почту | Ссылка `mailto:` | `cta_location`, `contact_channel` |
-| `phone_click` | Клик на телефон | Ссылка `tel:` (когда номер появится на сайте) | `cta_location`, `contact_channel` |
+| `phone_click` | Клик на телефон | Ссылка на номер +7 985 928-37-99 | `cta_location`, `contact_channel` |
 | `contact_whatsapp_click` | Клик на WhatsApp | Ссылка `wa.me` (если появится) | `cta_location`, `contact_channel` |
 
 Сводная цель **«Любой контакт»** (`any_contact_click`) настраивается только в интерфейсе: мультицель или составная цель с условием «или» по четырём кликам. Она считает визиты хотя бы с одним контактом без двойного счёта.
