@@ -115,7 +115,7 @@ telegramChannel: 'https://t.me/LifeLight_ru' // канал с работами
 
 | Параметр | Значения |
 |---|---|
-| `cta_location` | `hero`, `nav_header`, `nav_mobile`, `project_modal`, `service_modal`, `contacts_block`, `footer`, `before_after`, `segments`, `projects`, `work_scope`, `price`, `steps`, `faq`, `request_form`, `about`, `other` |
+| `cta_location` | `hero`, `nav_header`, `nav_mobile`, `project_modal`, `service_modal`, `contacts_block`, `footer`, `before_after`, `segments`, `projects`, `work_scope`, `price`, `steps`, `faq`, `request_form`, `about`, `sticky_bar` (панель «Позвонить / Telegram» внизу экрана на телефоне), `other` |
 | `contact_channel` | `telegram`, `email`, `phone`, `whatsapp` |
 | `telegram_target_type` | из `config.js`: `channel`, `personal`, `bot`, `business_link`, `unknown` |
 | `project_id` | `p01`–`p12`, по порядку массива `projects` в `app.js` (таблица ниже) |

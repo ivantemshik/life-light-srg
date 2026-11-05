@@ -273,3 +273,4 @@ html:not(.js) .theme-toggle{display:none}
 [data-theme="dark"] .soft-panel.projects,[data-theme="dark"] .soft-panel.contact,[data-theme="dark"] .site-shell>footer{background-image:var(--stars),radial-gradient(70% 90% at var(--glow-at,95% 0%),var(--night-glow),transparent 65%),linear-gradient(160deg,var(--night-1),var(--night-2));background-size:var(--stars-size),100% 100%,100% 100%}
 .soft-panel.contact{--glow-at:0% 0%}
 [data-theme="dark"] .site-shell>section:not(.hero),[data-theme="dark"] .site-shell>footer,[data-theme="dark"] .hero-panel{box-shadow:inset 0 0 0 1px var(--card-edge)}
+.contact-bar{display:none}

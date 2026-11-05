@@ -364,3 +364,22 @@
   .contact-email + .contact-email { margin-top: 4px; }
   .footer-channel + .footer-channel { margin-left: 0; }
 }
+
+/* Закреплённая панель «Позвонить / Telegram» внизу экрана на телефоне */
+@media (max-width: 900px) {
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .contact-bar {
+    position: fixed; z-index: 40; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom));
+    display: grid; grid-template-columns: 1fr 1fr; height: 54px; border-radius: 999px; overflow: hidden;
+    border: 1px solid var(--card-edge, #ffffff1f); box-shadow: 0 10px 30px #0000003d;
+    max-width: 560px; margin: 0 auto;
+  }
+  .contact-bar a {
+    display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; letter-spacing: 0;
+    text-decoration: none; -webkit-tap-highlight-color: transparent; transition: filter .2s;
+  }
+  .contact-bar__call { color: var(--on-dark); background: linear-gradient(115deg, var(--dark-1), var(--dark-2)); }
+  .contact-bar__tg { color: var(--btn-ink); background: linear-gradient(130deg, var(--btn-1), var(--btn-2)); box-shadow: inset 0 1px 2px var(--btn-shine); }
+  .contact-bar a:active { filter: brightness(.92); }
+  .contact-bar a:focus-visible { outline: 2px solid var(--gold); outline-offset: -4px; border-radius: 999px; }
+}

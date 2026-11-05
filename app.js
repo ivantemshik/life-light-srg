@@ -224,6 +224,7 @@ const NAV_TARGET = { '#segments': 'services', '#projects': 'projects', '#price':
 function ctaLocation(el) {
   if (el.closest('#detail-dialog')) return $('.dialog-hero--project', dialogContent) ? 'project_modal' : 'service_modal';
   if (el.closest('.navigation')) return isPhone() ? 'nav_mobile' : 'nav_header';
+  if (el.closest('.contact-bar')) return 'sticky_bar';
   if (el.closest('footer')) return 'footer';
   if (el.closest('.hero')) return 'hero';
   if (el.closest('.process')) return 'steps';
