@@ -347,7 +347,7 @@ const submit = $('#f-submit');
 const submitLabel = submit.textContent;
 const MAX_PHOTOS = 5;
 const MAX_SIDE = 1600;
-const telegramLink = `<a href="${esc(cfg.telegram || 'https://t.me/+79859283799')}" target="_blank" rel="noopener noreferrer">напишите нам в Telegram</a>`;
+const telegramLink = `<a href="${esc(cfg.telegram || 'https://t.me/lifelightlife')}" target="_blank" rel="noopener noreferrer">напишите нам в Telegram</a>`;
 let photos = [];
 let formStarted = false;
 let sending = false;
