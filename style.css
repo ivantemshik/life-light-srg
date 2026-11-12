@@ -282,3 +282,10 @@ html:not(.js) .theme-toggle{display:none}
 .intro-video__copy>.text-link{appearance:none;background:none;border-top:0;border-left:0;border-right:0;border-radius:0;padding:0;color:inherit;font-family:var(--font);cursor:pointer}
 .intro-video__player{display:block;width:100%;height:auto;aspect-ratio:9/16;border-radius:14px;background:var(--photo-bg);object-fit:cover}
 .intro-video__player:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+/* «До и после»: призыв сразу под ползунком, факты ниже */
+.ba-cta{display:flex;align-items:center;justify-content:space-between;gap:3cqw;margin-top:2.2cqw}
+.ba-cta>p{min-width:0;max-width:46cqw;font-size:1.45cqw;line-height:1.4;font-weight:500}
+.ba-cta .button{flex-shrink:0;min-height:4.4cqw;padding:1.1cqw 2.8cqw;font-size:1.3cqw}
+.ba-cta+.ba-bottom{margin-top:2cqw;padding-top:2cqw;border-top:1px solid var(--line)}
+/* «Что входит в работу»: подпись рядом со стрелкой, чтобы было видно, что карточка открывается */
+.service-more{position:absolute;left:2cqw;bottom:1.5cqw;height:3.1cqw;display:flex;align-items:center;font-size:1.15cqw;font-weight:500}
