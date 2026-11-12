@@ -101,6 +101,7 @@ telegramChannel: 'https://t.me/LifeLight_ru' // канал с работами
 | `segment_tab` | Переключили «Частным домам / Бизнесу» | Клик по вкладке | `segment_tab` |
 | `compare_slider` | Сравнили до и после | Первый сдвиг ползунка | — |
 | `legal_link_click` | Открыли документ | Ссылка на политику, согласие или cookie | `legal_doc` |
+| `video_play` | Запустили видео о компании | Первый запуск ролика в блоке «Свет, который становится частью дома» за визит | `video_id` |
 | `contact_copy` | Скопировали контакт | Копирование почты или телефона в контактах и подвале | `copy_target` |
 
 «Показан на экране»: видна половина блока, а для высокого блока — он занимает половину экрана.
@@ -124,7 +125,8 @@ telegramChannel: 'https://t.me/LifeLight_ru' // канал с работами
 | `nav_target` | `services`, `projects`, `price`, `faq`, `about`, `top` |
 | `nav_source` | `header`, `mobile_menu`, `footer`, `logo` |
 | `gallery_scope` / `gallery_direction` | `carousel`, `modal`, `all_projects` / `next`, `prev`, `all` |
-| `block_id` | `about`, `before_after`, `segments`, `projects`, `work_scope`, `price`, `steps`, `faq`, `request_form`, `footer` |
+| `block_id` | `about`, `before_after`, `segments`, `projects`, `intro_video`, `work_scope`, `price`, `steps`, `faq`, `request_form`, `footer` |
+| `video_id` | `company_intro` (видео о компании, 60 секунд) |
 | `segment` | `home`, `business`, `mall`, `other` (тип объекта из формы) |
 | `segment_tab` | `home`, `business` |
 | `legal_doc` | `privacy`, `consent`, `cookie` |

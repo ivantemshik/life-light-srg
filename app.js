@@ -268,11 +268,14 @@ document.addEventListener('copy', () => {
   else if (/\d[\d\s()+-]{6,}/.test(text)) goal('contact_copy', { copy_target: 'phone' });
 });
 
+/* Видео о компании: первый запуск за визит */
+$('.intro-video__player')?.addEventListener('play', () => { if (onceThisVisit('video_play')) goal('video_play', { video_id: 'company_intro' }); });
+
 /* Блок впервые за визит показан на экране: видна половина блока или он занимает половину экрана */
 (() => {
   if (!('IntersectionObserver' in window)) return;
   const blocks = [
-    ['#about', 'about'], ['#before-after', 'before_after'], ['#segments', 'segments'], ['#projects', 'projects'],
+    ['#about', 'about'], ['#before-after', 'before_after'], ['#segments', 'segments'], ['#projects', 'projects'], ['#video', 'intro_video'],
     ['#services', 'work_scope'], ['#price', 'price'], ['.process', 'steps'], ['#faq', 'faq'], ['#request', 'request_form'],
     ['#contact', 'contacts'], ['.footer', 'footer']
   ].map(([selector, id]) => [$(selector), id]).filter(([el]) => el);
